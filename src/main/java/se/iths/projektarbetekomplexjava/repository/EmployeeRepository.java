@@ -5,4 +5,6 @@ import se.iths.projektarbetekomplexjava.entity.EmployeeEntity;
 
 public interface EmployeeRepository extends CrudRepository<EmployeeEntity, Long> {
     EmployeeEntity findByUsername(String username);
+    EmployeeEntity findByUsernameAndPassword(String username, String password);
+
 }

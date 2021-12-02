@@ -33,6 +33,7 @@ public class EmployeeService {
     public EmployeeEntity addEmployee(EmployeeEntity employee){
         employee.setPassword(bCryptPasswordEncoder.encode(employee.getPassword()));
         RoleEntity role = roleRepository.findByRole("ADMIN");
+        employee.addRole(role);
         return employeeRepository.save(employee);
     }
 
@@ -41,11 +42,15 @@ public class EmployeeService {
         employeeRepository.deleteById(foundEmployee.getId());
     }
 
-    public Optional<CustomerEntity> findUserById(Long id){
-        return customerRepository.findById(id);
+    public Optional<EmployeeEntity> findUserById(Long id){
+        return employeeRepository.findById(id);
     }
 
     public Iterable<CustomerEntity> findAllCustomers(){
         return customerRepository.findAll();
+    }
+
+    public EmployeeEntity getEmployeeByUsername(String username, String password) {
+        return employeeRepository.findByUsernameAndPassword(username, password);
     }
 }

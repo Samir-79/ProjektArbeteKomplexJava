@@ -7,4 +7,5 @@ import se.iths.projektarbetekomplexjava.entity.CustomerEntity;
 @Repository
 public interface CustomerRepository extends CrudRepository<CustomerEntity, Long> {
     CustomerEntity findByUsername(String username);
+    CustomerEntity findByUsernameAndPassword(String username, String password);
 }
