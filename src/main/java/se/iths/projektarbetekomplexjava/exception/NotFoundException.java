@@ -1,7 +1,11 @@
 package se.iths.projektarbetekomplexjava.exception;
 
-public class NotFoundException extends RuntimeException{
-    public NotFoundException(String message, Throwable throwable){
-        super(message, throwable);
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
+
+@ResponseStatus(code = HttpStatus.NOT_FOUND, reason = "")
+public class NotFoundException extends Exception{
+    public NotFoundException(String message){
+        super(message);
     }
 }

@@ -1,7 +1,11 @@
 package se.iths.projektarbetekomplexjava.exception;
 
-public class NotAuthorizedException extends RuntimeException{
-    public NotAuthorizedException(String message, Throwable throwable) {
-        super(message, throwable);
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
+
+@ResponseStatus(code = HttpStatus.UNAUTHORIZED, reason = "Invalid user")
+public class NotAuthorizedException extends Exception{
+    public NotAuthorizedException(String message) {
+        super(message);
     }
 }
