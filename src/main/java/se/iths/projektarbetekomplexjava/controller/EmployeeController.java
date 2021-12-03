@@ -7,6 +7,7 @@ import org.springframework.web.server.ResponseStatusException;
 import se.iths.projektarbetekomplexjava.entity.CustomerEntity;
 import se.iths.projektarbetekomplexjava.entity.EmployeeEntity;
 import se.iths.projektarbetekomplexjava.exception.BadRequestException;
+import se.iths.projektarbetekomplexjava.exception.NotAuthorizedException;
 import se.iths.projektarbetekomplexjava.exception.NotFoundException;
 import se.iths.projektarbetekomplexjava.service.CustomerService;
 import se.iths.projektarbetekomplexjava.service.EmployeeService;
@@ -37,14 +38,20 @@ public class EmployeeController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<EmployeeEntity> logInEmployee(@RequestBody EmployeeEntity employee){
+    public ResponseEntity<EmployeeEntity> logInEmployee(@RequestBody EmployeeEntity employee) throws NotAuthorizedException{
         EmployeeEntity loginEmployee = employeeService.getEmployeeByUsername(employee.getUsername(), employee.getPassword());
+        if (loginEmployee.getUsername().isEmpty() || loginEmployee.getPassword().isEmpty()){
+            throw new NotAuthorizedException("Invalid login.");
+        }
         return new ResponseEntity<>(loginEmployee, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<EmployeeEntity>> findEmployeeId(@PathVariable long id){
+    public ResponseEntity<Optional<EmployeeEntity>> findEmployeeId(@PathVariable long id) throws NotFoundException{
         Optional<EmployeeEntity> foundEmployee = employeeService.findUserById(id);
+        if (foundEmployee.isEmpty()){
+            throw new NotFoundException("Employee: " + foundEmployee + "was not found in the system");
+        }
         return new ResponseEntity<>(foundEmployee, HttpStatus.OK);
 
     }
