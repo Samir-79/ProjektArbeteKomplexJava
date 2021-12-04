@@ -13,7 +13,7 @@ public class Publisher {
     @OneToMany(mappedBy = "publisher", cascade = CascadeType.ALL)
     private List<Book> books = new ArrayList<>();
 
-    public Publisher(String name, List<Book> books) {
+    public Publisher(String name) {
         this.name = name;
     }
 

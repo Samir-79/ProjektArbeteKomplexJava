@@ -1,6 +1,7 @@
 package se.iths.projektarbetekomplexjava.entity;
 
 import javax.persistence.*;
+import java.util.Currency;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -15,7 +16,9 @@ public class Book {
     private Date publishingDate;
     private  Long weight;
     private  int pages;
-
+    private String language;
+    private String category;
+    private Long price;
     @ManyToMany(cascade=CascadeType.ALL,fetch = FetchType.EAGER)
     private Set<Author> authors= new HashSet<>();
 
@@ -28,12 +31,15 @@ public class Book {
     @ManyToOne
     ShoppingCart shoppingCart;
 
-    public Book(String ISBN13, String title, Date publishingDate, Long weight, int pages) {
+    public Book(String ISBN13, String title, Date publishingDate, Long weight, int pages, String language, String category, Long price) {
         this.ISBN13 = ISBN13;
         this.title = title;
         this.publishingDate = publishingDate;
         this.weight = weight;
         this.pages = pages;
+        this.language = language;
+        this.category = category;
+        this.price = price;
     }
 
     public Book() {
@@ -87,6 +93,30 @@ public class Book {
         this.pages = pages;
     }
 
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
+
+    public Long getPrice() {
+        return price;
+    }
+
+    public void setPrice(Long price) {
+        this.price = price;
+    }
+
     public Set<Author> getAuthors() {
         return authors;
     }
@@ -118,4 +148,6 @@ public class Book {
     public void setShoppingCart(ShoppingCart shoppingCart) {
         this.shoppingCart = shoppingCart;
     }
+
+
 }
