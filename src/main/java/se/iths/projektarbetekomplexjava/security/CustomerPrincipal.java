@@ -3,20 +3,20 @@ package se.iths.projektarbetekomplexjava.security;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import se.iths.projektarbetekomplexjava.entity.CustomerEntity;
-import se.iths.projektarbetekomplexjava.entity.RoleEntity;
+import se.iths.projektarbetekomplexjava.entity.Customer;
+import se.iths.projektarbetekomplexjava.entity.Role;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Set;
 
-public record UserPrincipal(CustomerEntity customer) implements UserDetails {
+public record CustomerPrincipal(Customer customer) implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        Set<RoleEntity> roles = customer.getRoles();
+        Set<Role> roles = customer.getRoles();
         Collection<GrantedAuthority> grantedAuthorities = new ArrayList<>(roles.size());
-        for (RoleEntity role : roles) {
+        for (Role role : roles) {
             grantedAuthorities.add(new SimpleGrantedAuthority(role.getRole().toUpperCase()));
         }
         return grantedAuthorities;

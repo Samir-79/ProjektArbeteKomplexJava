@@ -3,9 +3,8 @@ package se.iths.projektarbetekomplexjava.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
-import se.iths.projektarbetekomplexjava.entity.CustomerEntity;
-import se.iths.projektarbetekomplexjava.entity.EmployeeEntity;
+import se.iths.projektarbetekomplexjava.entity.Customer;
+import se.iths.projektarbetekomplexjava.entity.Employee;
 import se.iths.projektarbetekomplexjava.exception.BadRequestException;
 import se.iths.projektarbetekomplexjava.exception.NotAuthorizedException;
 import se.iths.projektarbetekomplexjava.exception.NotFoundException;
@@ -27,8 +26,8 @@ public class EmployeeController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<EmployeeEntity> addEmployee(@RequestBody EmployeeEntity employee) throws BadRequestException {
-        EmployeeEntity addedEmployee = employeeService.addEmployee(employee);
+    public ResponseEntity<Employee> addEmployee(@RequestBody Employee employee) throws BadRequestException {
+        Employee addedEmployee = employeeService.addEmployee(employee);
         if (employee.getFirstName().isEmpty() || employee.getLastName().isEmpty() || employee.getAddress().isEmpty()
                 || employee.getPhone().isEmpty() || employee.getUsername().isEmpty() || employee.getEmail().isEmpty()
                 || employee.getPassword().isEmpty()){
@@ -38,8 +37,8 @@ public class EmployeeController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<EmployeeEntity> logInEmployee(@RequestBody EmployeeEntity employee) throws NotAuthorizedException{
-        EmployeeEntity loginEmployee = employeeService.getEmployeeByUsername(employee.getUsername(), employee.getPassword());
+    public ResponseEntity<Employee> logInEmployee(@RequestBody Employee employee) throws NotAuthorizedException{
+        Employee loginEmployee = employeeService.getEmployeeByUsername(employee.getUsername(), employee.getPassword());
         if (loginEmployee.getUsername().isEmpty() || loginEmployee.getPassword().isEmpty()){
             throw new NotAuthorizedException("Invalid login.");
         }
@@ -47,8 +46,8 @@ public class EmployeeController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<EmployeeEntity>> findEmployeeId(@PathVariable long id) throws NotFoundException{
-        Optional<EmployeeEntity> foundEmployee = employeeService.findUserById(id);
+    public ResponseEntity<Optional<Employee>> findEmployeeId(@PathVariable long id) throws NotFoundException{
+        Optional<Employee> foundEmployee = employeeService.findUserById(id);
         if (foundEmployee.isEmpty()){
             throw new NotFoundException("Employee: " + foundEmployee + "was not found in the system");
         }
@@ -58,7 +57,7 @@ public class EmployeeController {
 
     @DeleteMapping("/deleteCustomer/{id}")
     public ResponseEntity<Void> removeCustomer(@PathVariable Long id) throws NotFoundException{
-        Optional<CustomerEntity> foundCustomer = customerService.findUserById(id);
+        Optional<Customer> foundCustomer = customerService.findUserById(id);
         customerService.removeCustomer(id);
         if (foundCustomer.isEmpty()){
             throw new NotFoundException("Missing data");
@@ -68,7 +67,7 @@ public class EmployeeController {
 
     @DeleteMapping("/deleteEmployee/{id}")
     public ResponseEntity<Void> removeEmployee(@PathVariable Long id) throws NotFoundException{
-        Optional<EmployeeEntity> foundEmployee = employeeService.findUserById(id);
+        Optional<Employee> foundEmployee = employeeService.findUserById(id);
         employeeService.removeEmployee(id);
         if (foundEmployee.isEmpty()){
             throw new NotFoundException("Missing data");
@@ -77,8 +76,8 @@ public class EmployeeController {
     }
 
     @GetMapping("/getListOfCustomer")
-    public ResponseEntity<Iterable<CustomerEntity>> getAllCustomers() throws NotFoundException{
-        Iterable<CustomerEntity> allCustomers = employeeService.findAllCustomers();
+    public ResponseEntity<Iterable<Customer>> getAllCustomers() throws NotFoundException{
+        Iterable<Customer> allCustomers = employeeService.findAllCustomers();
         if (allCustomers == null){
             throw new NotFoundException("Missing data");
         }

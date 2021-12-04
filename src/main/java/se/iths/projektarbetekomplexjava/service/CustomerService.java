@@ -2,8 +2,8 @@ package se.iths.projektarbetekomplexjava.service;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import se.iths.projektarbetekomplexjava.entity.CustomerEntity;
-import se.iths.projektarbetekomplexjava.entity.RoleEntity;
+import se.iths.projektarbetekomplexjava.entity.Customer;
+import se.iths.projektarbetekomplexjava.entity.Role;
 import se.iths.projektarbetekomplexjava.repository.CustomerRepository;
 import se.iths.projektarbetekomplexjava.repository.RoleRepository;
 
@@ -25,27 +25,27 @@ public class CustomerService {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
-    public CustomerEntity addCustomer(CustomerEntity customer){
+    public Customer addCustomer(Customer customer){
         customer.setPassword(bCryptPasswordEncoder.encode(customer.getPassword()));
-        RoleEntity role = roleRepository.findByRole("USER");
+        Role role = roleRepository.findByRole("USER");
         customer.addRole(role);
         return customerRepository.save(customer);
     }
 
     public void removeCustomer(Long id){
-        CustomerEntity foundCustomer = customerRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        Customer foundCustomer = customerRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         customerRepository.deleteById(foundCustomer.getId());
     }
 
-    public Optional<CustomerEntity> findUserById(Long id){
+    public Optional<Customer> findUserById(Long id){
         return customerRepository.findById(id);
     }
 
-    public CustomerEntity getCustomerByUsername(String username, String password){
+    public Customer getCustomerByUsername(String username, String password){
         return customerRepository.findByUsernameAndPassword(username, password);
     }
 
-    public CustomerEntity updateCustomer(CustomerEntity customer){
+    public Customer updateCustomer(Customer customer){
         return customerRepository.save(customer);
     }
 

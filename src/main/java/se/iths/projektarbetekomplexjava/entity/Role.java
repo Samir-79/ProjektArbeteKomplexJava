@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-public class RoleEntity {
+public class Role {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -14,16 +14,16 @@ public class RoleEntity {
     private String role;
 
     @ManyToMany(mappedBy = "roles")
-    private Set<CustomerEntity> customers;
+    private Set<Customer> customers;
 
     @ManyToMany(mappedBy = "roles")
-    private Set<EmployeeEntity> employees;
+    private Set<Employee> employees;
 
-    public RoleEntity(String role) {
+    public Role(String role) {
         this.role = role;
     }
 
-    public RoleEntity() {
+    public Role() {
     }
 
     public long getId() {
@@ -43,20 +43,20 @@ public class RoleEntity {
     }
 
     @JsonIgnore
-    public Set<CustomerEntity> getCustomers(){
+    public Set<Customer> getCustomers(){
         return customers;
     }
 
-    public void setCustomers(Set<CustomerEntity> customers){
+    public void setCustomers(Set<Customer> customers){
         this.customers = customers;
     }
 
     @JsonIgnore
-    public Set<EmployeeEntity> getEmployees(){
+    public Set<Employee> getEmployees(){
         return employees;
     }
 
-    public void setEmployees(Set<EmployeeEntity> employees){
+    public void setEmployees(Set<Employee> employees){
         this.employees = employees;
     }
 }

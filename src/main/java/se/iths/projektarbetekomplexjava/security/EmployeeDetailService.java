@@ -4,25 +4,25 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import se.iths.projektarbetekomplexjava.entity.CustomerEntity;
-import se.iths.projektarbetekomplexjava.repository.CustomerRepository;
+import se.iths.projektarbetekomplexjava.entity.Employee;
+import se.iths.projektarbetekomplexjava.repository.EmployeeRepository;
 
 @Service
-public class UserDetailService implements UserDetailsService {
+public class EmployeeDetailService implements UserDetailsService {
 
-    private final CustomerRepository customerRepository;
+    private final EmployeeRepository employeeRepository;
 
-    public UserDetailService(CustomerRepository customerRepository) {
+    public EmployeeDetailService(EmployeeRepository employeeRepository) {
         super();
-        this.customerRepository = customerRepository;
+        this.employeeRepository = employeeRepository;
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        CustomerEntity entity = customerRepository.findByUsername(username);
+        Employee entity = employeeRepository.findByUsername(username);
         if (entity == null){
             throw new UsernameNotFoundException("Can't find user with username: " + "username");
         }
-        return new se.iths.projektarbetekomplexjava.security.UserPrincipal(entity);
+        return new EmployeePrincipal(entity);
     }
 }

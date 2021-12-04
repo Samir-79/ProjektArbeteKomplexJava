@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-public class CustomerEntity {
+public class Employee {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -19,19 +19,32 @@ public class CustomerEntity {
     private String password;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Set<RoleEntity> roles = new HashSet<>();
+    private Set<Role> roles = new HashSet<>();
 
-    public void addRole(RoleEntity role){
-        roles.add(role);
-        role.getCustomers().add(this);
+    public Employee(String firstName, String lastName, String address, String phone, String username, String email, String password) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.address = address;
+        this.phone = phone;
+        this.username = username;
+        this.email = email;
+        this.password = password;
     }
 
-    public void removeRole(RoleEntity role){
-        roles.add(role);
-        role.getCustomers().remove(this);
+    public Employee() {
     }
 
-    public Set<RoleEntity> getRoles(){
+    public void addRole(Role role){
+        roles.add(role);
+        role.getEmployees().add(this);
+    }
+
+    public void removeRole(Role role){
+        roles.add(role);
+        role.getEmployees().remove(this);
+    }
+
+    public Set<Role> getRoles(){
         return roles;
     }
 
