@@ -9,18 +9,18 @@ import java.util.Set;
 @Entity
 public class Book {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String ISBN13;
     private String title;
     private Date publishingDate;
-    private  Long weight;
-    private  int pages;
+    private Long weight;
+    private int pages;
     private String language;
     private String category;
     private Long price;
-    @ManyToMany(cascade=CascadeType.ALL,fetch = FetchType.EAGER)
-    private Set<Author> authors= new HashSet<>();
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<Author> authors = new HashSet<>();
 
     @ManyToOne
     Publisher publisher;
@@ -44,6 +44,22 @@ public class Book {
 
     public Book() {
     }
+
+    public void addAuthor(Author author) {
+        authors.add(author);
+        author.getBooks().add(this);
+    }
+
+    public void addPublisher(Publisher publisher) {
+        setPublisher(publisher);
+        publisher.getBooks().add(this);
+    }
+
+    public  void addToStock(Stock stock){
+        setStock(stock);
+        stock.getBooks().add(this);
+    }
+
 
     public Long getId() {
         return id;
