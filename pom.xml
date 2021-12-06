@@ -60,6 +60,7 @@
     </dependencies>
 
     <build>
+        <finalName>bokhandel</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
