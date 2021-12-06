@@ -12,6 +12,7 @@ import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.Currency;
 import java.util.Date;
+import java.util.Locale;
 
 @SpringBootApplication
 public class ProjektArbeteKomplexJavaApplication {
@@ -56,14 +57,17 @@ public class ProjektArbeteKomplexJavaApplication {
     @Bean
     CommandLineRunner setUpBookAuthorPublisherStockAndConnect(BookRepository bookRepository,AuthorRespository authorRespository,PublisherRepository publisherRepository,StockRepository stockRepository) {
         return (args) -> {
-            Book book1 = new Book("9789178871148", "Depphjärnan : Varför mår vi så dåligt när vi har det så bra?", DateFormat.getDateInstance().parse("2021-10-28"), 629L, 224, "Hälso&Livsstil", "Svenska", 250L);
-            Book book2 = new Book("9789178872718", "Middag i en gryta", DateFormat.getDateInstance().parse("2021-11-03"), 734L, 160, "Kokböcker", "Svenska", 251L);
-            Book book3 = new Book("9789127164031", "Nattkorpen", DateFormat.getDateInstance().parse("2021-01-15"), 318L, 183, "Barnböcker", "Svenska", 252L);
-            Book book4 = new Book("9789100181406 ", "Tim:Biografin om Avicii", DateFormat.getDateInstance().parse("2021-11-16"), 606L, 330, "Biografier", "Svenska", 253L);
-            Book book5 = new Book("9789100187989", "Löpa varg", DateFormat.getDateInstance().parse("2021-08-24"), 366L, 150, "Albert Bonniers Förlag", "Svenska", 254L);
-            Book book6 = new Book("9789100197186", "Paradiset", DateFormat.getDateInstance().parse("2021-12-11"), 383L, 276, "Skönlitteratur", "Svenska", 255L);
-            Book book7 = new Book("9781565841635", "Paradise", DateFormat.getDateInstance().parse("1995-05-18"), null, 246, "Skönlitteratur", "Engelska", 256L);
-            Book book8 = new Book("9781292273730", "Java How to Program, Late Objects,Global Edition", DateFormat.getDateInstance().parse("2019-09-11"), null, 1248, "Programmering", "Engelska", 257L);
+            //DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+
+
+            Book book1 = new Book("9789178871148", "Depphjärnan : Varför mår vi så dåligt när vi har det så bra?", "2021-10-28", 629L, 224, "Hälso&Livsstil", "Svenska", 250L);
+            Book book2 = new Book("9789178872718", "Middag i en gryta", "2021-11-03", 734L, 160, "Kokböcker", "Svenska", 251L);
+            Book book3 = new Book("9789127164031", "Nattkorpen", "2021-01-15", 318L, 183, "Barnböcker", "Svenska", 252L);
+            Book book4 = new Book("9789100181406 ", "Tim:Biografin om Avicii", "2021-11-16", 606L, 330, "Biografier", "Svenska", 253L);
+            Book book5 = new Book("9789100187989", "Löpa varg", "2021-08-24", 366L, 150, "Albert Bonniers Förlag", "Svenska", 254L);
+            Book book6 = new Book("9789100197186", "Paradiset","2021-12-11", 383L, 276, "Skönlitteratur", "Svenska", 255L);
+            Book book7 = new Book("9781565841635", "Paradise", "1995-05-18", null, 246, "Skönlitteratur", "Engelska", 256L);
+            Book book8 = new Book("9781292273730", "Java How to Program, Late Objects,Global Edition", "2019-09-11", null, 1248, "Programmering", "Engelska", 257L);
 
 
             bookRepository.save(book1);
@@ -157,6 +161,42 @@ public class ProjektArbeteKomplexJavaApplication {
             book8.addAuthor(author8);
             book8.addPublisher(publisher5);
             book8.addToStock(stock8);
+
+            bookRepository.save(book1);
+            bookRepository.save(book2);
+            bookRepository.save(book3);
+            bookRepository.save(book4);
+            bookRepository.save(book5);
+            bookRepository.save(book6);
+            bookRepository.save(book7);
+            bookRepository.save(book8);
+
+            authorRespository.save(author1);
+            authorRespository.save(author2);
+            authorRespository.save(author3);
+            authorRespository.save(author4);
+            authorRespository.save(author5);
+            authorRespository.save(author6);
+            authorRespository.save(author7);
+            authorRespository.save(author8);
+
+            publisherRepository.save(publisher1);
+            publisherRepository.save(publisher2);
+            publisherRepository.save(publisher3);
+            publisherRepository.save(publisher4);
+            publisherRepository.save(publisher5);
+
+            stockRepository.save(stock1);
+            stockRepository.save(stock2);
+            stockRepository.save(stock3);
+            stockRepository.save(stock4);
+            stockRepository.save(stock5);
+            stockRepository.save(stock6);
+            stockRepository.save(stock7);
+            stockRepository.save(stock8);
+
+
+
         };
     }
 

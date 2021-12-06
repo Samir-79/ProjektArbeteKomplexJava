@@ -12,7 +12,7 @@ public class Stock {
     private int quantity;
     private boolean inStock;
 
-    @OneToMany(mappedBy = "stock",cascade =CascadeType.ALL)
+    @OneToMany(mappedBy = "stock",cascade =CascadeType.ALL,fetch=FetchType.EAGER)
     private List<Book> books= new ArrayList<>();
 
     public Stock(int quantity, boolean inStock) {
