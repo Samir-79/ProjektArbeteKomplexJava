@@ -3,6 +3,7 @@ package se.iths.projektarbetekomplexjava.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import se.iths.projektarbetekomplexjava.entity.Customer;
 import se.iths.projektarbetekomplexjava.exception.BadRequestException;
 import se.iths.projektarbetekomplexjava.exception.NotAuthorizedException;
@@ -23,32 +24,23 @@ public class CustomerController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<Customer> addCustomer(@RequestBody Customer customer) throws BadRequestException {
+    public ResponseEntity<Customer> addCustomer(@RequestBody Customer customer){
         Customer addedCustomer = service.addCustomer(customer);
-        if (customer.getFirstName().isEmpty() || customer.getLastName().isEmpty() || customer.getAddress().isEmpty()
-                || customer.getPhone().isEmpty() || customer.getUsername().isEmpty() || customer.getEmail().isEmpty()
-                || customer.getPassword().isEmpty()){
-            throw new BadRequestException("Missing Data");
+        if (customer.getFirstName() == null || customer.getLastName() == null || customer.getAddress() == null
+                || customer.getPhone() == null || customer.getUsername() == null || customer.getEmail() == null
+                || customer.getPassword() == null){
+            throw new BadRequestException("Missing data" + customer);
         }
         return new ResponseEntity<>(addedCustomer, HttpStatus.CREATED);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Customer> logInCustomer(@RequestBody Customer customer) throws NotAuthorizedException {
+    public ResponseEntity<Customer> logInCustomer(@RequestBody Customer customer){
         Customer loginCustomer = service.getCustomerByUsername(customer.getUsername(), customer.getPassword());
         if (loginCustomer.getUsername().isEmpty() || loginCustomer.getPassword().isEmpty()){
-            throw new NotAuthorizedException("Invalid login.");
+            throw new NotAuthorizedException("Invalid login. " + loginCustomer);
         }
         return new ResponseEntity<>(loginCustomer, HttpStatus.OK);
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<Optional<Customer>> findCustomerId(@PathVariable long id) throws NotFoundException {
-        Optional<Customer> foundCustomer = service.findUserById(id);
-        if (foundCustomer.isEmpty()){
-            throw new NotFoundException("Customer: " + foundCustomer + "was not found in the system");
-        }
-        return new ResponseEntity<>(foundCustomer, HttpStatus.OK);
     }
 
     @PutMapping("/update")

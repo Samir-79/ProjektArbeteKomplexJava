@@ -1,6 +1,8 @@
 package se.iths.projektarbetekomplexjava.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -10,12 +12,32 @@ public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @NotEmpty
+    @Size(min = 2)
     private String firstName;
+
+    @NotEmpty
+    @Size(min = 3)
     private String lastName;
+
+    @NotEmpty
+    @Size(min = 5)
     private String address;
+
+    @NotEmpty
+    @Size(min = 5)
     private String phone;
+
+    @NotEmpty
+    @Size(min = 2)
     private String username;
+
+    @NotEmpty
+    @Size(min = 5)
     private String email;
+
+    @NotEmpty
+    @Size(min = 8)
     private String password;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -37,11 +59,6 @@ public class Customer {
     public void addRole(Role role){
         roles.add(role);
         role.getCustomers().add(this);
-    }
-
-    public void removeRole(Role role){
-        roles.add(role);
-        role.getCustomers().remove(this);
     }
 
     public Set<Role> getRoles(){

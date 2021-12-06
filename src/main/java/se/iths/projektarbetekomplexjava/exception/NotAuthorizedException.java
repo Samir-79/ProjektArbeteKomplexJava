@@ -1,11 +1,10 @@
 package se.iths.projektarbetekomplexjava.exception;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.server.ResponseStatusException;
 
-@ResponseStatus(code = HttpStatus.UNAUTHORIZED, reason = "Invalid user")
-public class NotAuthorizedException extends Exception{
+public class NotAuthorizedException extends RuntimeException{
     public NotAuthorizedException(String message) {
-        super(message);
+        super(new ResponseStatusException(HttpStatus.UNAUTHORIZED, message));
     }
 }

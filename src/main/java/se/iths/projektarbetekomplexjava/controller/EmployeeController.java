@@ -26,7 +26,7 @@ public class EmployeeController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<Employee> addEmployee(@RequestBody Employee employee) throws BadRequestException {
+    public ResponseEntity<Employee> addEmployee(@RequestBody Employee employee){
         Employee addedEmployee = employeeService.addEmployee(employee);
         if (employee.getFirstName().isEmpty() || employee.getLastName().isEmpty() || employee.getAddress().isEmpty()
                 || employee.getPhone().isEmpty() || employee.getUsername().isEmpty() || employee.getEmail().isEmpty()
@@ -37,7 +37,7 @@ public class EmployeeController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Employee> logInEmployee(@RequestBody Employee employee) throws NotAuthorizedException{
+    public ResponseEntity<Employee> logInEmployee(@RequestBody Employee employee){
         Employee loginEmployee = employeeService.getEmployeeByUsername(employee.getUsername(), employee.getPassword());
         if (loginEmployee.getUsername().isEmpty() || loginEmployee.getPassword().isEmpty()){
             throw new NotAuthorizedException("Invalid login.");
@@ -45,8 +45,8 @@ public class EmployeeController {
         return new ResponseEntity<>(loginEmployee, HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Optional<Employee>> findEmployeeId(@PathVariable long id) throws NotFoundException{
+    @GetMapping("/searchEmployee/{id}")
+    public ResponseEntity<Optional<Employee>> findEmployeeId(@PathVariable long id){
         Optional<Employee> foundEmployee = employeeService.findUserById(id);
         if (foundEmployee.isEmpty()){
             throw new NotFoundException("Employee: " + foundEmployee + "was not found in the system");
@@ -55,8 +55,17 @@ public class EmployeeController {
 
     }
 
+    @GetMapping("/searchCustomer/{id}")
+    public ResponseEntity<Optional<Customer>> findCustomerId(@PathVariable long id){
+        Optional<Customer> foundCustomer = customerService.findUserById(id);
+        if (foundCustomer.isEmpty()){
+            throw new NotFoundException("Customer: " + foundCustomer + "was not found in the system");
+        }
+        return new ResponseEntity<>(foundCustomer, HttpStatus.OK);
+    }
+
     @DeleteMapping("/deleteCustomer/{id}")
-    public ResponseEntity<Void> removeCustomer(@PathVariable Long id) throws NotFoundException{
+    public ResponseEntity<Void> removeCustomer(@PathVariable Long id){
         Optional<Customer> foundCustomer = customerService.findUserById(id);
         customerService.removeCustomer(id);
         if (foundCustomer.isEmpty()){
@@ -66,7 +75,7 @@ public class EmployeeController {
     }
 
     @DeleteMapping("/deleteEmployee/{id}")
-    public ResponseEntity<Void> removeEmployee(@PathVariable Long id) throws NotFoundException{
+    public ResponseEntity<Void> removeEmployee(@PathVariable Long id){
         Optional<Employee> foundEmployee = employeeService.findUserById(id);
         employeeService.removeEmployee(id);
         if (foundEmployee.isEmpty()){
@@ -76,7 +85,7 @@ public class EmployeeController {
     }
 
     @GetMapping("/getListOfCustomer")
-    public ResponseEntity<Iterable<Customer>> getAllCustomers() throws NotFoundException{
+    public ResponseEntity<Iterable<Customer>> getAllCustomers(){
         Iterable<Customer> allCustomers = employeeService.findAllCustomers();
         if (allCustomers == null){
             throw new NotFoundException("Missing data");

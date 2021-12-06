@@ -1,6 +1,8 @@
 package se.iths.projektarbetekomplexjava.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -10,12 +12,32 @@ public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @NotEmpty(message = "First Name may not be empty")
+    @Size(min = 2, max = 32, message = "Firstname must be between 2 and 32 characters long")
     private String firstName;
+
+    @NotEmpty(message = "Last Name may not be empty")
+    @Size(min = 3, max = 32, message = "Lastname must be between 3 and 32 characters long")
     private String lastName;
+
+    @NotEmpty(message = "Address may not be empty")
+    @Size(min = 5, max = 32, message = "Address must be between 5 and 32 characters long")
     private String address;
+
+    @NotEmpty(message = "Phone may not be empty")
+    @Size(min = 5, max = 32, message = "Phone must be between 5 and 32 characters long")
     private String phone;
+
+    @NotEmpty(message = "Username may not be empty")
+    @Size(min = 2, max = 32, message = "Username must be between 2 and 32 characters long")
     private String username;
+
+    @NotEmpty(message = "Email may not be empty")
+    @Size(min = 5, max = 32, message = "Email must be between 5 and 32 characters long")
     private String email;
+
+    @NotEmpty(message = "Password may not be empty")
+    @Size(min = 8, message = "Password must be between 8 and 32 characters long")
     private String password;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -37,11 +59,6 @@ public class Employee {
     public void addRole(Role role){
         roles.add(role);
         role.getEmployees().add(this);
-    }
-
-    public void removeRole(Role role){
-        roles.add(role);
-        role.getEmployees().remove(this);
     }
 
     public Set<Role> getRoles(){
