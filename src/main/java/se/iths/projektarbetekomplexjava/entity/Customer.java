@@ -12,32 +12,12 @@ public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @NotEmpty
-    @Size(min = 2)
     private String firstName;
-
-    @NotEmpty
-    @Size(min = 3)
     private String lastName;
-
-    @NotEmpty
-    @Size(min = 5)
     private String address;
-
-    @NotEmpty
-    @Size(min = 5)
     private String phone;
-
-    @NotEmpty
-    @Size(min = 2)
     private String username;
-
-    @NotEmpty
-    @Size(min = 5)
     private String email;
-
-    @NotEmpty
-    @Size(min = 8)
     private String password;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)

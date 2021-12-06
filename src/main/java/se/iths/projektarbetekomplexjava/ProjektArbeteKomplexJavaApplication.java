@@ -20,19 +20,9 @@ public class ProjektArbeteKomplexJavaApplication {
         SpringApplication.run(ProjektArbeteKomplexJavaApplication.class, args);
     }
 
-//    @Bean
-//    public CommandLineRunner setUpRole(RoleRepository roleRepository){
-//        return (args) -> {
-//            Role role1 = new Role("ADMIN");
-//            Role role2 = new Role("USER");
-//
-//            roleRepository.saveAll(Arrays.asList(role1, role2));
-//        };
-//    }
-
     @Bean
-    public CommandLineRunner setUpCustomer(CustomerRepository customerRepository){
-        return  (args) -> {
+    public CommandLineRunner setUpCustomerEmployeeAndRole(CustomerRepository customerRepository, EmployeeRepository employeeRepository, RoleRepository roleRepository) {
+        return (args) -> {
             Customer customer1 = new Customer("Sara", "Hamilton", "Street 69", "53513515465", "SAHL", "sara.hamilton@", "sdf4sd7f48");
             Customer customer2 = new Customer("Ed", "Thomas", "Sector 8", "54646516557", "EDMA", "ed.thomas@", "ssdfhrsghs");
             Customer customer3 = new Customer("Jason", "Voorhees", "Crystal Lake Camp", "8784564984", "JAES", "jason.voorhees@", "13547844");
@@ -45,23 +35,37 @@ public class ProjektArbeteKomplexJavaApplication {
             Customer customer10 = new Customer("Veronika", "Jones", "Sector 2", "56498765684", "VEJS", "veronika.jones@", "sdfsgtfgthdg");
 
             customerRepository.saveAll(Arrays.asList(customer1, customer2, customer3, customer4, customer5, customer6, customer7, customer8, customer9, customer10));
-        };
-    }
 
-    @Bean
-    public CommandLineRunner setUpEmployee(EmployeeRepository employeeRepository, RoleRepository roleRepository){
-        return  (args) -> {
+
             Employee employee1 = new Employee("Philip", "Mattsson", "Classified", "Classified", "PHMA", "philip.mattsson@mail.com", "sdgfghdfsfg");
             Employee employee2 = new Employee("Samir", "Alsalhani", "Classified", "Classified", "SAAL", "samir.alsalhani@mail.com", "fghfghdfhk");
             Employee employee3 = new Employee("Biniam", "Haile Kifle", "Classified", "Classified", "BIHK", "biniam.haile.kifle@mail.com", "hgkfghgdff");
 
             employeeRepository.saveAll(Arrays.asList(employee1, employee2, employee3));
 
-            Role role = roleRepository.findByRole("ADMIN");
+            Role role1 = new Role("ADMIN");
+            Role role2 = new Role("USER");
 
-            employee1.addRole(role);
-            employee2.addRole(role);
-            employee3.addRole(role);
+            roleRepository.saveAll(Arrays.asList(role1, role2));
+
+//            customer1.addRole(role1);
+//            customer2.addRole(role1);
+//            customer3.addRole(role1);
+//            customer4.addRole(role1);
+//            customer5.addRole(role1);
+//            customer6.addRole(role1);
+//            customer7.addRole(role1);
+//            customer8.addRole(role1);
+//            customer9.addRole(role1);
+//            customer10.addRole(role1);
+//
+//            employee1.addRole(role2);
+//            employee2.addRole(role2);
+//            employee3.addRole(role2);
+//
+//            customerRepository.saveAll(Arrays.asList(customer1, customer2, customer3, customer4, customer5, customer6, customer7, customer8, customer9, customer10));
+//            employeeRepository.saveAll(Arrays.asList(employee1, employee2, employee3));
+//            roleRepository.saveAll(Arrays.asList(role1, role2));
         };
     }
 }
