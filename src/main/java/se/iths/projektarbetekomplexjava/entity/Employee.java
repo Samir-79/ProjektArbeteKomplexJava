@@ -1,6 +1,8 @@
 package se.iths.projektarbetekomplexjava.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -37,11 +39,6 @@ public class Employee {
     public void addRole(Role role){
         roles.add(role);
         role.getEmployees().add(this);
-    }
-
-    public void removeRole(Role role){
-        roles.add(role);
-        role.getEmployees().remove(this);
     }
 
     public Set<Role> getRoles(){
