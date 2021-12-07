@@ -6,6 +6,8 @@ import se.iths.projektarbetekomplexjava.repository.OrderRepository;
 import se.iths.projektarbetekomplexjava.repository.PaymentRepository;
 import se.iths.projektarbetekomplexjava.repository.ShoppingCartRepository;
 
+import java.util.Optional;
+
 @Service
 public class OrderService {
     private OrderRepository orderRepository;
@@ -23,5 +25,10 @@ public class OrderService {
 
     public Order createOrder(){
         return null;
+    }
+
+    public Optional<Order> findOrderById(Long id){
+       return orderRepository.findById(id);
+
     }
 }

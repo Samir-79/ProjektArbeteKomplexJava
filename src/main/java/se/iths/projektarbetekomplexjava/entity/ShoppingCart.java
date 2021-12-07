@@ -3,6 +3,7 @@ package se.iths.projektarbetekomplexjava.entity;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -21,12 +22,11 @@ public class ShoppingCart {
     @OneToMany(targetEntity = Book.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "book_shoppingCart", referencedColumnName = "id")
     private List<Book> books = new ArrayList<>();
-    @OneToMany(targetEntity = Order.class, cascade = CascadeType.ALL)
-    @JoinColumn(name = "order_shoppingCart", referencedColumnName = "id")
+    @OneToMany( cascade = CascadeType.ALL,mappedBy = "shoppingCart")
+   // @JoinColumn(name = "order_shoppingCart", referencedColumnName = "id")
     private List<Order> orders = new ArrayList<>();
 
-    public ShoppingCart(Long id, Double price, int qty) {
-        this.id = id;
+    public ShoppingCart(Double price, int qty) {
         this.price = price;
         this.qty = qty;
     }
@@ -66,19 +66,19 @@ public class ShoppingCart {
         this.price = price;
     }
 
-    public Set<Book> getBooks() {
+    public List<Book> getBooks() {
         return books;
     }
 
-    public void setBooks(Set<Book> books) {
+    public void setBooks(List<Book> books) {
         this.books = books;
     }
 
-    public Set<Order> getOrders() {
+    public List<Order> getOrders() {
         return orders;
     }
 
-    public void setOrders(Set<Order> orders) {
+    public void setOrders(List<Order> orders) {
         this.orders = orders;
     }
 }

@@ -20,8 +20,8 @@ public class Payment {
     public Payment() {
     }
 
-    public Payment(Long id, String bankName, String cardNumber, int expiryMonth, int expiryYear, int cvc, String holderName) {
-        this.id = id;
+    public Payment(String bankName, String cardNumber, int expiryMonth, int expiryYear, int cvc, String holderName) {
+
         this.bankName = bankName;
         this.cardNumber = cardNumber;
         this.expiryMonth = expiryMonth;

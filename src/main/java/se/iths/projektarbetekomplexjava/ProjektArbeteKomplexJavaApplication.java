@@ -7,9 +7,11 @@ import org.springframework.context.annotation.Bean;
 import se.iths.projektarbetekomplexjava.entity.Customer;
 import se.iths.projektarbetekomplexjava.entity.Employee;
 import se.iths.projektarbetekomplexjava.entity.Role;
+import se.iths.projektarbetekomplexjava.entity.ShoppingCart;
 import se.iths.projektarbetekomplexjava.repository.CustomerRepository;
 import se.iths.projektarbetekomplexjava.repository.EmployeeRepository;
 import se.iths.projektarbetekomplexjava.repository.RoleRepository;
+import se.iths.projektarbetekomplexjava.repository.ShoppingCartRepository;
 
 @SpringBootApplication
 public class ProjektArbeteKomplexJavaApplication {
@@ -19,15 +21,16 @@ public class ProjektArbeteKomplexJavaApplication {
     }
 
     @Bean
-    public CommandLineRunner setUpRole(RoleRepository roleRepository){
+    public CommandLineRunner setUpRole(RoleRepository roleRepository) {
         return (args) -> {
             roleRepository.save(new Role("ADMIN"));
             roleRepository.save(new Role("USER"));
         };
     }
 
-    @Bean CommandLineRunner setUpCustomer(CustomerRepository customerRepository){
-        return  (args) -> {
+/*    @Bean
+    CommandLineRunner setUpCustomer(CustomerRepository customerRepository) {
+        return (args) -> {
             customerRepository.save(new Customer("Sara", "Hamilton", "", "", "", "", ""));
             customerRepository.save(new Customer("Ed", "Thomas", "", "", "", "", ""));
             customerRepository.save(new Customer("Jason", "Voorhees", "", "", "", "", ""));
@@ -41,11 +44,21 @@ public class ProjektArbeteKomplexJavaApplication {
         };
     }
 
-    @Bean CommandLineRunner setUpEmployee(EmployeeRepository employeeRepository){
-        return  (args) -> {
+    @Bean
+    CommandLineRunner setUpEmployee(EmployeeRepository employeeRepository) {
+        return (args) -> {
             employeeRepository.save(new Employee("Philip", "", "", "", "", "", ""));
             employeeRepository.save(new Employee("Samir", "", "", "", "", "", ""));
             employeeRepository.save(new Employee("Biniam", "", "", "", "", "", ""));
+        };
+    }*/
+
+    @Bean
+    public CommandLineRunner setUpShoppingCart(ShoppingCartRepository shoppingCartRepository) {
+        return (args) -> {
+            shoppingCartRepository.save(new ShoppingCart(450.00,2));
+            shoppingCartRepository.save(new ShoppingCart(300.00,1));
+            shoppingCartRepository.save(new ShoppingCart(250.00,6));
         };
     }
 }

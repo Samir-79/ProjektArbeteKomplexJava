@@ -1,7 +1,8 @@
 package se.iths.projektarbetekomplexjava.entity;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.util.Date;
+
 
 @Entity
 public class Order {
@@ -19,8 +20,8 @@ public class Order {
     @OneToOne
      private Payment payment;
 
-    public Order(Long id, Date orderDate, String shippingMethod, String shippingAddress, Double orderTotalPrice) {
-        this.id = id;
+    public Order( Date orderDate, String shippingMethod, String shippingAddress, Double orderTotalPrice) {
+
         this.orderDate = orderDate;
         this.shippingMethod = shippingMethod;
         this.shippingAddress = shippingAddress;
