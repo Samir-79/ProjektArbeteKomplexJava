@@ -17,10 +17,7 @@ public class ProjektArbeteKomplexJavaApplication {
     }
 
     @Bean
-
     public CommandLineRunner setUpCustomerEmployeeAndRole(CustomerRepository customerRepository, EmployeeRepository employeeRepository, RoleRepository roleRepository) {
-
-
         return (args) -> {
             Customer customer1 = new Customer("Sara", "Hamilton", "Street 69", "53513515465", "SAHL", "sara.hamilton@", "sdf4sd7f48");
             Customer customer2 = new Customer("Ed", "Thomas", "Sector 8", "54646516557", "EDMA", "ed.thomas@", "ssdfhrsghs");
@@ -33,31 +30,18 @@ public class ProjektArbeteKomplexJavaApplication {
             Customer customer9 = new Customer("Lisa", "Lavinski", "Sector 4", "351687146547", "LILI", "lisa.lavinski@", "asdsefrsdf");
             Customer customer10 = new Customer("Veronika", "Jones", "Sector 2", "56498765684", "VEJS", "veronika.jones@", "sdfsgtfgthdg");
 
-
-            customerRepository.save(customer1);
-            customerRepository.save(customer2);
-            customerRepository.save(customer3);
-            customerRepository.save(customer4);
-            customerRepository.save(customer5);
-            customerRepository.save(customer6);
-            customerRepository.save(customer7);
-            customerRepository.save(customer8);
-            customerRepository.save(customer9);
-            customerRepository.save(customer10);
+            customerRepository.saveAll(Arrays.asList(customer1, customer2, customer3, customer4, customer5, customer6, customer7, customer8,  customer9, customer10));
 
             Employee employee1 = new Employee("Philip", "Mattsson", "Classified", "Classified", "PHMA", "philip.mattsson@mail.com", "sdgfghdfsfg");
             Employee employee2 = new Employee("Samir", "Alsalhani", "Classified", "Classified", "SAAL", "samir.alsalhani@mail.com", "fghfghdfhk");
             Employee employee3 = new Employee("Biniam", "Haile Kifle", "Classified", "Classified", "BIHK", "biniam.haile.kifle@mail.com", "hgkfghgdff");
 
-            employeeRepository.save(employee1);
-            employeeRepository.save(employee2);
-            employeeRepository.save(employee3);
+            employeeRepository.saveAll(Arrays.asList(employee1, employee2, employee3));
 
             Role role1 = new Role("USER");
             Role role2 = new Role("ADMIN");
 
-            roleRepository.save(role1);
-            roleRepository.save(role2);
+            roleRepository.saveAll(Arrays.asList(role1, role2));
 
             role1.addCustomer(customer1);
             role1.addCustomer(customer2);
@@ -74,24 +58,9 @@ public class ProjektArbeteKomplexJavaApplication {
             role2.addEmployee(employee2);
             role2.addEmployee(employee3);
 
-            customerRepository.save(customer1);
-            customerRepository.save(customer2);
-            customerRepository.save(customer3);
-            customerRepository.save(customer4);
-            customerRepository.save(customer5);
-            customerRepository.save(customer6);
-            customerRepository.save(customer7);
-            customerRepository.save(customer8);
-            customerRepository.save(customer9);
-            customerRepository.save(customer10);
-
-            employeeRepository.save(employee1);
-            employeeRepository.save(employee2);
-            employeeRepository.save(employee3);
-
-            roleRepository.save(role1);
-            roleRepository.save(role2);
-
+            customerRepository.saveAll(Arrays.asList(customer1, customer2, customer3, customer4, customer5, customer6, customer7, customer8,  customer9, customer10));
+            employeeRepository.saveAll(Arrays.asList(employee1, employee2, employee3));
+            roleRepository.saveAll(Arrays.asList(role1, role2));
         };
     }
 
@@ -208,12 +177,10 @@ public class ProjektArbeteKomplexJavaApplication {
             orderRepository.save(new Orders("2021-11-11","Car","styrbjörnsvägen",1200.00));
             orderRepository.save(new Orders("2021-10-10","plane","styrbjörnsvägen",245.50));
 
-            paymentRepository.save(new Payment("Swedbank","1233...",06,2025,345,"biniam"));
+            paymentRepository.save(new Payment("Swedbank","1233...",6,2025,345,"biniam"));
             paymentRepository.save(new Payment("SEB","1233...",10,2026,123,"Philip"));
             paymentRepository.save(new Payment("Nordia","1233...",12,2028,678,"Samir"));
 
         };
     }
-
-
 }
