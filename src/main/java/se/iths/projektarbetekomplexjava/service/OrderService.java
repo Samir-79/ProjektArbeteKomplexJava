@@ -1,7 +1,7 @@
 package se.iths.projektarbetekomplexjava.service;
 
 import org.springframework.stereotype.Service;
-import se.iths.projektarbetekomplexjava.entity.Order;
+import se.iths.projektarbetekomplexjava.entity.Orders;
 import se.iths.projektarbetekomplexjava.repository.OrderRepository;
 import se.iths.projektarbetekomplexjava.repository.PaymentRepository;
 import se.iths.projektarbetekomplexjava.repository.ShoppingCartRepository;
@@ -23,11 +23,11 @@ public class OrderService {
         this.paymentRepository = paymentRepository;
     }
 
-    public Order createOrder(){
+    public Orders createOrder(){
         return null;
     }
 
-    public Optional<Order> findOrderById(Long id){
+    public Optional<Orders> findOrderById(Long id){
        return orderRepository.findById(id);
 
     }

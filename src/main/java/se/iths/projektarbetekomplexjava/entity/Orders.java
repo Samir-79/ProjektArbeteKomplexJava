@@ -1,11 +1,10 @@
 package se.iths.projektarbetekomplexjava.entity;
 
 import javax.persistence.*;
-import java.util.Date;
 
 
 @Entity
-public class Order {
+public class Orders {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -18,18 +17,18 @@ public class Order {
 
     @ManyToOne
     private ShoppingCart shoppingCart;
-    @OneToOne
+
+    @OneToOne(mappedBy = "orders")
      private Payment payment;
 
-    public Order( String orderDate, String shippingMethod, String shippingAddress, Double orderTotalPrice) {
-
+    public Orders(String orderDate, String shippingMethod, String shippingAddress, Double orderTotalPrice) {
         this.orderDate = orderDate;
         this.shippingMethod = shippingMethod;
         this.shippingAddress = shippingAddress;
         this.orderTotalPrice = orderTotalPrice;
     }
 
-    public Order() {
+    public Orders() {
     }
 
     public Long getId() {
@@ -68,8 +67,8 @@ public class Order {
         return orderTotalPrice;
     }
 
-    public void setOrderTotalPrice(Double orderTotal) {
-        this.orderTotalPrice = orderTotal;
+    public void setOrderTotalPrice(Double orderTotalPrice) {
+        this.orderTotalPrice = orderTotalPrice;
     }
 
     public ShoppingCart getShoppingCart() {

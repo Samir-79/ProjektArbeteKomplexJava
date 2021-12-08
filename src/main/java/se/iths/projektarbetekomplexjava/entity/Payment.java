@@ -15,12 +15,13 @@ public class Payment {
     private String holderName;
 
     @OneToOne
-    private Order order;
+    private Orders orders;
 
     public Payment() {
     }
 
-    public Payment(String bankName, String cardNumber, int expiryMonth, int expiryYear, int cvc, String holderName) {
+    public Payment(String bankName, String cardNumber, int expiryMonth, int expiryYear,
+                   int cvc, String holderName) {
 
         this.bankName = bankName;
         this.cardNumber = cardNumber;
@@ -86,11 +87,11 @@ public class Payment {
         this.holderName = holderName;
     }
 
-    public Order getOrder() {
-        return order;
+    public Orders getOrder() {
+        return orders;
     }
 
-    public void setOrder(Order order) {
-        this.order = order;
+    public void setOrder(Orders orders) {
+        this.orders = orders;
     }
 }

@@ -18,12 +18,10 @@ public class ShoppingCart {
     private Customer customer;
 
 
-    @OneToMany(mappedBy = "shoppingCart", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-   // @JoinColumn(name = "book_shoppingCart", referencedColumnName = "id")
+    @OneToMany(targetEntity = Book.class, cascade = CascadeType.ALL)
     private List<Book> books = new ArrayList<>();
-    @OneToMany(mappedBy = "shoppingCart",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-   // @JoinColumn(name = "order_shoppingCart", referencedColumnName = "id")
-    private List<Order> orders = new ArrayList<>();
+    @OneToMany(targetEntity = Orders.class, cascade = CascadeType.ALL)
+    private List<Orders> orders = new ArrayList<>();
 
     public ShoppingCart(Double price, int qty) {
         this.price = price;
@@ -73,11 +71,11 @@ public class ShoppingCart {
         this.books = books;
     }
 
-    public List<Order> getOrders() {
+    public List<Orders> getOrders() {
         return orders;
     }
 
-    public void setOrders(List<Order> orders) {
+    public void setOrders(List<Orders> orders) {
         this.orders = orders;
     }
 }
