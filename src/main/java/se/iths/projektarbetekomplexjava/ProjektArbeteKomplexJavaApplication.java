@@ -7,13 +7,6 @@ import org.springframework.context.annotation.Bean;
 import se.iths.projektarbetekomplexjava.entity.*;
 import se.iths.projektarbetekomplexjava.repository.*;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
-import java.util.Currency;
-import java.util.Date;
-import java.util.Locale;
-
 import java.util.Arrays;
 
 @SpringBootApplication
@@ -118,14 +111,8 @@ public class ProjektArbeteKomplexJavaApplication {
             Book book8 = new Book("9781292273730", "Java How to Program, Late Objects,Global Edition", "2019-09-11", null, 1248, "Programmering", "Engelska", 257L);
 
 
-            bookRepository.save(book1);
-            bookRepository.save(book2);
-            bookRepository.save(book3);
-            bookRepository.save(book4);
-            bookRepository.save(book5);
-            bookRepository.save(book6);
-            bookRepository.save(book7);
-            bookRepository.save(book8);
+            bookRepository.saveAll(Arrays.asList(book1,book2,book3,book4,book5,book6,book7,book8));
+
 
             Author author1 = new Author("Anders", "Hansen");
             Author author2 = new Author("Tareq", "Taylor");
@@ -136,14 +123,8 @@ public class ProjektArbeteKomplexJavaApplication {
             Author author7 = new Author("Harvey", "Deitel");
             Author author8 = new Author("Paul", "Deitel");
 
-            authorRespository.save(author1);
-            authorRespository.save(author2);
-            authorRespository.save(author3);
-            authorRespository.save(author4);
-            authorRespository.save(author5);
-            authorRespository.save(author6);
-            authorRespository.save(author7);
-            authorRespository.save(author8);
+            authorRespository.saveAll(Arrays.asList(author1,author2,author3,author4,author5,author6,author7,author8));
+
 
 
             Publisher publisher1 = new Publisher("Bonnier Fakta");
@@ -152,11 +133,8 @@ public class ProjektArbeteKomplexJavaApplication {
             Publisher publisher4 = new Publisher("The New Press");
             Publisher publisher5 = new Publisher("Pearson Education Limited");
 
-            publisherRepository.save(publisher1);
-            publisherRepository.save(publisher2);
-            publisherRepository.save(publisher3);
-            publisherRepository.save(publisher4);
-            publisherRepository.save(publisher5);
+            publisherRepository.saveAll(Arrays.asList(publisher1,publisher2,publisher3,publisher4,publisher5));
+
 
             Stock stock1 = new Stock(100, true);
             Stock stock2 = new Stock(0, false);
@@ -167,14 +145,8 @@ public class ProjektArbeteKomplexJavaApplication {
             Stock stock7 = new Stock(0, false);
             Stock stock8 = new Stock(10, true);
 
-            stockRepository.save(stock1);
-            stockRepository.save(stock2);
-            stockRepository.save(stock3);
-            stockRepository.save(stock4);
-            stockRepository.save(stock5);
-            stockRepository.save(stock6);
-            stockRepository.save(stock7);
-            stockRepository.save(stock8);
+            stockRepository.saveAll(Arrays.asList(stock1,stock2,stock3,stock4,stock5,stock6,stock7,stock8));
+
 
 
             book1.addAuthor(author1);
@@ -210,73 +182,38 @@ public class ProjektArbeteKomplexJavaApplication {
             book8.addPublisher(publisher5);
             book8.addToStock(stock8);
 
-            bookRepository.save(book1);
-            bookRepository.save(book2);
-            bookRepository.save(book3);
-            bookRepository.save(book4);
-            bookRepository.save(book5);
-            bookRepository.save(book6);
-            bookRepository.save(book7);
-            bookRepository.save(book8);
+            bookRepository.saveAll(Arrays.asList(book1,book2,book3,book4,book5,book6,book7,book8));
 
-            authorRespository.save(author1);
-            authorRespository.save(author2);
-            authorRespository.save(author3);
-            authorRespository.save(author4);
-            authorRespository.save(author5);
-            authorRespository.save(author6);
-            authorRespository.save(author7);
-            authorRespository.save(author8);
+            authorRespository.saveAll(Arrays.asList(author1,author2,author3,author4,author5,author6,author7,author8));
 
-            publisherRepository.save(publisher1);
-            publisherRepository.save(publisher2);
-            publisherRepository.save(publisher3);
-            publisherRepository.save(publisher4);
-            publisherRepository.save(publisher5);
+            publisherRepository.saveAll(Arrays.asList(publisher1,publisher2,publisher3,publisher4,publisher5));
 
-            stockRepository.save(stock1);
-            stockRepository.save(stock2);
-            stockRepository.save(stock3);
-            stockRepository.save(stock4);
-            stockRepository.save(stock5);
-            stockRepository.save(stock6);
-            stockRepository.save(stock7);
-            stockRepository.save(stock8);
+            stockRepository.saveAll(Arrays.asList(stock1,stock2,stock3,stock4,stock5,stock6,stock7,stock8));
 
 
 
         };
+
     }
 
-//    @Bean
-//    CommandLineRunner setUpAuthor(AuthorRespository authorRespository) {
-//        return (args) -> {
-//
-//        };
-//    }
-//
-//    @Bean
-//    CommandLineRunner setUpPublisher(PublisherRepository publisherRepository) {
-//        return (args) -> {
-//
-//
-//        };
-//    }
-//
-//    @Bean
-//    CommandLineRunner setUpStock(StockRepository stockRepository) {
-//        return (args) -> {
-//
-//        };
-//    }
-//
-//    @Bean
-//    CommandLineRunner connectBookAuthorPublisherStockEntities(BookRepository bookRepository) {
-//        return (args) ->{
-//
-//
-//        };
-//    }
+    @Bean
+    public CommandLineRunner setUpShoppingCart(ShoppingCartRepository shoppingCartRepository,OrderRepository orderRepository
+            ,PaymentRepository paymentRepository) {
+        return (args) -> {
+            shoppingCartRepository.save(new ShoppingCart(450.00,2));
+            shoppingCartRepository.save(new ShoppingCart(300.00,1));
+            shoppingCartRepository.save(new ShoppingCart(250.00,6));
+
+            orderRepository.save(new Orders("2021-12-07","motorcycle","styrbjörnsvägen",5000.00));
+            orderRepository.save(new Orders("2021-11-11","Car","styrbjörnsvägen",1200.00));
+            orderRepository.save(new Orders("2021-10-10","plane","styrbjörnsvägen",245.50));
+
+            paymentRepository.save(new Payment("Swedbank","1233...",06,2025,345,"biniam"));
+            paymentRepository.save(new Payment("SEB","1233...",10,2026,123,"Philip"));
+            paymentRepository.save(new Payment("Nordia","1233...",12,2028,678,"Samir"));
+
+        };
+    }
 
 
 }
