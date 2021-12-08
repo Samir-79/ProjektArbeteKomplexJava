@@ -2,9 +2,8 @@ package se.iths.projektarbetekomplexjava.entity;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+
 
 @Entity
 public class ShoppingCart {
@@ -19,10 +18,10 @@ public class ShoppingCart {
     private Customer customer;
 
 
-    @OneToMany(targetEntity = Book.class, cascade = CascadeType.ALL)
-    @JoinColumn(name = "book_shoppingCart", referencedColumnName = "id")
+    @OneToMany(mappedBy = "shoppingCart", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+   // @JoinColumn(name = "book_shoppingCart", referencedColumnName = "id")
     private List<Book> books = new ArrayList<>();
-    @OneToMany( cascade = CascadeType.ALL,mappedBy = "shoppingCart")
+    @OneToMany(mappedBy = "shoppingCart",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
    // @JoinColumn(name = "order_shoppingCart", referencedColumnName = "id")
     private List<Order> orders = new ArrayList<>();
 

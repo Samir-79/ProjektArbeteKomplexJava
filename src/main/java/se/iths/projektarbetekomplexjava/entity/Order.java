@@ -10,7 +10,8 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private Date orderDate;
+    //@Temporal(TemporalType.DATE)
+    private String orderDate;
     private String shippingMethod;
     private String shippingAddress;
     private Double orderTotalPrice;
@@ -20,7 +21,7 @@ public class Order {
     @OneToOne
      private Payment payment;
 
-    public Order( Date orderDate, String shippingMethod, String shippingAddress, Double orderTotalPrice) {
+    public Order( String orderDate, String shippingMethod, String shippingAddress, Double orderTotalPrice) {
 
         this.orderDate = orderDate;
         this.shippingMethod = shippingMethod;
@@ -39,11 +40,11 @@ public class Order {
         this.id = id;
     }
 
-    public Date getOrderDate() {
+    public String getOrderDate() {
         return orderDate;
     }
 
-    public void setOrderDate(Date orderDate) {
+    public void setOrderDate(String orderDate) {
         this.orderDate = orderDate;
     }
 
