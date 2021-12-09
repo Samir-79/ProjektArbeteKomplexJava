@@ -53,7 +53,6 @@ public class Role {
         this.role = role;
     }
 
-    @JsonIgnore
     public Set<Customer> getCustomers(){
         return customers;
     }
@@ -62,7 +61,6 @@ public class Role {
         this.customers = customers;
     }
 
-    @JsonIgnore
     public Set<Employee> getEmployees(){
         return employees;
     }

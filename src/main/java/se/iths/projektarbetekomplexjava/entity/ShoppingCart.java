@@ -17,7 +17,6 @@ public class ShoppingCart {
     @OneToOne(cascade = CascadeType.ALL)
     private Customer customer;
 
-
     @OneToMany(targetEntity = Book.class, cascade = CascadeType.ALL)
     private List<Book> books = new ArrayList<>();
 
@@ -30,6 +29,21 @@ public class ShoppingCart {
     }
 
     public ShoppingCart() {
+    }
+
+    public void addBook(Book book) {
+        books.add(book);
+        book.setShoppingCart(book.getShoppingCart());
+    }
+
+    public void addCustomer(Customer customer) {
+        this.customer=customer;
+        customer.setShoppingCart(customer.getShoppingCart());
+    }
+
+    public void addOrder(Orders order) {
+        orders.add(order);
+        order.setShoppingCart(order.getShoppingCart());
     }
 
     public Long getId() {
