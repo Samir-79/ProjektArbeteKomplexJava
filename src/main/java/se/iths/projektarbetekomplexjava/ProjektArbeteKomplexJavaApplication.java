@@ -17,7 +17,11 @@ public class ProjektArbeteKomplexJavaApplication {
     }
 
     @Bean
-    public CommandLineRunner setUpCustomerEmployeeAndRole(CustomerRepository customerRepository, EmployeeRepository employeeRepository, RoleRepository roleRepository) {
+    public CommandLineRunner setUpSampleDataBaseGenerator(CustomerRepository customerRepository, EmployeeRepository employeeRepository,
+                                                          RoleRepository roleRepository, BookRepository bookRepository,
+                                                          AuthorRespository authorRespository, PublisherRepository publisherRepository,
+                                                          StockRepository stockRepository, ShoppingCartRepository shoppingCartRepository,
+                                                          OrderRepository orderRepository, PaymentRepository paymentRepository) {
         return (args) -> {
             Customer customer1 = new Customer("Sara", "Hamilton", "Street 69", "53513515465", "SAHL", "sara.hamilton@", "sdf4sd7f48");
             Customer customer2 = new Customer("Ed", "Thomas", "Sector 8", "54646516557", "EDMA", "ed.thomas@", "ssdfhrsghs");
@@ -30,7 +34,7 @@ public class ProjektArbeteKomplexJavaApplication {
             Customer customer9 = new Customer("Lisa", "Lavinski", "Sector 4", "351687146547", "LILI", "lisa.lavinski@", "asdsefrsdf");
             Customer customer10 = new Customer("Veronika", "Jones", "Sector 2", "56498765684", "VEJS", "veronika.jones@", "sdfsgtfgthdg");
 
-            customerRepository.saveAll(Arrays.asList(customer1, customer2, customer3, customer4, customer5, customer6, customer7, customer8,  customer9, customer10));
+            customerRepository.saveAll(Arrays.asList(customer1, customer2, customer3, customer4, customer5, customer6, customer7, customer8, customer9, customer10));
 
             Employee employee1 = new Employee("Philip", "Mattsson", "Classified", "Classified", "PHMA", "philip.mattsson@mail.com", "sdgfghdfsfg");
             Employee employee2 = new Employee("Samir", "Alsalhani", "Classified", "Classified", "SAAL", "samir.alsalhani@mail.com", "fghfghdfhk");
@@ -58,15 +62,11 @@ public class ProjektArbeteKomplexJavaApplication {
             role2.addEmployee(employee2);
             role2.addEmployee(employee3);
 
-            customerRepository.saveAll(Arrays.asList(customer1, customer2, customer3, customer4, customer5, customer6, customer7, customer8,  customer9, customer10));
+            customerRepository.saveAll(Arrays.asList(customer1, customer2, customer3, customer4, customer5, customer6, customer7, customer8, customer9, customer10));
             employeeRepository.saveAll(Arrays.asList(employee1, employee2, employee3));
             roleRepository.saveAll(Arrays.asList(role1, role2));
-        };
-    }
 
-    @Bean
-    CommandLineRunner setUpBookAuthorPublisherStockAndConnect(BookRepository bookRepository,AuthorRespository authorRespository,PublisherRepository publisherRepository,StockRepository stockRepository) {
-        return (args) -> {
+
             //DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
 
 
@@ -75,12 +75,12 @@ public class ProjektArbeteKomplexJavaApplication {
             Book book3 = new Book("9789127164031", "Nattkorpen", "2021-01-15", 318L, 183, "Barnböcker", "Svenska", 252L);
             Book book4 = new Book("9789100181406 ", "Tim:Biografin om Avicii", "2021-11-16", 606L, 330, "Biografier", "Svenska", 253L);
             Book book5 = new Book("9789100187989", "Löpa varg", "2021-08-24", 366L, 150, "Albert Bonniers Förlag", "Svenska", 254L);
-            Book book6 = new Book("9789100197186", "Paradiset","2021-12-11", 383L, 276, "Skönlitteratur", "Svenska", 255L);
+            Book book6 = new Book("9789100197186", "Paradiset", "2021-12-11", 383L, 276, "Skönlitteratur", "Svenska", 255L);
             Book book7 = new Book("9781565841635", "Paradise", "1995-05-18", null, 246, "Skönlitteratur", "Engelska", 256L);
             Book book8 = new Book("9781292273730", "Java How to Program, Late Objects,Global Edition", "2019-09-11", null, 1248, "Programmering", "Engelska", 257L);
 
 
-            bookRepository.saveAll(Arrays.asList(book1,book2,book3,book4,book5,book6,book7,book8));
+            bookRepository.saveAll(Arrays.asList(book1, book2, book3, book4, book5, book6, book7, book8));
 
 
             Author author1 = new Author("Anders", "Hansen");
@@ -92,8 +92,7 @@ public class ProjektArbeteKomplexJavaApplication {
             Author author7 = new Author("Harvey", "Deitel");
             Author author8 = new Author("Paul", "Deitel");
 
-            authorRespository.saveAll(Arrays.asList(author1,author2,author3,author4,author5,author6,author7,author8));
-
+            authorRespository.saveAll(Arrays.asList(author1, author2, author3, author4, author5, author6, author7, author8));
 
 
             Publisher publisher1 = new Publisher("Bonnier Fakta");
@@ -102,7 +101,7 @@ public class ProjektArbeteKomplexJavaApplication {
             Publisher publisher4 = new Publisher("The New Press");
             Publisher publisher5 = new Publisher("Pearson Education Limited");
 
-            publisherRepository.saveAll(Arrays.asList(publisher1,publisher2,publisher3,publisher4,publisher5));
+            publisherRepository.saveAll(Arrays.asList(publisher1, publisher2, publisher3, publisher4, publisher5));
 
 
             Stock stock1 = new Stock(100, true);
@@ -114,8 +113,7 @@ public class ProjektArbeteKomplexJavaApplication {
             Stock stock7 = new Stock(0, false);
             Stock stock8 = new Stock(10, true);
 
-            stockRepository.saveAll(Arrays.asList(stock1,stock2,stock3,stock4,stock5,stock6,stock7,stock8));
-
+            stockRepository.saveAll(Arrays.asList(stock1, stock2, stock3, stock4, stock5, stock6, stock7, stock8));
 
 
             book1.addAuthor(author1);
@@ -151,35 +149,43 @@ public class ProjektArbeteKomplexJavaApplication {
             book8.addPublisher(publisher5);
             book8.addToStock(stock8);
 
-            bookRepository.saveAll(Arrays.asList(book1,book2,book3,book4,book5,book6,book7,book8));
+            bookRepository.saveAll(Arrays.asList(book1, book2, book3, book4, book5, book6, book7, book8));
 
-            authorRespository.saveAll(Arrays.asList(author1,author2,author3,author4,author5,author6,author7,author8));
+            authorRespository.saveAll(Arrays.asList(author1, author2, author3, author4, author5, author6, author7, author8));
 
-            publisherRepository.saveAll(Arrays.asList(publisher1,publisher2,publisher3,publisher4,publisher5));
+            publisherRepository.saveAll(Arrays.asList(publisher1, publisher2, publisher3, publisher4, publisher5));
 
-            stockRepository.saveAll(Arrays.asList(stock1,stock2,stock3,stock4,stock5,stock6,stock7,stock8));
+            stockRepository.saveAll(Arrays.asList(stock1, stock2, stock3, stock4, stock5, stock6, stock7, stock8));
 
 
+            ShoppingCart shoppingCart1 = new ShoppingCart(450.00, 2);
+            ShoppingCart shoppingCart2 = new ShoppingCart(300.00, 1);
+            ShoppingCart shoppingCart3 = new ShoppingCart(250.00, 6);
 
-        };
 
-    }
+            Orders order1 = new Orders("2021-12-07", "motorcycle", "styrbjörnsvägen", 5000.00);
+            Orders order2 = new Orders("2021-11-11", "Car", "styrbjörnsvägen", 1200.00);
+            Orders order3 = new Orders("2021-10-10", "plane", "styrbjörnsvägen", 245.50);
+            orderRepository.saveAll(Arrays.asList(order1, order2, order3));
 
-    @Bean
-    public CommandLineRunner setUpShoppingCart(ShoppingCartRepository shoppingCartRepository,OrderRepository orderRepository
-            ,PaymentRepository paymentRepository) {
-        return (args) -> {
-            shoppingCartRepository.save(new ShoppingCart(450.00,2));
-            shoppingCartRepository.save(new ShoppingCart(300.00,1));
-            shoppingCartRepository.save(new ShoppingCart(250.00,6));
+            Payment payment1 = new Payment("Swedbank", "1233...", 6, 2025, 345, "biniam");
+            Payment payment2 = new Payment("SEB", "1233...", 10, 2026, 123, "Philip");
+            Payment payment3 = new Payment("Nordia", "1233...", 12, 2028, 678, "Samir");
+            paymentRepository.saveAll(Arrays.asList(payment1, payment2, payment3));
 
-            orderRepository.save(new Orders("2021-12-07","motorcycle","styrbjörnsvägen",5000.00));
-            orderRepository.save(new Orders("2021-11-11","Car","styrbjörnsvägen",1200.00));
-            orderRepository.save(new Orders("2021-10-10","plane","styrbjörnsvägen",245.50));
+            shoppingCart1.addCustomer(customer1);
+            shoppingCart2.addCustomer(customer2);
+            shoppingCart3.addCustomer(customer3);
+            shoppingCart1.addBook(book1);
+            shoppingCart1.addBook(book2);
+            shoppingCart1.addBook(book3);
+            shoppingCart1.addOrder(order1);
 
-            paymentRepository.save(new Payment("Swedbank","1233...",6,2025,345,"biniam"));
-            paymentRepository.save(new Payment("SEB","1233...",10,2026,123,"Philip"));
-            paymentRepository.save(new Payment("Nordia","1233...",12,2028,678,"Samir"));
+            shoppingCartRepository.save(shoppingCart1);
+            shoppingCartRepository.save(shoppingCart2);
+            shoppingCartRepository.save(shoppingCart3);
+
+
 
         };
     }

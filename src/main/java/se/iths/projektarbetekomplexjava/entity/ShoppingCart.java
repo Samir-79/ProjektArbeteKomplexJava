@@ -32,6 +32,21 @@ public class ShoppingCart {
     public ShoppingCart() {
     }
 
+    public void addBook(Book book) {
+        books.add(book);
+        book.setShoppingCart(this);
+    }
+
+    public void addCustomer(Customer customer) {
+        this.customer=customer;
+        customer.setShoppingCart(this);
+    }
+
+    public void addOrder(Orders order) {
+        orders.add(order);
+        order.setShoppingCart(this);
+    }
+
     public Long getId() {
         return id;
     }
