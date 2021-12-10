@@ -33,17 +33,17 @@ public class ShoppingCart {
 
     public void addBook(Book book) {
         books.add(book);
-        book.setShoppingCart(book.getShoppingCart());
+        book.setShoppingCart(this);
     }
 
     public void addCustomer(Customer customer) {
         this.customer=customer;
-        customer.setShoppingCart(customer.getShoppingCart());
+        customer.setShoppingCart(this);
     }
 
     public void addOrder(Orders order) {
         orders.add(order);
-        order.setShoppingCart(order.getShoppingCart());
+        order.setShoppingCart(this);
     }
 
     public Long getId() {

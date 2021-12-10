@@ -62,9 +62,9 @@ public class ProjektArbeteKomplexJavaApplication {
             role2.addEmployee(employee2);
             role2.addEmployee(employee3);
 
-            customerRepository.saveAll(Arrays.asList(customer1, customer2, customer3, customer4, customer5, customer6, customer7, customer8, customer9, customer10));
-            employeeRepository.saveAll(Arrays.asList(employee1, employee2, employee3));
-            roleRepository.saveAll(Arrays.asList(role1, role2));
+//            customerRepository.saveAll(Arrays.asList(customer1, customer2, customer3, customer4, customer5, customer6, customer7, customer8, customer9, customer10));
+//            employeeRepository.saveAll(Arrays.asList(employee1, employee2, employee3));
+//            roleRepository.saveAll(Arrays.asList(role1, role2));
 
             //DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
 
@@ -165,10 +165,9 @@ public class ProjektArbeteKomplexJavaApplication {
 
             paymentRepository.saveAll(Arrays.asList(payment1, payment2, payment3));
 
-            shoppingCart1.setCustomer(customer1);
-            customer1.setShoppingCart(shoppingCart1);
-//            shoppingCart2.addCustomer(customer2);
-//            shoppingCart3.addCustomer(customer3);
+            shoppingCart1.addCustomer(customer1);
+            shoppingCart2.addCustomer(customer2);
+            shoppingCart3.addCustomer(customer3);
             shoppingCart1.addBook(book1);
             shoppingCart1.addBook(book2);
             shoppingCart1.addBook(book3);

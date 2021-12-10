@@ -21,8 +21,8 @@ public class Customer {
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Role> roles = new HashSet<>();
 
-    @OneToOne(cascade=CascadeType.ALL)
-    ShoppingCart shoppingCart;
+    @OneToOne(cascade=CascadeType.ALL, fetch = FetchType.EAGER)
+    private ShoppingCart shoppingCart;
 
     public Customer(String firstName, String lastName, String address, String phone, String username, String email, String password) {
         this.firstName = firstName;
@@ -40,6 +40,11 @@ public class Customer {
     public void addRole(Role role){
         roles.add(role);
         role.getCustomers().add(this);
+    }
+
+    public void addShoppingCart(ShoppingCart shoppingCart){
+        this.shoppingCart = shoppingCart;
+        shoppingCart.setCustomer(this);
     }
 
     public Set<Role> getRoles(){
@@ -117,4 +122,5 @@ public class Customer {
     public void setShoppingCart(ShoppingCart shoppingCart) {
         this.shoppingCart = shoppingCart;
     }
+
 }
