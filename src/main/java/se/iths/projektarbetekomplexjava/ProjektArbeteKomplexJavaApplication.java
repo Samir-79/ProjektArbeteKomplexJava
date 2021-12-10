@@ -62,9 +62,8 @@ public class ProjektArbeteKomplexJavaApplication {
             role2.addEmployee(employee2);
             role2.addEmployee(employee3);
 
-//            customerRepository.saveAll(Arrays.asList(customer1, customer2, customer3, customer4, customer5, customer6, customer7, customer8, customer9, customer10));
-//            employeeRepository.saveAll(Arrays.asList(employee1, employee2, employee3));
-//            roleRepository.saveAll(Arrays.asList(role1, role2));
+            employeeRepository.saveAll(Arrays.asList(employee1, employee2, employee3));
+            roleRepository.saveAll(Arrays.asList(role1, role2));
 
             //DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
 
