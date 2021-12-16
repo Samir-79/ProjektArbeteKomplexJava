@@ -1,4 +1,6 @@
 package se.iths.projektarbetekomplexjava.entity;
+//import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -14,10 +16,11 @@ public class ShoppingCart {
     private Double price;
     private int qty;
 
-    @OneToOne(cascade = CascadeType.ALL)
+   // @Cascade({org.hibernate.annotations.CascadeType.PERSIST,org.hibernate.annotations.CascadeType.SAVE_UPDATE})
+    @OneToOne
     private Customer customer;
 
-    @OneToMany(targetEntity = Book.class, cascade = CascadeType.ALL)
+    @OneToMany(targetEntity = Book.class, cascade = javax.persistence.CascadeType.ALL)
     private List<Book> books = new ArrayList<>();
 
     @OneToMany(targetEntity = Orders.class, cascade = CascadeType.ALL)
@@ -39,6 +42,8 @@ public class ShoppingCart {
     public void addCustomer(Customer customer) {
         this.customer=customer;
         customer.setShoppingCart(this);
+
+
     }
 
     public void addOrder(Orders order) {
