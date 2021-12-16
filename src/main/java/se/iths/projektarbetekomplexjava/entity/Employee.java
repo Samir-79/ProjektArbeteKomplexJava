@@ -1,5 +1,6 @@
 package se.iths.projektarbetekomplexjava.entity;
 
+import se.iths.projektarbetekomplexjava.entity.Role;
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -18,10 +19,13 @@ public class Employee {
     private String email;
     private String password;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Set<Role> roles = new HashSet<>();
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
-    public Employee(String firstName, String lastName, String address, String phone, String username, String email, String password) {
+//    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+//    private Set<Role> roles = new HashSet<>();
+
+    public Employee(String firstName, String lastName, String address, String phone, String username, String email, String password, Role role) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
@@ -29,19 +33,20 @@ public class Employee {
         this.username = username;
         this.email = email;
         this.password = password;
+        this.role = role;
     }
 
     public Employee() {
     }
 
-    public void addRole(Role role){
-        roles.add(role);
-        role.getEmployees().add(this);
-    }
+//    public void addRole(Role role){
+//        roles.add(role);
+//        role.getEmployees().add(this);
+//    }
 
-    public Set<Role> getRoles(){
-        return roles;
-    }
+//    public Set<Role> getRoles(){
+//        return roles;
+//    }
 
     public Long getId() {
         return id;
@@ -105,5 +110,13 @@ public class Employee {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 }

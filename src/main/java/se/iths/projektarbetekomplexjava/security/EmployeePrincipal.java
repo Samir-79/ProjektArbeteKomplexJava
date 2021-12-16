@@ -12,13 +12,21 @@ import java.util.Set;
 
 public record EmployeePrincipal(Employee employee) implements UserDetails {
 
+//    @Override
+//    public Collection<? extends GrantedAuthority> getAuthorities() {
+//        Set<Role> roles = employee.getRoles();
+//        Collection<GrantedAuthority> grantedAuthorities = new ArrayList<>(roles.size());
+//        for (Role role : roles) {
+//            grantedAuthorities.add(new SimpleGrantedAuthority(role.getRole().toUpperCase()));
+//        }
+//        return grantedAuthorities;
+//    }
+
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        Set<Role> roles = employee.getRoles();
-        Collection<GrantedAuthority> grantedAuthorities = new ArrayList<>(roles.size());
-        for (Role role : roles) {
-            grantedAuthorities.add(new SimpleGrantedAuthority(role.getRole().toUpperCase()));
-        }
+    public  Collection<? extends  GrantedAuthority> getAuthorities() {
+        Role roles = employee.getRole();
+        Collection<GrantedAuthority> grantedAuthorities = new ArrayList<>();
+        grantedAuthorities.add(new SimpleGrantedAuthority(roles.toString()));
         return grantedAuthorities;
     }
 

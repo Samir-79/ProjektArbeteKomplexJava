@@ -1,8 +1,6 @@
 package se.iths.projektarbetekomplexjava.entity;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 public class Customer {
@@ -17,14 +15,16 @@ public class Customer {
     private String username;
     private String email;
     private String password;
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Set<Role> roles = new HashSet<>();
+//    @ManyToMany(fetch = FetchType.EAGER)
+//    private Set<Role> roles = new HashSet<>();
 
-    @OneToOne(cascade=CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToOne
     private ShoppingCart shoppingCart;
 
-    public Customer(String firstName, String lastName, String address, String phone, String username, String email, String password) {
+    public Customer(String firstName, String lastName, String address, String phone, String username, String email, String password, Role role) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
@@ -32,24 +32,25 @@ public class Customer {
         this.username = username;
         this.email = email;
         this.password = password;
+        this.role= Role.USER;
     }
 
     public Customer() {
     }
 
-    public void addRole(Role role){
-        roles.add(role);
-        role.getCustomers().add(this);
-    }
+//    public void addRole(Role role){
+//        roles.add(role);
+//        role.getCustomers().add(this);
+//    }
 
     public void addShoppingCart(ShoppingCart shoppingCart){
         this.shoppingCart = shoppingCart;
-        shoppingCart.setCustomer(this);
+        //shoppingCart.setCustomer(this);
     }
 
-    public Set<Role> getRoles(){
-        return roles;
-    }
+//    public Set<Role> getRoles(){
+//        return roles;
+//    }
 
     public Long getId() {
         return id;
@@ -123,4 +124,12 @@ public class Customer {
         this.shoppingCart = shoppingCart;
     }
 
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
 }
+

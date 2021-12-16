@@ -6,4 +6,5 @@ import se.iths.projektarbetekomplexjava.entity.Publisher;
 
 @Repository
 public interface PublisherRepository  extends CrudRepository<Publisher,Long>{
+    Publisher findByName(String name);
 }

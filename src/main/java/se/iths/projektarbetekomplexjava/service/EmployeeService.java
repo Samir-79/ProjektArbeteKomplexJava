@@ -7,9 +7,9 @@ import se.iths.projektarbetekomplexjava.entity.Employee;
 import se.iths.projektarbetekomplexjava.entity.Role;
 import se.iths.projektarbetekomplexjava.repository.CustomerRepository;
 import se.iths.projektarbetekomplexjava.repository.EmployeeRepository;
-import se.iths.projektarbetekomplexjava.repository.RoleRepository;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -17,29 +17,29 @@ public class EmployeeService {
 
     private final EmployeeRepository employeeRepository;
     private final CustomerRepository customerRepository;
-    private final RoleRepository roleRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public EmployeeService(EmployeeRepository employeeRepository,
                            CustomerRepository customerRepository,
-                           RoleRepository roleRepository,
                            BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.employeeRepository = employeeRepository;
         this.customerRepository = customerRepository;
-        this.roleRepository = roleRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
     public Employee addEmployee(Employee employee){
         employee.setPassword(bCryptPasswordEncoder.encode(employee.getPassword()));
-        Role role = roleRepository.findByRole("ADMIN");
-        employee.addRole(role);
+        employee.setRole(Role.ADMIN);
         return employeeRepository.save(employee);
     }
 
     public void removeEmployee(Long id){
         Employee foundEmployee = employeeRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         employeeRepository.deleteById(foundEmployee.getId());
+    }
+
+    public List<Employee> getByEmail(String email){
+        return employeeRepository.findEmployeeByEmail(email);
     }
 
     public Optional<Employee> findUserById(Long id){
@@ -50,7 +50,11 @@ public class EmployeeService {
         return customerRepository.findAll();
     }
 
-    public Employee getEmployeeByUsername(String username, String password) {
+    public Optional<Employee> getEmployeeByUsername(String username, String password) {
         return employeeRepository.findByUsernameAndPassword(username, password);
+    }
+
+    public Employee updateEmployee(Employee employee) {
+        return employeeRepository.save(employee);
     }
 }
