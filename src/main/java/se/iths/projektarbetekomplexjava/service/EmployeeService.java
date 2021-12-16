@@ -7,7 +7,7 @@ import se.iths.projektarbetekomplexjava.entity.Employee;
 import se.iths.projektarbetekomplexjava.entity.Role;
 import se.iths.projektarbetekomplexjava.repository.CustomerRepository;
 import se.iths.projektarbetekomplexjava.repository.EmployeeRepository;
-import se.iths.projektarbetekomplexjava.repository.RoleRepository;
+//import se.iths.projektarbetekomplexjava.repository.RoleRepository;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.Optional;
@@ -17,23 +17,23 @@ public class EmployeeService {
 
     private final EmployeeRepository employeeRepository;
     private final CustomerRepository customerRepository;
-    private final RoleRepository roleRepository;
+   // private final RoleRepository roleRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public EmployeeService(EmployeeRepository employeeRepository,
                            CustomerRepository customerRepository,
-                           RoleRepository roleRepository,
                            BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.employeeRepository = employeeRepository;
         this.customerRepository = customerRepository;
-        this.roleRepository = roleRepository;
+        //this.roleRepository = roleRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
     public Employee addEmployee(Employee employee){
         employee.setPassword(bCryptPasswordEncoder.encode(employee.getPassword()));
-        Role role = roleRepository.findByRole("ADMIN");
-        employee.addRole(role);
+       employee.setRole(Role1.ADMIN);
+        //Role role = roleRepository.findByRole("ADMIN");
+        //employee.addRole(role);
         return employeeRepository.save(employee);
     }
 

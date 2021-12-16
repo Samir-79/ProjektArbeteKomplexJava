@@ -1,13 +1,16 @@
 package se.iths.projektarbetekomplexjava.entity;
 
+import org.hibernate.annotations.Cascade;
+import se.iths.projektarbetekomplexjava.service.Role1;
+
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 public class Customer {
+
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -19,11 +22,17 @@ public class Customer {
     private String username;
     private String email;
     private String password;
+    @Enumerated(EnumType.STRING)
+    private Role1 role;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Set<Role> roles = new HashSet<>();
+//    @ManyToMany(fetch = FetchType.EAGER)
+//    private Set<Role> roles = new HashSet<>();
 
-    public Customer(String firstName, String lastName, String address, String phone, String username, String email, String password) {
+
+    @OneToOne
+    private ShoppingCart shoppingCart;
+
+    public Customer(String firstName, String lastName, String address, String phone, String username, String email, String password,Role1 role) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
@@ -31,19 +40,27 @@ public class Customer {
         this.username = username;
         this.email = email;
         this.password = password;
+        this.role= Role1.USER;
     }
 
     public Customer() {
     }
 
-    public void addRole(Role role){
-        roles.add(role);
-        role.getCustomers().add(this);
+//    public void addRole(Role role){
+//        roles.add(role);
+//        role.getCustomers().add(this);
+//    }
+
+
+
+    public void addShoppingCart(ShoppingCart shoppingCart){
+        this.shoppingCart = shoppingCart;
+        //shoppingCart.setCustomer(this);
     }
 
-    public Set<Role> getRoles(){
-        return roles;
-    }
+//    public Set<Role> getRoles(){
+//        return roles;
+//    }
 
     public Long getId() {
         return id;
@@ -107,5 +124,22 @@ public class Customer {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public ShoppingCart getShoppingCart() {
+        return shoppingCart;
+    }
+
+    public void setShoppingCart(ShoppingCart shoppingCart) {
+        this.shoppingCart = shoppingCart;
+    }
+
+
+    public Role1 getRole() {
+        return role;
+    }
+
+    public void setRole(Role1 role) {
+        this.role = role;
     }
 }

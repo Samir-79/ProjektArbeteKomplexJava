@@ -1,28 +1,28 @@
-version: "3.1"
-services:
-  database:
-    image: mysql
-    container_name: docker-mysql
-    restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: bokhandel
-    ports:
-      - "3307:3306"
-
-  bokhandel:
-    image: bokhandel
-    container_name: bokhandel-app
-    build:
-      context: .
-      dockerfile: Dockerfile
-    ports:
-      - "8080:8080"
-    restart: unless-stopped
-    depends_on:
-      - database
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://docker-mysql:3306/bokhandel?createDatabaseIfNotExist=true
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: password
+#version: "3.1"
+#services:
+#  database:
+#    image: mysql
+#    container_name: docker-mysql
+#    restart: always
+#    environment:
+#      MYSQL_ROOT_PASSWORD: password
+#      MYSQL_DATABASE: bokhandel
+#    ports:
+#      - "3307:3306"
+#
+#  bokhandel:
+#    image: bokhandel
+#    container_name: bokhandel-app
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
+#    ports:
+#      - "8080:8080"
+##    restart: unless-stopped
+#    depends_on:
+#      - database
+#    environment:
+#      SPRING_DATASOURCE_URL: jdbc:mysql://docker-mysql:3306/bokhandel?createDatabaseIfNotExist=true
+#      SPRING_DATASOURCE_USERNAME: root
+#      SPRING_DATASOURCE_PASSWORD: password
 

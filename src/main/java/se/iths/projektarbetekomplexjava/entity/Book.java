@@ -1,5 +1,7 @@
 package se.iths.projektarbetekomplexjava.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Currency;
 import java.util.Date;
@@ -19,14 +21,14 @@ public class Book {
     private String language;
     private String category;
     private Long price;
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+
+    @ManyToMany(cascade = CascadeType.ALL,mappedBy = "books")
     private Set<Author> authors = new HashSet<>();
 
-    @ManyToOne
+    @ManyToOne(cascade =CascadeType.PERSIST)
     Publisher publisher;
 
-    @ManyToOne(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
-    @JoinColumn(name="stock_id")
+    @ManyToOne(cascade = CascadeType.PERSIST)
     Stock stock;
 
     @ManyToOne
@@ -41,13 +43,18 @@ public class Book {
         this.language = language;
         this.category = category;
         this.price = price;
+        //this.authors = authors;
+
     }
 
     public Book() {
     }
 
+
+
+
     public void addAuthor(Author author) {
-        authors.add(author);
+        //authors.add(author);
         author.getBooks().add(this);
     }
 
@@ -56,7 +63,7 @@ public class Book {
         publisher.getBooks().add(this);
     }
 
-    public  void addToStock(Stock stock){
+    public void addToStock(Stock stock) {
         setStock(stock);
         stock.getBooks().add(this);
     }
@@ -133,6 +140,7 @@ public class Book {
     public void setPrice(Long price) {
         this.price = price;
     }
+
 
     public Set<Author> getAuthors() {
         return authors;

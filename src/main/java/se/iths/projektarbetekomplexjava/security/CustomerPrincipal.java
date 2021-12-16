@@ -5,6 +5,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import se.iths.projektarbetekomplexjava.entity.Customer;
 import se.iths.projektarbetekomplexjava.entity.Role;
+import se.iths.projektarbetekomplexjava.service.Role1;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -12,13 +13,21 @@ import java.util.Set;
 
 public record CustomerPrincipal(Customer customer) implements UserDetails {
 
+//    @Override
+//    public Collection<? extends GrantedAuthority> getAuthorities() {
+//        Set<Role> roles = customer.getRoles();
+//        Collection<GrantedAuthority> grantedAuthorities = new ArrayList<>(roles.size());
+//        for (Role role : roles) {
+//            grantedAuthorities.add(new SimpleGrantedAuthority(role.getRole().toUpperCase()));
+//        }
+//        return grantedAuthorities;
+//    }
+
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        Set<Role> roles = customer.getRoles();
-        Collection<GrantedAuthority> grantedAuthorities = new ArrayList<>(roles.size());
-        for (Role role : roles) {
-            grantedAuthorities.add(new SimpleGrantedAuthority(role.getRole().toUpperCase()));
-        }
+    public  Collection<? extends  GrantedAuthority> getAuthorities() {
+        Role1 roles = customer.getRole();
+        Collection<GrantedAuthority> grantedAuthorities = new ArrayList<>();
+        grantedAuthorities.add(new SimpleGrantedAuthority(roles.toString()));
         return grantedAuthorities;
     }
 
