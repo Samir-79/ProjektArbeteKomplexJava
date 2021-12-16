@@ -70,4 +70,41 @@ public class EmployeeController {
         employeeService.removeEmployee(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+
+    @GetMapping("/getListOfCustomer")
+    public ResponseEntity<Iterable<Customer>> getAllCustomers(){
+        List<Customer> allCustomers = employeeService.findAllCustomers();
+        if (allCustomers.isEmpty()){
+            throw new NotFoundException("No data available in the system.");
+        }
+        return new ResponseEntity<>(allCustomers, HttpStatus.OK);
+    }
+
+    @GetMapping("/getListOfEmployee")
+    public ResponseEntity<Iterable<Employee>> getAllEmployees(){
+        List<Employee> allEmployees = employeeService.findAllEmployees();
+        if (allEmployees.isEmpty()){
+            throw new NotFoundException("No data available in the system.");
+        }
+        return new ResponseEntity<>(allEmployees, HttpStatus.OK);
+    }
+
+    @GetMapping("/searchEmployee/{id}")
+    public ResponseEntity<Optional<Employee>> findEmployeeId(@PathVariable long id){
+        Optional<Employee> foundEmployee = employeeService.findUserById(id);
+        if (foundEmployee.isEmpty()){
+            throw new NotFoundException("No data available of user ID: " + id);
+        }
+        return new ResponseEntity<>(foundEmployee, HttpStatus.OK);
+    }
+
+    @GetMapping("/searchCustomer/{id}")
+    public ResponseEntity<Optional<Customer>> findCustomerId(@PathVariable long id){
+        Optional<Customer> foundCustomer = customerService.findUserById(id);
+        if (foundCustomer.isEmpty()){
+            throw new NotFoundException("No data available of user ID: " + id);
+        }
+        return new ResponseEntity<>(foundCustomer, HttpStatus.OK);
+    }
 }

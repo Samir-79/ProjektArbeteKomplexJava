@@ -46,8 +46,12 @@ public class EmployeeService {
         return employeeRepository.findById(id);
     }
 
-    public Iterable<Customer> findAllCustomers(){
-        return customerRepository.findAll();
+    public List<Customer> findAllCustomers(){
+        return (List<Customer>) customerRepository.findAll();
+    }
+
+    public List<Employee> findAllEmployees(){
+        return (List<Employee>) employeeRepository.findAll();
     }
 
     public Optional<Employee> getEmployeeByUsername(String username, String password) {

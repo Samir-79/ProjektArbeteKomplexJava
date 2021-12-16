@@ -37,7 +37,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler({NotFoundException.class})
     public ResponseEntity<Object> NotFoundException(NotFoundException ex){
         logger.info(ex.getClass().getName());
-        String errorMessage = "User not found.";
+        String errorMessage = "Data Not Available.";
         return buildResponseEntity(new ApiError(HttpStatus.NOT_FOUND, errorMessage, ex));
     }
 
