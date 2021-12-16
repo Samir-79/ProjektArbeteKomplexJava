@@ -45,7 +45,7 @@ public class EmployeeController {
         Optional<Employee> loginEmployee = employeeService.getEmployeeByUsername(employee.getUsername(), employee.getPassword());
         List<Employee> employeeList = employeeService.getByEmail(employee.getEmail());
         for (Employee employees:employeeList){
-            if (passwordEncoder.bCryptPasswordEncoder().matches(employee.getUsername(), employees.getPassword())){
+            if (passwordEncoder.bCryptPasswordEncoder().matches(employee.getPassword(), employees.getPassword())){
                 return employeeList;
             }
         }

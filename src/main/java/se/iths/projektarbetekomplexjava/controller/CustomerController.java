@@ -42,7 +42,7 @@ public class CustomerController {
         Optional<Customer> loginCustomer = service.getCustomerByEmail(customer.getEmail(), customer.getPassword());
         List<Customer> customerList = service.getByEmail(customer.getEmail());
         for (Customer customers:customerList){
-            if (passwordEncoder.bCryptPasswordEncoder().matches(customer.getUsername(), customers.getPassword())){
+            if (passwordEncoder.bCryptPasswordEncoder().matches(customer.getPassword(), customers.getPassword())){
                 return customerList;
             }
         }
