@@ -54,8 +54,8 @@ public class EmployeeService {
         return (List<Employee>) employeeRepository.findAll();
     }
 
-    public Optional<Employee> getEmployeeByUsername(String username, String password) {
-        return employeeRepository.findByUsernameAndPassword(username, password);
+    public Optional<Employee> getEmployeeByEmail(String email, String password) {
+        return employeeRepository.findEmployeeByEmailAndPassword(email, password);
     }
 
     public Employee updateEmployee(Employee employee) {

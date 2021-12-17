@@ -37,7 +37,6 @@ public class CustomerController {
     }
 
     @PostMapping("/login")
-    @ResponseBody
     public Object logInCustomer(@RequestBody Customer customer){
         Optional<Customer> loginCustomer = service.getCustomerByEmail(customer.getEmail(), customer.getPassword());
         List<Customer> customerList = service.getByEmail(customer.getEmail());

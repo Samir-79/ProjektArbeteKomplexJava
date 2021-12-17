@@ -40,9 +40,8 @@ public class EmployeeController {
     }
 
     @PostMapping("/login")
-    @ResponseBody
     public Object logInCustomer(@RequestBody Employee employee){
-        Optional<Employee> loginEmployee = employeeService.getEmployeeByUsername(employee.getUsername(), employee.getPassword());
+        Optional<Employee> loginEmployee = employeeService.getEmployeeByEmail(employee.getEmail(), employee.getPassword());
         List<Employee> employeeList = employeeService.getByEmail(employee.getEmail());
         for (Employee employees:employeeList){
             if (passwordEncoder.bCryptPasswordEncoder().matches(employee.getPassword(), employees.getPassword())){
