@@ -31,7 +31,7 @@ public class Book {
     @ManyToOne(cascade = CascadeType.PERSIST)
     Stock stock;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     ShoppingCart shoppingCart;
 
     public Book(String ISBN13, String title, String publishingDate, Long weight, int pages, String language, String category, Long price) {
@@ -67,6 +67,8 @@ public class Book {
         setStock(stock);
         stock.getBooks().add(this);
     }
+
+
 
 
     public Long getId() {

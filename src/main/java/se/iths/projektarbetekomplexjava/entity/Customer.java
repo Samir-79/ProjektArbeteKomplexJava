@@ -1,5 +1,7 @@
 package se.iths.projektarbetekomplexjava.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -21,7 +23,8 @@ public class Customer {
 //    @ManyToMany(fetch = FetchType.EAGER)
 //    private Set<Role> roles = new HashSet<>();
 
-    @OneToOne
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private ShoppingCart shoppingCart;
 
     public Customer(String firstName, String lastName, String address, String phone, String username, String email, String password, Role role) {
@@ -32,7 +35,8 @@ public class Customer {
         this.username = username;
         this.email = email;
         this.password = password;
-        this.role= Role.USER;
+        this.role = Role.USER;
+
     }
 
     public Customer() {
@@ -43,9 +47,10 @@ public class Customer {
 //        role.getCustomers().add(this);
 //    }
 
-    public void addShoppingCart(ShoppingCart shoppingCart){
-        this.shoppingCart = shoppingCart;
-        //shoppingCart.setCustomer(this);
+
+    public void addShoppingCart(ShoppingCart shoppingCart) {
+        setShoppingCart(shoppingCart);
+        shoppingCart.setCustomer(this);
     }
 
 //    public Set<Role> getRoles(){
@@ -115,6 +120,7 @@ public class Customer {
     public void setPassword(String password) {
         this.password = password;
     }
+
 
     public ShoppingCart getShoppingCart() {
         return shoppingCart;

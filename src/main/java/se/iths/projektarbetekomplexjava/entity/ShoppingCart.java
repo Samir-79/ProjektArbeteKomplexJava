@@ -1,5 +1,7 @@
 package se.iths.projektarbetekomplexjava.entity;
 //import org.hibernate.annotations.CascadeType;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
@@ -17,10 +19,11 @@ public class ShoppingCart {
     private int qty;
 
     // @Cascade({org.hibernate.annotations.CascadeType.PERSIST,org.hibernate.annotations.CascadeType.SAVE_UPDATE})
-    @OneToOne
+    @JsonIgnore
+    @OneToOne(fetch = FetchType.LAZY, targetEntity = Customer.class)
     private Customer customer;
 
-    @OneToMany(targetEntity = Book.class, cascade = javax.persistence.CascadeType.ALL)
+    @OneToMany(targetEntity = Book.class, cascade = CascadeType.ALL)
     private List<Book> books = new ArrayList<>();
 
     @OneToMany(targetEntity = Orders.class, cascade = CascadeType.ALL)
@@ -31,6 +34,10 @@ public class ShoppingCart {
         this.qty = qty;
     }
 
+    public ShoppingCart(Long id) {
+        this.id = id;
+    }
+
     public ShoppingCart() {
     }
 
@@ -39,12 +46,12 @@ public class ShoppingCart {
         book.setShoppingCart(this);
     }
 
-    public void addCustomer(Customer customer) {
-        this.customer=customer;
-        customer.setShoppingCart(this);
-
-
-    }
+//    public void addCustomer(Customer customer) {
+//        this.customer=customer;
+//        customer.setShoppingCart(this);
+//
+//
+//    }
 
     public void addOrder(Orders order) {
         orders.add(order);

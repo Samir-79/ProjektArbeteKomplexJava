@@ -5,7 +5,9 @@ import org.springframework.stereotype.Service;
 import se.iths.projektarbetekomplexjava.entity.Customer;
 import se.iths.projektarbetekomplexjava.entity.Employee;
 import se.iths.projektarbetekomplexjava.entity.Role;
+import se.iths.projektarbetekomplexjava.entity.ShoppingCart;
 import se.iths.projektarbetekomplexjava.repository.CustomerRepository;
+import se.iths.projektarbetekomplexjava.repository.ShoppingCartRepository;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
@@ -16,17 +18,21 @@ public class CustomerService {
 
     private final CustomerRepository customerRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final ShoppingCartRepository shoppingCartRepository;
 
     public CustomerService(CustomerRepository customerRepository,
-                           BCryptPasswordEncoder bCryptPasswordEncoder) {
+                           BCryptPasswordEncoder bCryptPasswordEncoder, ShoppingCartRepository shoppingCartRepository) {
         this.customerRepository = customerRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.shoppingCartRepository = shoppingCartRepository;
     }
 
     public Customer addCustomer(Customer customer) {
         customer.setPassword(bCryptPasswordEncoder.encode(customer.getPassword()));
         customer.setRole(Role.USER);
+        customer.addShoppingCart(customer.getShoppingCart());
         return customerRepository.save(customer);
+
     }
 
     public void removeCustomer(Long id) {
@@ -34,7 +40,7 @@ public class CustomerService {
         customerRepository.deleteById(foundCustomer.getId());
     }
 
-    public List<Customer> getByEmail(String email){
+    public List<Customer> getByEmail(String email) {
         return customerRepository.findCustomerByEmail(email);
     }
 
