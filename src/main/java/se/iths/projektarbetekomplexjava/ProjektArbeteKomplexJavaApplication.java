@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import se.iths.projektarbetekomplexjava.entity.*;
 import se.iths.projektarbetekomplexjava.repository.*;
+import se.iths.projektarbetekomplexjava.service.Role1;
 
 import java.util.Arrays;
 
@@ -18,57 +19,61 @@ public class ProjektArbeteKomplexJavaApplication {
 
     @Bean
     public CommandLineRunner setUpSampleDataBaseGenerator(CustomerRepository customerRepository, EmployeeRepository employeeRepository,
-                                                          RoleRepository roleRepository, BookRepository bookRepository,
-                                                          AuthorRespository authorRespository, PublisherRepository publisherRepository,
+                                                          BookRepository bookRepository,
+                                                          AuthorRepository authorRepository, PublisherRepository publisherRepository,
                                                           StockRepository stockRepository, ShoppingCartRepository shoppingCartRepository,
                                                           OrderRepository orderRepository, PaymentRepository paymentRepository) {
         return (args) -> {
-            Customer customer1 = new Customer("Sara", "Hamilton", "Street 69", "53513515465", "SAHL", "sara.hamilton@", "sdf4sd7f48");
-            Customer customer2 = new Customer("Ed", "Thomas", "Sector 8", "54646516557", "EDMA", "ed.thomas@", "ssdfhrsghs");
-            Customer customer3 = new Customer("Jason", "Voorhees", "Crystal Lake Camp", "8784564984", "JAES", "jason.voorhees@", "13547844");
-            Customer customer4 = new Customer("John", "Smith", "Street 78", "4987531357", "JOSI", "john.smith@", "sdfhdfhdssd");
-            Customer customer5 = new Customer("Robert", "Gustafsson", "Vallhallavägen 45", "213548654", "ROSO", "robert.gustafsson@", "sdfsdfrghdf");
-            Customer customer6 = new Customer("Eva", "Andersson", "Vasa Gatan 64", "879845143", "EVSO", "eva.andersson@", "öjiohjmghj");
-            Customer customer7 = new Customer("Mathilda", "Lindqvist", "Oden Gatan 25", "658424896", "MALI", "mathilda.lindqvist@", "ghjfhdfhg");
-            Customer customer8 = new Customer("Albert", "Wesker", "Street 23", "1654746835", "ALWR", "albert.wesker@umbrella.com", "dfggkghjfg");
-            Customer customer9 = new Customer("Lisa", "Lavinski", "Sector 4", "351687146547", "LILI", "lisa.lavinski@", "asdsefrsdf");
-            Customer customer10 = new Customer("Veronika", "Jones", "Sector 2", "56498765684", "VEJS", "veronika.jones@", "sdfsgtfgthdg");
+            Customer customer1 = new Customer("Sara", "Hamilton", "Street 69", "53513515465", "SAHL", "sara.hamilton@", "sdf4sd7f48", Role1.USER);
+            Customer customer2 = new Customer("Ed", "Thomas", "Sector 8", "54646516557", "EDMA", "ed.thomas@", "ssdfhrsghs", Role1.USER);
+            Customer customer3 = new Customer("Jason", "Voorhees", "Crystal Lake Camp", "8784564984", "JAES", "jason.voorhees@", "13547844", Role1.USER);
+            Customer customer4 = new Customer("John", "Smith", "Street 78", "4987531357", "JOSI", "john.smith@", "sdfhdfhdssd", Role1.USER);
+            Customer customer5 = new Customer("Robert", "Gustafsson", "Vallhallavägen 45", "213548654", "ROSO", "robert.gustafsson@", "sdfsdfrghdf", Role1.USER);
+            Customer customer6 = new Customer("Eva", "Andersson", "Vasa Gatan 64", "879845143", "EVSO", "eva.andersson@", "öjiohjmghj", Role1.USER);
+            Customer customer7 = new Customer("Mathilda", "Lindqvist", "Oden Gatan 25", "658424896", "MALI", "mathilda.lindqvist@", "ghjfhdfhg", Role1.USER);
+            Customer customer8 = new Customer("Albert", "Wesker", "Street 23", "1654746835", "ALWR", "albert.wesker@umbrella.com", "dfggkghjfg", Role1.USER);
+            Customer customer9 = new Customer("Lisa", "Lavinski", "Sector 4", "351687146547", "LILI", "lisa.lavinski@", "asdsefrsdf", Role1.USER);
+            Customer customer10 = new Customer("Veronika", "Jones", "Sector 2", "56498765684", "VEJS", "veronika.jones@", "sdfsgtfgthdg", Role1.USER);
 
             customerRepository.saveAll(Arrays.asList(customer1, customer2, customer3, customer4, customer5, customer6, customer7, customer8, customer9, customer10));
 
-            Employee employee1 = new Employee("Philip", "Mattsson", "Classified", "Classified", "PHMA", "philip.mattsson@mail.com", "sdgfghdfsfg");
-            Employee employee2 = new Employee("Samir", "Alsalhani", "Classified", "Classified", "SAAL", "samir.alsalhani@mail.com", "fghfghdfhk");
-            Employee employee3 = new Employee("Biniam", "Haile Kifle", "Classified", "Classified", "BIHK", "biniam.haile.kifle@mail.com", "hgkfghgdff");
+
+            Employee employee1 = new Employee("Philip", "Mattsson", "Classified", "Classified", "PHMA", "philip.mattsson@mail.com", "sdgfghdfsfg",Role1.ADMIN);
+            Employee employee2 = new Employee("Samir", "Alsalhani", "Classified", "Classified", "SAAL", "samir.alsalhani@mail.com", "fghfghdfhk",Role1.ADMIN);
+            Employee employee3 = new Employee("Biniam", "Haile Kifle", "Classified", "Classified", "BIHK", "biniam.haile.kifle@mail.com", "hgkfghgdff",Role1.ADMIN);
 
             employeeRepository.saveAll(Arrays.asList(employee1, employee2, employee3));
 
-            Role role1 = new Role("USER");
-            Role role2 = new Role("ADMIN");
+//            Role role1 = new Role("USER");
+//            Role role2 = new Role("ADMIN");
+            Role1 role1 = Role1.ADMIN;
 
-            roleRepository.saveAll(Arrays.asList(role1, role2));
+            Role1 role2 = Role1.USER;
 
-            role1.addCustomer(customer1);
-            role1.addCustomer(customer2);
-            role1.addCustomer(customer3);
-            role1.addCustomer(customer4);
-            role1.addCustomer(customer5);
-            role1.addCustomer(customer6);
-            role1.addCustomer(customer7);
-            role1.addCustomer(customer8);
-            role1.addCustomer(customer9);
-            role1.addCustomer(customer10);
 
-            role2.addEmployee(employee1);
-            role2.addEmployee(employee2);
-            role2.addEmployee(employee3);
+            //roleRepository.saveAll(Arrays.asList(role1, role2));
 
-            customerRepository.saveAll(Arrays.asList(customer1, customer2, customer3, customer4, customer5, customer6, customer7, customer8, customer9, customer10));
+//            role1.addCustomer(customer1);
+//            role1.addCustomer(customer2);
+//            role1.addCustomer(customer3);
+//            role1.addCustomer(customer4);
+//            role1.addCustomer(customer5);
+//            role1.addCustomer(customer6);
+//            role1.addCustomer(customer7);
+//            role1.addCustomer(customer8);
+//            role1.addCustomer(customer9);
+//            role1.addCustomer(customer10);
+//
+//            role2.addEmployee(employee1);
+//            role2.addEmployee(employee2);
+//            role2.addEmployee(employee3);
+//
+//
+//            roleRepository.saveAll(Arrays.asList(role1, role2));
+
+
             employeeRepository.saveAll(Arrays.asList(employee1, employee2, employee3));
-            roleRepository.saveAll(Arrays.asList(role1, role2));
-
-
             //DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
-
 
             Book book1 = new Book("9789178871148", "Depphjärnan : Varför mår vi så dåligt när vi har det så bra?", "2021-10-28", 629L, 224, "Hälso&Livsstil", "Svenska", 250L);
             Book book2 = new Book("9789178872718", "Middag i en gryta", "2021-11-03", 734L, 160, "Kokböcker", "Svenska", 251L);
@@ -79,9 +84,7 @@ public class ProjektArbeteKomplexJavaApplication {
             Book book7 = new Book("9781565841635", "Paradise", "1995-05-18", null, 246, "Skönlitteratur", "Engelska", 256L);
             Book book8 = new Book("9781292273730", "Java How to Program, Late Objects,Global Edition", "2019-09-11", null, 1248, "Programmering", "Engelska", 257L);
 
-
             bookRepository.saveAll(Arrays.asList(book1, book2, book3, book4, book5, book6, book7, book8));
-
 
             Author author1 = new Author("Anders", "Hansen");
             Author author2 = new Author("Tareq", "Taylor");
@@ -92,8 +95,7 @@ public class ProjektArbeteKomplexJavaApplication {
             Author author7 = new Author("Harvey", "Deitel");
             Author author8 = new Author("Paul", "Deitel");
 
-            authorRespository.saveAll(Arrays.asList(author1, author2, author3, author4, author5, author6, author7, author8));
-
+            authorRepository.saveAll(Arrays.asList(author1, author2, author3, author4, author5, author6, author7, author8));
 
             Publisher publisher1 = new Publisher("Bonnier Fakta");
             Publisher publisher2 = new Publisher(" Natur Kultur Allmänlitteratur");
@@ -102,7 +104,6 @@ public class ProjektArbeteKomplexJavaApplication {
             Publisher publisher5 = new Publisher("Pearson Education Limited");
 
             publisherRepository.saveAll(Arrays.asList(publisher1, publisher2, publisher3, publisher4, publisher5));
-
 
             Stock stock1 = new Stock(100, true);
             Stock stock2 = new Stock(0, false);
@@ -114,7 +115,6 @@ public class ProjektArbeteKomplexJavaApplication {
             Stock stock8 = new Stock(10, true);
 
             stockRepository.saveAll(Arrays.asList(stock1, stock2, stock3, stock4, stock5, stock6, stock7, stock8));
-
 
             book1.addAuthor(author1);
             book1.addPublisher(publisher1);
@@ -150,43 +150,49 @@ public class ProjektArbeteKomplexJavaApplication {
             book8.addToStock(stock8);
 
             bookRepository.saveAll(Arrays.asList(book1, book2, book3, book4, book5, book6, book7, book8));
-
-            authorRespository.saveAll(Arrays.asList(author1, author2, author3, author4, author5, author6, author7, author8));
-
+            authorRepository.saveAll(Arrays.asList(author1, author2, author3, author4, author5, author6, author7, author8));
             publisherRepository.saveAll(Arrays.asList(publisher1, publisher2, publisher3, publisher4, publisher5));
-
             stockRepository.saveAll(Arrays.asList(stock1, stock2, stock3, stock4, stock5, stock6, stock7, stock8));
-
 
             ShoppingCart shoppingCart1 = new ShoppingCart(450.00, 2);
             ShoppingCart shoppingCart2 = new ShoppingCart(300.00, 1);
             ShoppingCart shoppingCart3 = new ShoppingCart(250.00, 6);
 
+            shoppingCartRepository.saveAll(Arrays.asList(shoppingCart1, shoppingCart2, shoppingCart3));
 
             Orders order1 = new Orders("2021-12-07", "motorcycle", "styrbjörnsvägen", 5000.00);
             Orders order2 = new Orders("2021-11-11", "Car", "styrbjörnsvägen", 1200.00);
             Orders order3 = new Orders("2021-10-10", "plane", "styrbjörnsvägen", 245.50);
+
             orderRepository.saveAll(Arrays.asList(order1, order2, order3));
 
             Payment payment1 = new Payment("Swedbank", "1233...", 6, 2025, 345, "biniam");
             Payment payment2 = new Payment("SEB", "1233...", 10, 2026, 123, "Philip");
             Payment payment3 = new Payment("Nordia", "1233...", 12, 2028, 678, "Samir");
+
             paymentRepository.saveAll(Arrays.asList(payment1, payment2, payment3));
 
             shoppingCart1.addCustomer(customer1);
             shoppingCart2.addCustomer(customer2);
             shoppingCart3.addCustomer(customer3);
+
             shoppingCart1.addBook(book1);
             shoppingCart1.addBook(book2);
             shoppingCart1.addBook(book3);
             shoppingCart1.addOrder(order1);
 
+
             shoppingCartRepository.save(shoppingCart1);
             shoppingCartRepository.save(shoppingCart2);
             shoppingCartRepository.save(shoppingCart3);
 
-
+            customerRepository.saveAll(Arrays.asList(customer1, customer2, customer3, customer4, customer5, customer6, customer7, customer8, customer9, customer10));
 
         };
     }
 }
+
+
+
+
+

@@ -1,5 +1,7 @@
 package se.iths.projektarbetekomplexjava.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -12,7 +14,9 @@ public class Author {
     private String firstName;
     private String lastName;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<Book> books = new HashSet<>();
 
     public Author(String firstName, String lastName) {
@@ -31,6 +35,7 @@ public class Author {
         this.id = id;
     }
 
+
     public String getFirstName() {
         return firstName;
     }
@@ -39,9 +44,11 @@ public class Author {
         this.firstName = firstName;
     }
 
+
     public String getLastName() {
         return lastName;
     }
+
 
     public void setLastName(String lastName) {
         this.lastName = lastName;

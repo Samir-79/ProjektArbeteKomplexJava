@@ -1,5 +1,7 @@
 package se.iths.projektarbetekomplexjava.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +14,7 @@ public class Stock {
     private int quantity;
     private boolean inStock;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "stock",cascade =CascadeType.ALL,fetch=FetchType.EAGER)
     private List<Book> books= new ArrayList<>();
 

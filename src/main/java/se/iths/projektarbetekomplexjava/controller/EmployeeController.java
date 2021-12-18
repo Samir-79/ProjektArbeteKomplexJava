@@ -5,16 +5,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import se.iths.projektarbetekomplexjava.entity.Customer;
 import se.iths.projektarbetekomplexjava.entity.Employee;
-import se.iths.projektarbetekomplexjava.exception.BadRequestException;
-import se.iths.projektarbetekomplexjava.exception.NotAuthorizedException;
-import se.iths.projektarbetekomplexjava.exception.NotFoundException;
 import se.iths.projektarbetekomplexjava.service.CustomerService;
 import se.iths.projektarbetekomplexjava.service.EmployeeService;
 
 import java.util.Optional;
 
 @RestController
-@RequestMapping("api/v1/employee/")
+@RequestMapping("bokhandel/api/v1/employee/")
 public class EmployeeController {
 
     private final CustomerService customerService;
@@ -31,7 +28,7 @@ public class EmployeeController {
         return new ResponseEntity<>(addedEmployee, HttpStatus.CREATED);
     }
 
-    @PostMapping("/login")
+    @GetMapping("/login")
     public ResponseEntity<Employee> logInEmployee(@RequestBody Employee employee){
         Employee loginEmployee = employeeService.getEmployeeByUsername(employee.getUsername(), employee.getPassword());
         return new ResponseEntity<>(loginEmployee, HttpStatus.OK);

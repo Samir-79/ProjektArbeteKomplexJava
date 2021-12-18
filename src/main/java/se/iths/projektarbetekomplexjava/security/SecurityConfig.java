@@ -33,14 +33,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    protected void configure(HttpSecurity httpSecurity) throws Exception{
+    protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 .csrf().disable()
-                .httpBasic()
+                .headers().frameOptions().disable()
                 .and()
                 .authorizeRequests()
-                .antMatchers("/api/v*/**").permitAll()
+                .antMatchers("/").permitAll()
+                .antMatchers("/bokhandel/api/v*/**").permitAll()
                 .antMatchers("/admin").hasRole("ADMIN")
+                .antMatchers("/h2-console/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
@@ -50,5 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .invalidateHttpSession(true)
                 .clearAuthentication(true)
                 .permitAll();
+                 //.httpBasic()
+
     }
 }
