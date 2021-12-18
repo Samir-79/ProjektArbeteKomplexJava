@@ -27,10 +27,4 @@ public class StockService {
     public Iterable<Stock>  findAllStocks() {
         return stockRepository.findAll();
     }
-
-
-
-
-
-
 }

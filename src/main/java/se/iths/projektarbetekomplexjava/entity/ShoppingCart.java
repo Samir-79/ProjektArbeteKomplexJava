@@ -16,7 +16,7 @@ public class ShoppingCart {
     private Double price;
     private int qty;
 
-   // @Cascade({org.hibernate.annotations.CascadeType.PERSIST,org.hibernate.annotations.CascadeType.SAVE_UPDATE})
+    // @Cascade({org.hibernate.annotations.CascadeType.PERSIST,org.hibernate.annotations.CascadeType.SAVE_UPDATE})
     @OneToOne
     private Customer customer;
 

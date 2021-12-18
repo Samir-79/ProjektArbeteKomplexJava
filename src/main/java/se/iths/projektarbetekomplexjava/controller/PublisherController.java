@@ -23,7 +23,7 @@ public class PublisherController {
     @PutMapping("/updatepublisher")
     public ResponseEntity<Publisher> updatePublisher(@RequestBody Publisher publisher) {
         Publisher updatePublisher = publisherService.updatePublisher(publisher);
-          return  new ResponseEntity<>(updatePublisher, HttpStatus.OK);
+        return  new ResponseEntity<>(updatePublisher, HttpStatus.OK);
     }
 
     @GetMapping("/getlistofpublishers")
@@ -43,5 +43,4 @@ public class PublisherController {
         Publisher publisherByName = publisherService.getPublisherByName(name);
         return new ResponseEntity<>(publisherByName,HttpStatus.OK);
     }
-
 }

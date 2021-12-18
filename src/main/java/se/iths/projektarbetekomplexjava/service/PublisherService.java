@@ -48,5 +48,4 @@ public class PublisherService {
         return publisherRepository.findAll();
     }
 
-
 }

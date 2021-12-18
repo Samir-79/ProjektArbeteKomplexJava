@@ -13,7 +13,6 @@ public class EmployeeDetailService implements UserDetailsService {
     private final EmployeeRepository employeeRepository;
 
     public EmployeeDetailService(EmployeeRepository employeeRepository) {
-        super();
         this.employeeRepository = employeeRepository;
     }
 

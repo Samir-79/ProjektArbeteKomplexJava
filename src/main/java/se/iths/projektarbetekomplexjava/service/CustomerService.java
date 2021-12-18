@@ -3,33 +3,29 @@ package se.iths.projektarbetekomplexjava.service;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import se.iths.projektarbetekomplexjava.entity.Customer;
+import se.iths.projektarbetekomplexjava.entity.Employee;
 import se.iths.projektarbetekomplexjava.entity.Role;
-import se.iths.projektarbetekomplexjava.exception.NotFoundException;
 import se.iths.projektarbetekomplexjava.repository.CustomerRepository;
-//import se.iths.projektarbetekomplexjava.repository.RoleRepository;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.List;
 import java.util.Optional;
 
 @Service
 public class CustomerService {
 
     private final CustomerRepository customerRepository;
-    //private final RoleRepository roleRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public CustomerService(CustomerRepository customerRepository,
                            BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.customerRepository = customerRepository;
-        //this.roleRepository = roleRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
     public Customer addCustomer(Customer customer) {
         customer.setPassword(bCryptPasswordEncoder.encode(customer.getPassword()));
-        customer.setRole(Role1.USER);
-        // Role role = roleRepository.findByRole("USER");
-        //customer.addRole(role);
+        customer.setRole(Role.USER);
         return customerRepository.save(customer);
     }
 
@@ -38,12 +34,16 @@ public class CustomerService {
         customerRepository.deleteById(foundCustomer.getId());
     }
 
+    public List<Customer> getByEmail(String email){
+        return customerRepository.findCustomerByEmail(email);
+    }
+
     public Optional<Customer> findUserById(Long id) {
         return customerRepository.findById(id);
     }
 
-    public Customer getCustomerByUsername(String username, String password) {
-        return customerRepository.findByUsernameAndPassword(username, password);
+    public Optional<Customer> getCustomerByEmail(String email, String password) {
+        return customerRepository.findCustomerByEmailAndPassword(email, password);
     }
 
     public Customer updateCustomer(Customer customer) {
