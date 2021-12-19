@@ -22,8 +22,9 @@ public class Customer {
 
 //    @ManyToMany(fetch = FetchType.EAGER)
 //    private Set<Role> roles = new HashSet<>();
-    @JsonIgnore
-    @OneToOne(fetch = FetchType.LAZY)
+
+
+    @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private ShoppingCart shoppingCart;
 
     public Customer(String firstName, String lastName, String address, String phone, String username, String email, String password, Role role) {

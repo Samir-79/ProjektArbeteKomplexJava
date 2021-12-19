@@ -2,10 +2,8 @@ package se.iths.projektarbetekomplexjava.service;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import se.iths.projektarbetekomplexjava.entity.Customer;
-import se.iths.projektarbetekomplexjava.entity.Employee;
-import se.iths.projektarbetekomplexjava.entity.Role;
-import se.iths.projektarbetekomplexjava.entity.ShoppingCart;
+import se.iths.projektarbetekomplexjava.entity.*;
+import se.iths.projektarbetekomplexjava.repository.BookRepository;
 import se.iths.projektarbetekomplexjava.repository.CustomerRepository;
 import se.iths.projektarbetekomplexjava.repository.ShoppingCartRepository;
 
@@ -19,12 +17,15 @@ public class CustomerService {
     private final CustomerRepository customerRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final ShoppingCartRepository shoppingCartRepository;
+    private final BookRepository bookRepository;
 
     public CustomerService(CustomerRepository customerRepository,
-                           BCryptPasswordEncoder bCryptPasswordEncoder, ShoppingCartRepository shoppingCartRepository) {
+                           BCryptPasswordEncoder bCryptPasswordEncoder, ShoppingCartRepository shoppingCartRepository,
+                           BookRepository bookRepository) {
         this.customerRepository = customerRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.shoppingCartRepository = shoppingCartRepository;
+        this.bookRepository=bookRepository;
     }
 
     public Customer addCustomer(Customer customer) {
@@ -55,5 +56,7 @@ public class CustomerService {
     public Customer updateCustomer(Customer customer) {
         return customerRepository.save(customer);
     }
+
+
 
 }

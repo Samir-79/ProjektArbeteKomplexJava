@@ -58,7 +58,7 @@ public class ProjektArbeteKomplexJavaApplication {
             Book book7 = new Book("9781565841635", "Paradise", "1995-05-18", null, 246, "Skönlitteratur", "Engelska", 256L);
             Book book8 = new Book("9781292273730", "Java How to Program, Late Objects,Global Edition", "2019-09-11", null, 1248, "Programmering", "Engelska", 257L);
 
-            bookRepository.saveAll(Arrays.asList(book1, book2, book3, book4, book5, book6, book7, book8));
+
 
             Author author1 = new Author("Anders", "Hansen");
             Author author2 = new Author("Tareq", "Taylor");
@@ -77,7 +77,7 @@ public class ProjektArbeteKomplexJavaApplication {
             Publisher publisher4 = new Publisher("The New Press");
             Publisher publisher5 = new Publisher("Pearson Education Limited");
 
-            publisherRepository.saveAll(Arrays.asList(publisher1, publisher2, publisher3, publisher4, publisher5));
+            //publisherRepository.saveAll(Arrays.asList(publisher1, publisher2, publisher3, publisher4, publisher5));
 
             Stock stock1 = new Stock(100, true);
             Stock stock2 = new Stock(0, false);
@@ -88,7 +88,7 @@ public class ProjektArbeteKomplexJavaApplication {
             Stock stock7 = new Stock(0, false);
             Stock stock8 = new Stock(10, true);
 
-            stockRepository.saveAll(Arrays.asList(stock1, stock2, stock3, stock4, stock5, stock6, stock7, stock8));
+            //stockRepository.saveAll(Arrays.asList(stock1, stock2, stock3, stock4, stock5, stock6, stock7, stock8));
 
             book1.addAuthor(author1);
             book1.addPublisher(publisher1);
@@ -123,22 +123,20 @@ public class ProjektArbeteKomplexJavaApplication {
             book8.addPublisher(publisher5);
             book8.addToStock(stock8);
 
-            bookRepository.saveAll(Arrays.asList(book1, book2, book3, book4, book5, book6, book7, book8));
-            authorRepository.saveAll(Arrays.asList(author1, author2, author3, author4, author5, author6, author7, author8));
-            publisherRepository.saveAll(Arrays.asList(publisher1, publisher2, publisher3, publisher4, publisher5));
-            stockRepository.saveAll(Arrays.asList(stock1, stock2, stock3, stock4, stock5, stock6, stock7, stock8));
+            //bookRepository.saveAll(Arrays.asList(book1, book2, book3, book4, book5, book6, book7, book8));
+
 
             ShoppingCart shoppingCart1 = new ShoppingCart(450.00, 2);
             ShoppingCart shoppingCart2 = new ShoppingCart(300.00, 1);
             ShoppingCart shoppingCart3 = new ShoppingCart(250.00, 6);
 
-            shoppingCartRepository.saveAll(Arrays.asList(shoppingCart1, shoppingCart2, shoppingCart3));
+            //shoppingCartRepository.saveAll(Arrays.asList(shoppingCart1, shoppingCart2, shoppingCart3));
 
             Orders order1 = new Orders("2021-12-07", "motorcycle", "styrbjörnsvägen", 5000.00);
             Orders order2 = new Orders("2021-11-11", "Car", "styrbjörnsvägen", 1200.00);
             Orders order3 = new Orders("2021-10-10", "plane", "styrbjörnsvägen", 245.50);
 
-            orderRepository.saveAll(Arrays.asList(order1, order2, order3));
+
 
             Payment payment1 = new Payment("Swedbank", "1233...", 6, 2025, 345, "biniam");
             Payment payment2 = new Payment("SEB", "1233...", 10, 2026, 123, "Philip");
@@ -157,11 +155,15 @@ public class ProjektArbeteKomplexJavaApplication {
             shoppingCart1.addBook(book2);
             shoppingCart1.addBook(book3);
             shoppingCart1.addOrder(order1);
-
+            bookRepository.saveAll(Arrays.asList(book1, book2, book3, book4, book5, book6, book7, book8));
+            orderRepository.saveAll(Arrays.asList(order1, order2, order3));
             shoppingCartRepository.save(shoppingCart1);
             shoppingCartRepository.save(shoppingCart2);
             shoppingCartRepository.save(shoppingCart3);
             customerRepository.saveAll(Arrays.asList(customer1, customer2, customer3, customer4, customer5, customer6, customer7, customer8, customer9, customer10));
+            authorRepository.saveAll(Arrays.asList(author1, author2, author3, author4, author5, author6, author7, author8));
+            publisherRepository.saveAll(Arrays.asList(publisher1, publisher2, publisher3, publisher4, publisher5));
+            stockRepository.saveAll(Arrays.asList(stock1, stock2, stock3, stock4, stock5, stock6, stock7, stock8));
         };
     }
 }

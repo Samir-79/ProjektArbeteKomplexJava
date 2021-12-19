@@ -22,16 +22,16 @@ public class Book {
     private String category;
     private Long price;
 
-    @ManyToMany(cascade = CascadeType.ALL,mappedBy = "books")
+    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "books")
     private Set<Author> authors = new HashSet<>();
 
-    @ManyToOne(cascade =CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.PERSIST)
     Publisher publisher;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
     Stock stock;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
     ShoppingCart shoppingCart;
 
     public Book(String ISBN13, String title, String publishingDate, Long weight, int pages, String language, String category, Long price) {
@@ -51,8 +51,6 @@ public class Book {
     }
 
 
-
-
     public void addAuthor(Author author) {
         //authors.add(author);
         author.getBooks().add(this);
@@ -67,8 +65,6 @@ public class Book {
         setStock(stock);
         stock.getBooks().add(this);
     }
-
-
 
 
     public Long getId() {

@@ -17,11 +17,12 @@ public class Orders {
     private String shippingAddress;
     private Double orderTotalPrice;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
     private ShoppingCart shoppingCart;
 
     @OneToOne(mappedBy = "orders")
-     private Payment payment;
+    private Payment payment;
 
     public Orders(String orderDate, String shippingMethod, String shippingAddress, Double orderTotalPrice) {
         this.orderDate = orderDate;
