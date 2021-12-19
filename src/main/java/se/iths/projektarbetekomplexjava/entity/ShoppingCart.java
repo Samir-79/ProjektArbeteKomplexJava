@@ -19,13 +19,15 @@ public class ShoppingCart {
     private int qty;
 
     // @Cascade({org.hibernate.annotations.CascadeType.PERSIST,org.hibernate.annotations.CascadeType.SAVE_UPDATE})
-    @JsonIgnore
-    @OneToOne(fetch = FetchType.LAZY, targetEntity = Customer.class)
+
+    @OneToOne(fetch = FetchType.LAZY, targetEntity = Customer.class, cascade = CascadeType.ALL)
     private Customer customer;
 
+    @JsonIgnore
     @OneToMany(targetEntity = Book.class, cascade = CascadeType.ALL)
     private List<Book> books = new ArrayList<>();
 
+    @JsonIgnore
     @OneToMany(targetEntity = Orders.class, cascade = CascadeType.ALL)
     private List<Orders> orders = new ArrayList<>();
 
@@ -46,12 +48,10 @@ public class ShoppingCart {
         book.setShoppingCart(this);
     }
 
-//    public void addCustomer(Customer customer) {
-//        this.customer=customer;
-//        customer.setShoppingCart(this);
-//
-//
-//    }
+    public void addCustomer(Customer customer) {
+        this.customer=customer;
+        customer.setShoppingCart(this);
+    }
 
     public void addOrder(Orders order) {
         orders.add(order);

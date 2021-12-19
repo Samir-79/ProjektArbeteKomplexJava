@@ -1,5 +1,7 @@
 package se.iths.projektarbetekomplexjava.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 
@@ -15,7 +17,7 @@ public class Orders {
     private String shippingAddress;
     private Double orderTotalPrice;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     private ShoppingCart shoppingCart;
 
     @OneToOne(mappedBy = "orders")
