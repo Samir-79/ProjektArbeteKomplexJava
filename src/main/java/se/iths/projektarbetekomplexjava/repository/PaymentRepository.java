@@ -6,4 +6,5 @@ import se.iths.projektarbetekomplexjava.entity.Payment;
 
 @Repository
 public interface PaymentRepository extends CrudRepository<Payment,Long> {
+    Payment findByCardNumber(String cardNumber);
 }
