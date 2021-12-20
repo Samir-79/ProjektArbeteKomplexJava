@@ -9,6 +9,7 @@ import se.iths.projektarbetekomplexjava.repository.CustomerRepository;
 import se.iths.projektarbetekomplexjava.repository.OrderRepository;
 import se.iths.projektarbetekomplexjava.repository.ShoppingCartRepository;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -32,17 +33,12 @@ public class ShoppingCartService {
         this.orderRepository = orderRepository;
     }
 
-    public ShoppingCart addBookToShoppingCart(Long customerId) {
-        Optional<Customer> foundCustomer = customerRepository.findById(customerId);
-        ShoppingCart shoppingCart=foundCustomer.get().getShoppingCart();
-        shoppingCart.addBook(shoppingCart.getBooks().stream().findAny().get());
-        shoppingCartRepository.save(shoppingCart);
-        return shoppingCart;
-
+    public ShoppingCart addBookToShoppingCart(ShoppingCart shoppingCart) {
+        return shoppingCartRepository.save(shoppingCart);
     }
 
-    public void deleteShoppingCart(ShoppingCart shoppingCart) {
-        shoppingCartRepository.deleteAll();
-
+    public void deleteShoppingCart(Long id) {
+        ShoppingCart foundShoppingCart = shoppingCartRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        shoppingCartRepository.deleteById(foundShoppingCart.getId());
     }
 }

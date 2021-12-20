@@ -51,11 +51,12 @@ public class EmployeeController {
         return loginEmployee.orElseThrow(() -> new NotAuthorizedException("Invalid login, please enter right login data or create new account"));
     }
 
-    @PutMapping("/update")
-    public ResponseEntity<Employee> updateEmployee(@RequestBody Employee employee){
+    @PutMapping("/update/{id}")
+    public ResponseEntity<Employee> updateEmployee(@PathVariable Long id, @RequestBody Employee employee){
+        Optional<Employee> foundEmployee = employeeService.findUserById(id);
         Employee updatedEmployee = employeeService.updateEmployee(employee);
-        if (updatedEmployee == null){
-            throw new NotFoundException("User is not in the system.");
+        if (foundEmployee.isEmpty()){
+            throw new NotFoundException("No data available of user ID: " + id);
         }
         return new ResponseEntity<>(updatedEmployee, HttpStatus.CREATED);
     }

@@ -48,13 +48,14 @@ public class CustomerController {
         return loginCustomer.orElseThrow(() -> new NotAuthorizedException("Invalid login, please enter right login data or create new account"));
     }
 
-    @PutMapping("/update")
-    public ResponseEntity<Customer> updateCustomer(@RequestBody Customer customer){
-            Customer updatedCustomer = service.updateCustomer(customer);
-            if (updatedCustomer == null){
-                throw new NotFoundException("User is not in the system.");
-            }
-            return new ResponseEntity<>(updatedCustomer, HttpStatus.CREATED);
+    @PutMapping("/update/{id}")
+    public ResponseEntity<Customer> updateCustomer(@PathVariable Long id, @RequestBody Customer customer){
+        Optional<Customer> foundCustomer = service.findUserById(id);
+        Customer updatedCustomer = service.updateCustomer(customer);
+        if (foundCustomer.isEmpty()){
+            throw new NotFoundException("No data available of user ID: " + id);
+        }
+        return new ResponseEntity<>(updatedCustomer, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/deleteCustomer/{id}")
