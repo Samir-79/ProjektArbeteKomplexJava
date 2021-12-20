@@ -34,6 +34,7 @@ public class ShoppingCartService {
     public ShoppingCart addingBookToShoppingCart(ShoppingCart shoppingCartRequest) {
         ShoppingCart shoppingCart=new ShoppingCart();
         shoppingCart.setQty(shoppingCartRequest.getQty());
+        shoppingCart.setPrice(shoppingCartRequest.getPrice());
         shoppingCart.setBooks(shoppingCartRequest.getBooks());
         shoppingCart.setOrders(shoppingCartRequest.getOrders());
         shoppingCart.setCustomer(shoppingCartRequest.getCustomer());

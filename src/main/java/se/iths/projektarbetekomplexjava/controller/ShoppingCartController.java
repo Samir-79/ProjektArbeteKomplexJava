@@ -12,7 +12,7 @@ import se.iths.projektarbetekomplexjava.service.*;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("bokhandel/api/v1/shoppingCart/")
+@RequestMapping("bokhandel/api/v1/shoppingcart/")
 public class ShoppingCartController {
 
     ShoppingCartService shoppingCartService;

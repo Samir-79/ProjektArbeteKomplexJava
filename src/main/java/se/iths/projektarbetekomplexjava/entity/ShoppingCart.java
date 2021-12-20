@@ -1,5 +1,7 @@
 package se.iths.projektarbetekomplexjava.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -54,6 +56,13 @@ public class ShoppingCart {
     public void setId(Long id) {
         this.id = id;
     }
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
 
     public int getQty() {
         return qty;
@@ -62,21 +71,11 @@ public class ShoppingCart {
     public void setQty(int qty) {
         this.qty = qty;
     }
-
     public Customer getCustomer() {
         return customer;
     }
-
     public void setCustomer(Customer customer) {
         this.customer = customer;
-    }
-
-    public Double getPrice() {
-        return price;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
     }
 
     public List<Book> getBooks() {
