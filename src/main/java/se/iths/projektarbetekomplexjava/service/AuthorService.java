@@ -58,12 +58,8 @@ public class AuthorService {
         return authorRepository.findAll();
     }
 
-     public Author updateAuthor(Author author){
+    public Author updateAuthor(Author author){
         Author foundAuthor = authorRepository.findById(author.getId()).orElseThrow(EntityNotFoundException::new);
         return  authorRepository.save(foundAuthor);
-     }
-
-
-
-
+    }
 }

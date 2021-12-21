@@ -1,10 +1,14 @@
 package se.iths.projektarbetekomplexjava.entity;
+//import org.hibernate.annotations.CascadeType;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 @Entity
@@ -16,13 +20,16 @@ public class ShoppingCart {
     private Double price;
     private int qty;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    // @Cascade({org.hibernate.annotations.CascadeType.PERSIST,org.hibernate.annotations.CascadeType.SAVE_UPDATE})
+    @JsonIgnore
+    @OneToOne(fetch = FetchType.LAZY, targetEntity = Customer.class)
     private Customer customer;
 
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<Book> books = new HashSet<>();
 
-    @OneToMany(targetEntity = Book.class, cascade = CascadeType.ALL)
-    private List<Book> books = new ArrayList<>();
-
+    @JsonIgnore
     @OneToMany(targetEntity = Orders.class, cascade = CascadeType.ALL)
     private List<Orders> orders = new ArrayList<>();
 
@@ -31,16 +38,20 @@ public class ShoppingCart {
         this.qty = qty;
     }
 
+    public ShoppingCart(Long id) {
+        this.id = id;
+    }
+
     public ShoppingCart() {
     }
 
     public void addBook(Book book) {
         books.add(book);
-        book.setShoppingCart(this);
+        book.getShoppingCart().add(this);
     }
 
     public void addCustomer(Customer customer) {
-        this.customer=customer;
+        this.customer = customer;
         customer.setShoppingCart(this);
     }
 
@@ -56,13 +67,6 @@ public class ShoppingCart {
     public void setId(Long id) {
         this.id = id;
     }
-    public Double getPrice() {
-        return price;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
-    }
 
     public int getQty() {
         return qty;
@@ -71,18 +75,28 @@ public class ShoppingCart {
     public void setQty(int qty) {
         this.qty = qty;
     }
+
     public Customer getCustomer() {
         return customer;
     }
+
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }
 
-    public List<Book> getBooks() {
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public Set<Book> getBooks() {
         return books;
     }
 
-    public void setBooks(List<Book> books) {
+    public void setBooks(Set<Book> books) {
         this.books = books;
     }
 

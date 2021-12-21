@@ -38,6 +38,7 @@ public class BookService {
         book.addPublisher(book.getPublisher());
         book.addToStock(book.getStock());
 
+
         return bookRepository.save(book);
     }
 
@@ -119,9 +120,4 @@ public class BookService {
 //    public Book getBookByPublisingYear(String year) {
 //
 //    }
-
-
 }
-
-
-

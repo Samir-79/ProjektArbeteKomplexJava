@@ -1,16 +1,11 @@
 package se.iths.projektarbetekomplexjava.entity;
 
-import org.hibernate.annotations.Cascade;
-import se.iths.projektarbetekomplexjava.service.Role1;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 public class Customer {
-
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -23,16 +18,16 @@ public class Customer {
     private String email;
     private String password;
     @Enumerated(EnumType.STRING)
-    private Role1 role;
+    private Role role;
 
 //    @ManyToMany(fetch = FetchType.EAGER)
 //    private Set<Role> roles = new HashSet<>();
 
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private ShoppingCart shoppingCart;
 
-    public Customer(String firstName, String lastName, String address, String phone, String username, String email, String password,Role1 role) {
+    public Customer(String firstName, String lastName, String address, String phone, String username, String email, String password, Role role) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
@@ -40,7 +35,7 @@ public class Customer {
         this.username = username;
         this.email = email;
         this.password = password;
-        this.role= Role1.USER;
+        this.role = Role.USER;
     }
 
     public Customer() {
@@ -52,11 +47,9 @@ public class Customer {
 //        role.getCustomers().add(this);
 //    }
 
-
-
-    public void addShoppingCart(ShoppingCart shoppingCart){
-        this.shoppingCart = shoppingCart;
-        //shoppingCart.setCustomer(this);
+    public void addShoppingCart(ShoppingCart shoppingCart) {
+        setShoppingCart(shoppingCart);
+        shoppingCart.setCustomer(this);
     }
 
 //    public Set<Role> getRoles(){
@@ -127,6 +120,7 @@ public class Customer {
         this.password = password;
     }
 
+
     public ShoppingCart getShoppingCart() {
         return shoppingCart;
     }
@@ -135,12 +129,12 @@ public class Customer {
         this.shoppingCart = shoppingCart;
     }
 
-
-    public Role1 getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(Role1 role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 }
+

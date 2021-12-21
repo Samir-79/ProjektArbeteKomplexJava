@@ -3,35 +3,37 @@ package se.iths.projektarbetekomplexjava.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import se.iths.projektarbetekomplexjava.entity.Book;
 import se.iths.projektarbetekomplexjava.entity.Customer;
-import se.iths.projektarbetekomplexjava.entity.Orders;
+import se.iths.projektarbetekomplexjava.entity.Employee;
 import se.iths.projektarbetekomplexjava.entity.ShoppingCart;
-import se.iths.projektarbetekomplexjava.service.*;
+import se.iths.projektarbetekomplexjava.exception.NotFoundException;
+import se.iths.projektarbetekomplexjava.repository.CustomerRepository;
+import se.iths.projektarbetekomplexjava.service.ShoppingCartService;
 
 import java.util.Optional;
 
 @RestController
-@RequestMapping("bokhandel/api/v1/shoppingcart/")
+@RequestMapping("bokhandel/api/v1/shoppingCart/")
 public class ShoppingCartController {
 
-    ShoppingCartService shoppingCartService;
+    public final ShoppingCartService shoppingCartService;
+    public final CustomerRepository customerRepository;
 
-    public ShoppingCartController(ShoppingCartService shoppingCartService) {
+    public ShoppingCartController(ShoppingCartService shoppingCartService, CustomerRepository customerRepository) {
         this.shoppingCartService = shoppingCartService;
+        this.customerRepository = customerRepository;
     }
 
-    @PostMapping("/createcart")
-    public ResponseEntity<ShoppingCart> addShoppingCart(@RequestBody ShoppingCart shoppingCartRequest){
-        ShoppingCart addShoppingCart = shoppingCartService.addingBookToShoppingCart(shoppingCartRequest);
-        return new ResponseEntity<>(addShoppingCart, HttpStatus.CREATED);
+
+    @PutMapping("/addbooks/{bookId}")
+    public ResponseEntity<ShoppingCart> addBooksToShoppingCart(@PathVariable Long bookId,@RequestBody ShoppingCart shoppingCart) {
+        ShoppingCart updateShoppingCart = shoppingCartService.addBookToShoppingCart(shoppingCart,bookId);
+        return new ResponseEntity<>(updateShoppingCart, HttpStatus.OK);
     }
 
-    @GetMapping("/getCartById")
-    public ResponseEntity<Optional<ShoppingCart>> getShoppingCartById(@PathVariable Long id) {
-        Optional<ShoppingCart> foundShoppingCart= shoppingCartService.getCartById(id);
-        return new ResponseEntity<>(foundShoppingCart,HttpStatus.OK);
-
+    @DeleteMapping("/deleteShoppingCart/{id}")
+    public ResponseEntity<Void> removeShoppingCart(@PathVariable Long id){
+        shoppingCartService.deleteShoppingCart(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-
 }

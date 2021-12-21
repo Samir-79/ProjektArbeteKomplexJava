@@ -10,9 +10,9 @@ import java.util.Set;
 
 @Repository
 public interface BookRepository extends CrudRepository<Book,Long> {
-  Book findByISBN13(String ISBN13);
-  List<Book> findByTitle(String title);
-  List<Book> findByLanguage(String language);
-  List<Book> findByAuthors(Author author);
+    Book findByISBN13(String ISBN13);
+    List<Book> findByTitle(String title);
+    List<Book> findByLanguage(String language);
+    List<Book> findByAuthors(Author author);
 
 }

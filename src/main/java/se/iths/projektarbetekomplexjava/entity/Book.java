@@ -22,17 +22,18 @@ public class Book {
     private String category;
     private Long price;
 
-    @ManyToMany(cascade = CascadeType.ALL,mappedBy = "books")
+    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "books")
     private Set<Author> authors = new HashSet<>();
 
-    @ManyToOne(cascade =CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.PERSIST)
     Publisher publisher;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
     Stock stock;
+     @JsonIgnore
+    @ManyToMany(cascade =CascadeType.PERSIST,mappedBy = "books")
+    private Set<ShoppingCart> shoppingCart = new HashSet<>();
 
-    @ManyToOne
-    ShoppingCart shoppingCart;
 
     public Book(String ISBN13, String title, String publishingDate, Long weight, int pages, String language, String category, Long price) {
         this.ISBN13 = ISBN13;
@@ -49,8 +50,6 @@ public class Book {
 
     public Book() {
     }
-
-
 
 
     public void addAuthor(Author author) {
@@ -166,11 +165,11 @@ public class Book {
         this.stock = stock;
     }
 
-    public ShoppingCart getShoppingCart() {
+    public Set<ShoppingCart> getShoppingCart() {
         return shoppingCart;
     }
 
-    public void setShoppingCart(ShoppingCart shoppingCart) {
+    public void setShoppingCart(Set<ShoppingCart> shoppingCart) {
         this.shoppingCart = shoppingCart;
     }
 

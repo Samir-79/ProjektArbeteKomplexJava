@@ -1,7 +1,6 @@
 package se.iths.projektarbetekomplexjava.entity;
 
-import se.iths.projektarbetekomplexjava.service.Role1;
-
+import se.iths.projektarbetekomplexjava.entity.Role;
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -19,13 +18,14 @@ public class Employee {
     private String username;
     private String email;
     private String password;
+
     @Enumerated(EnumType.STRING)
-    private Role1 role;
+    private Role role;
 
 //    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 //    private Set<Role> roles = new HashSet<>();
 
-    public Employee(String firstName, String lastName, String address, String phone, String username, String email, String password,Role1 role) {
+    public Employee(String firstName, String lastName, String address, String phone, String username, String email, String password, Role role) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
@@ -33,7 +33,7 @@ public class Employee {
         this.username = username;
         this.email = email;
         this.password = password;
-        this.role=role;
+        this.role = role;
     }
 
     public Employee() {
@@ -112,11 +112,11 @@ public class Employee {
         this.password = password;
     }
 
-    public Role1 getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(Role1 role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 }
