@@ -1,6 +1,6 @@
 package se.iths.projektarbetekomplexjava.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 
@@ -23,7 +23,7 @@ public class Customer {
 //    @ManyToMany(fetch = FetchType.EAGER)
 //    private Set<Role> roles = new HashSet<>();
 
-
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private ShoppingCart shoppingCart;
 
@@ -39,21 +39,13 @@ public class Customer {
     }
 
     public Customer() {
-    }
 
-//    public void addRole(Role role){
-//        roles.add(role);
-//        role.getCustomers().add(this);
-//    }
+    }
 
     public void addShoppingCart(ShoppingCart shoppingCart) {
         setShoppingCart(shoppingCart);
         shoppingCart.setCustomer(this);
     }
-
-//    public Set<Role> getRoles(){
-//        return roles;
-//    }
 
     public Long getId() {
         return id;
@@ -119,7 +111,6 @@ public class Customer {
         this.password = password;
     }
 
-
     public ShoppingCart getShoppingCart() {
         return shoppingCart;
     }
@@ -136,4 +127,3 @@ public class Customer {
         this.role = role;
     }
 }
-
