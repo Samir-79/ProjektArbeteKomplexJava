@@ -6,7 +6,9 @@ import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 @Entity
@@ -24,8 +26,8 @@ public class ShoppingCart {
     private Customer customer;
 
     @JsonIgnore
-    @OneToMany(targetEntity = Book.class, cascade = CascadeType.ALL)
-    private List<Book> books = new ArrayList<>();
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<Book> books = new HashSet<>();
 
     @JsonIgnore
     @OneToMany(targetEntity = Orders.class, cascade = CascadeType.ALL)
@@ -45,7 +47,7 @@ public class ShoppingCart {
 
     public void addBook(Book book) {
         books.add(book);
-        book.setShoppingCart(this);
+        book.getShoppingCart().add(this);
     }
 
     public void addCustomer(Customer customer) {
@@ -90,11 +92,11 @@ public class ShoppingCart {
         this.price = price;
     }
 
-    public List<Book> getBooks() {
+    public Set<Book> getBooks() {
         return books;
     }
 
-    public void setBooks(List<Book> books) {
+    public void setBooks(Set<Book> books) {
         this.books = books;
     }
 
