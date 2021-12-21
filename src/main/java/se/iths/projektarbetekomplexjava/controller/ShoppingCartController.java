@@ -25,9 +25,9 @@ public class ShoppingCartController {
     }
 
 
-    @PutMapping("/addBooks")
-    public ResponseEntity<ShoppingCart> addBooksToShoppingCart(@RequestBody ShoppingCart shoppingCart) {
-        ShoppingCart updateShoppingCart = shoppingCartService.addBookToShoppingCart(shoppingCart);
+    @PutMapping("/addbooks/{bookId}")
+    public ResponseEntity<ShoppingCart> addBooksToShoppingCart(@PathVariable Long bookId,@RequestBody ShoppingCart shoppingCart) {
+        ShoppingCart updateShoppingCart = shoppingCartService.addBookToShoppingCart(shoppingCart,bookId);
         return new ResponseEntity<>(updateShoppingCart, HttpStatus.OK);
     }
 
