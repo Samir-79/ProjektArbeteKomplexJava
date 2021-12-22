@@ -25,8 +25,10 @@ public class PublisherService {
     }
 
     public Publisher updatePublisher(Publisher publisher) {
-        Publisher foundPublisher = publisherRepository.findById(publisher.getId()).orElseThrow(EntityNotFoundException::new);
-        return publisherRepository.save(foundPublisher);
+        //Publisher foundPublisher = publisherRepository.findById(publisher.getId()).orElseThrow(EntityNotFoundException::new);
+        //Optional<Publisher> foundPublisher= publisherRepository.findById(publisher.getId());
+        //foundPublisher.setName(foundPublisher.getName());
+        return publisherRepository.save(publisher);
     }
 
     public Publisher getPublisherByName(String name) {

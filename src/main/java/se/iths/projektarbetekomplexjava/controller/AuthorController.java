@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("bokhandel/api/vi/")
+@RequestMapping("bokhandel/api/v1/")
 public class AuthorController {
 
     private final AuthorService authorService;

@@ -53,6 +53,7 @@ public class CustomerService {
         return customerRepository.findCustomerByEmailAndPassword(email, password);
     }
 
+
     public Customer updateCustomer(Customer customer) {
         return customerRepository.save(customer);
     }

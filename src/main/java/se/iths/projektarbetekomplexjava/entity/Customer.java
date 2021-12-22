@@ -111,6 +111,7 @@ public class Customer {
         this.password = password;
     }
 
+
     public ShoppingCart getShoppingCart() {
         return shoppingCart;
     }

@@ -20,6 +20,8 @@ public class ShoppingCart {
     private Double price;
     private int qty;
 
+
+
     // @Cascade({org.hibernate.annotations.CascadeType.PERSIST,org.hibernate.annotations.CascadeType.SAVE_UPDATE})
     @JsonIgnore
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
