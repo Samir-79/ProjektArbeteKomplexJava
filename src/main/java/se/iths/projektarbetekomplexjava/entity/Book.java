@@ -30,10 +30,10 @@ public class Book {
 
     @ManyToOne(cascade = CascadeType.PERSIST)
     Stock stock;
-     @JsonIgnore
+
+    @JsonIgnore
     @ManyToMany(cascade =CascadeType.PERSIST,mappedBy = "books")
     private Set<ShoppingCart> shoppingCart = new HashSet<>();
-
 
     public Book(String ISBN13, String title, String publishingDate, Long weight, int pages, String language, String category, Long price) {
         this.ISBN13 = ISBN13;
@@ -45,12 +45,10 @@ public class Book {
         this.category = category;
         this.price = price;
         //this.authors = authors;
-
     }
 
     public Book() {
     }
-
 
     public void addAuthor(Author author) {
         //authors.add(author);
@@ -66,7 +64,6 @@ public class Book {
         setStock(stock);
         stock.getBooks().add(this);
     }
-
 
     public Long getId() {
         return id;
@@ -140,7 +137,6 @@ public class Book {
         this.price = price;
     }
 
-
     public Set<Author> getAuthors() {
         return authors;
     }
@@ -172,6 +168,4 @@ public class Book {
     public void setShoppingCart(Set<ShoppingCart> shoppingCart) {
         this.shoppingCart = shoppingCart;
     }
-
-
 }

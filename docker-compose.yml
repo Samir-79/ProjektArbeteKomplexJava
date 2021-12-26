@@ -18,7 +18,6 @@
 #      dockerfile: Dockerfile
 #    ports:
 #      - "8080:8080"
-##    restart: unless-stopped
 #    depends_on:
 #      - database
 #    environment:
@@ -26,3 +25,9 @@
 #      SPRING_DATASOURCE_USERNAME: root
 #      SPRING_DATASOURCE_PASSWORD: password
 
+#rabbitmq_manager:
+#  container_name: rabbitmqmanager
+#  image: rabbitmq:3-management
+#  ports:
+#    - 5672:5672
+#    - 15672:15672

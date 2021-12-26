@@ -5,12 +5,16 @@ import org.springframework.stereotype.Service;
 import se.iths.projektarbetekomplexjava.entity.Customer;
 import se.iths.projektarbetekomplexjava.entity.Employee;
 import se.iths.projektarbetekomplexjava.entity.Role;
+import se.iths.projektarbetekomplexjava.jms.Receiver;
+import se.iths.projektarbetekomplexjava.jms.Sender;
 import se.iths.projektarbetekomplexjava.repository.CustomerRepository;
 import se.iths.projektarbetekomplexjava.repository.EmployeeRepository;
 
 import javax.persistence.EntityNotFoundException;
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.TimeoutException;
 
 @Service
 public class EmployeeService {
@@ -30,6 +34,12 @@ public class EmployeeService {
     public Employee addEmployee(Employee employee){
         employee.setPassword(bCryptPasswordEncoder.encode(employee.getPassword()));
         employee.setRole(Role.ADMIN);
+        try {
+            Sender.sender(employee.getFirstName(), employee.getLastName(), employee.getEmail(), employee.getUsername(),
+                    employee.getAddress(), employee.getPhone(), employee.getRole());
+        } catch (IOException | TimeoutException e) {
+            e.printStackTrace();
+        }
         return employeeRepository.save(employee);
     }
 
@@ -43,6 +53,11 @@ public class EmployeeService {
     }
 
     public Optional<Employee> findUserById(Long id){
+        try{
+            Receiver.receiver();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         return employeeRepository.findById(id);
     }
 

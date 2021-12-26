@@ -21,7 +21,7 @@ public class EmployeeController {
 
     private final CustomerService customerService;
     private final EmployeeService employeeService;
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     public EmployeeController(CustomerService customerService, EmployeeService employeeService, PasswordEncoder passwordEncoder) {
         this.customerService = customerService;
