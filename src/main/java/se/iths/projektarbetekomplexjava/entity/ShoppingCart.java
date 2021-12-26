@@ -3,7 +3,6 @@ package se.iths.projektarbetekomplexjava.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -17,8 +16,14 @@ public class ShoppingCart {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private Double price;
-    private int qty;
+    private Double totalPrice;
+    private int totalQty;
+
+    @JsonIgnore
+    @OneToMany(targetEntity = BooksInShoppingCart.class, cascade = CascadeType.ALL)
+    private List<BooksInShoppingCart> booksInShoppingCart = new ArrayList<>();
+
+
 
 
 
@@ -36,10 +41,9 @@ public class ShoppingCart {
     @OneToMany(targetEntity = Orders.class, cascade = CascadeType.ALL)
     private List<Orders> orders = new ArrayList<>();
 
-    public ShoppingCart(Double price, int qty) {
-        this.price = price;
-        this.qty = qty;
-    }
+
+
+
 
     public ShoppingCart(Long id) {
         this.id = id;
@@ -71,13 +75,7 @@ public class ShoppingCart {
         this.id = id;
     }
 
-    public int getQty() {
-        return qty;
-    }
 
-    public void setQty(int qty) {
-        this.qty = qty;
-    }
 
     public Customer getCustomer() {
         return customer;
@@ -87,13 +85,6 @@ public class ShoppingCart {
         this.customer = customer;
     }
 
-    public Double getPrice() {
-        return price;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
-    }
 
     public Set<Book> getBooks() {
         return books;
@@ -109,5 +100,29 @@ public class ShoppingCart {
 
     public void setOrders(List<Orders> orders) {
         this.orders = orders;
+    }
+
+    public Double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(Double totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
+    public int getTotalQty() {
+        return totalQty;
+    }
+
+    public void setTotalQty(int totalQty) {
+        this.totalQty = totalQty;
+    }
+
+    public List<BooksInShoppingCart> getBooksInShoppingCart() {
+        return booksInShoppingCart;
+    }
+
+    public void setBooksInShoppingCart(List<BooksInShoppingCart> booksInShoppingCart) {
+        this.booksInShoppingCart = booksInShoppingCart;
     }
 }

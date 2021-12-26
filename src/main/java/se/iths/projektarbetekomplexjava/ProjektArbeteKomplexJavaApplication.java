@@ -126,9 +126,9 @@ public class ProjektArbeteKomplexJavaApplication {
             //bookRepository.saveAll(Arrays.asList(book1, book2, book3, book4, book5, book6, book7, book8));
 
 
-            ShoppingCart shoppingCart1 = new ShoppingCart(450.00, 2);
-            ShoppingCart shoppingCart2 = new ShoppingCart(300.00, 1);
-            ShoppingCart shoppingCart3 = new ShoppingCart(250.00, 6);
+            ShoppingCart shoppingCart1 = new ShoppingCart();
+            ShoppingCart shoppingCart2 = new ShoppingCart();
+            ShoppingCart shoppingCart3 = new ShoppingCart();
 
             //shoppingCartRepository.saveAll(Arrays.asList(shoppingCart1, shoppingCart2, shoppingCart3));
 
