@@ -31,7 +31,7 @@ public class CustomerService {
     public Customer addCustomer(Customer customer) {
         customer.setPassword(bCryptPasswordEncoder.encode(customer.getPassword()));
         customer.setRole(Role.USER);
-        customer.addShoppingCart(customer.getShoppingCart());
+       // customer.addShoppingCart(customer.getShoppingCart());
         return customerRepository.save(customer);
 
     }

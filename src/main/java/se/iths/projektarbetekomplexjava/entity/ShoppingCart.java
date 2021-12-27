@@ -3,18 +3,61 @@ package se.iths.projektarbetekomplexjava.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.HashSet;
+import java.math.BigDecimal;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 public class ShoppingCart {
-
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    private Double GrandTotal;
+
+    @OneToMany(mappedBy="shoppingCart", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+    @JsonIgnore
+    private List<CartItem> cartOfBooks;
+
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @OneToOne(cascade = CascadeType.PERSIST)
+    @JsonIgnore
+    private Customer customer;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Double getGrandTotal() {
+        return GrandTotal;
+    }
+
+    public void setGrandTotal(Double grandTotal) {
+        GrandTotal = grandTotal;
+    }
+
+    public List<CartItem> getCartOfBook() {
+        return cartOfBooks;
+    }
+
+    public void setCartOfBooks(List<CartItem> cartItemList) {
+        this.cartOfBooks = cartItemList;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+
+   /* @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private Double price;
@@ -109,5 +152,5 @@ public class ShoppingCart {
 
     public void setOrders(List<Orders> orders) {
         this.orders = orders;
-    }
+    }*/
 }

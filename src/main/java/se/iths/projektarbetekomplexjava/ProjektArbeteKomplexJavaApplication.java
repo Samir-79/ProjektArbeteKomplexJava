@@ -16,7 +16,7 @@ public class ProjektArbeteKomplexJavaApplication {
         SpringApplication.run(ProjektArbeteKomplexJavaApplication.class, args);
     }
 
-    @Bean
+  /*  @Bean
     public CommandLineRunner setUpSampleDataBaseGenerator(CustomerRepository customerRepository, EmployeeRepository employeeRepository,
                                                           BookRepository bookRepository,
                                                           AuthorRepository authorRepository, PublisherRepository publisherRepository,
@@ -165,5 +165,5 @@ public class ProjektArbeteKomplexJavaApplication {
             publisherRepository.saveAll(Arrays.asList(publisher1, publisher2, publisher3, publisher4, publisher5));
             stockRepository.saveAll(Arrays.asList(stock1, stock2, stock3, stock4, stock5, stock6, stock7, stock8));
         };
-    }
+    }*/
 }
