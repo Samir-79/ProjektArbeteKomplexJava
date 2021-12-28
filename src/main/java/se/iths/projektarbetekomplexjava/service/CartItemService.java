@@ -37,7 +37,7 @@ public class CartItemService {
         for(CartItem cartItem : cartItemList) {
             if(book.getId() == cartItem.getBook().getId()) {
                 cartItem.setQty(cartItem.getQty() + qty);
-                cartItem.setSubtotal((double) (book.getPrice() * qty));
+                cartItem.setSubtotal( cartItem.getSubtotal() + (book.getPrice() * qty));
                 cartItemRepository.save(cartItem);
                 return cartItem;
             }
@@ -66,5 +66,10 @@ public class CartItemService {
 
     public CartItem save(CartItem cartItem) {
         return cartItemRepository.save(cartItem);
+    }
+
+    public void removeCartItem(CartItem cartItem) {
+        bookToCartRepository.deleteByCartItem(cartItem);
+        cartItemRepository.delete(cartItem);
     }
 }

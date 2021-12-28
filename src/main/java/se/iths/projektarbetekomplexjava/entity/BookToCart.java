@@ -13,7 +13,6 @@ public class BookToCart {
     private Long id;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
-    @JsonIgnore
     private Book book;
 
     @ManyToOne(cascade = CascadeType.PERSIST)

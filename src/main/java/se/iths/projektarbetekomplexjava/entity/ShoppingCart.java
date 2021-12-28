@@ -19,9 +19,9 @@ public class ShoppingCart {
     @JsonIgnore
     private List<CartItem> cartOfBooks;
 
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    @OneToOne(cascade = CascadeType.PERSIST)
     @JsonIgnore
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @OneToOne(fetch=FetchType.EAGER, targetEntity = Customer.class)
     private Customer customer;
 
     public Long getId() {
