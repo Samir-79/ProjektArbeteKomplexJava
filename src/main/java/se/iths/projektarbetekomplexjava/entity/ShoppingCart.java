@@ -14,6 +14,7 @@ public class ShoppingCart {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private Double GrandTotal;
+    private int totalNumberOfBooks;
 
     @OneToMany(mappedBy="shoppingCart", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
     @JsonIgnore
@@ -40,7 +41,16 @@ public class ShoppingCart {
         GrandTotal = grandTotal;
     }
 
-    public List<CartItem> getCartOfBook() {
+    public int getTotalNumberOfBooks() {
+        return totalNumberOfBooks;
+    }
+
+
+    public void setTotalNumberOfBooks(int totalNumberOfBooks) {
+        this.totalNumberOfBooks = totalNumberOfBooks;
+    }
+
+    public List<CartItem> getCartOfBooks() {
         return cartOfBooks;
     }
 

@@ -53,6 +53,7 @@ public class ShoppingCartController {
             throw new NotFoundException("books in stock are not enough for your request");
         }
         CartItem cartItem = cartItemService.addBookToCart(book, customer, qty);
+        //auto increment number of books and subtotal
         shoppingCartService.updateShoppingCart(shoppingCart);
         return new ResponseEntity<>(cartItem, HttpStatus.OK);
     }
@@ -60,8 +61,9 @@ public class ShoppingCartController {
     @PutMapping("/updateCartItem/{cartid}/quantity/{qty}")
     public ResponseEntity<CartItem>   updateCartItem(@PathVariable Long cartid,@PathVariable int qty){
         CartItem cartItem=cartItemService.findById(cartid);
-        cartItem.setQty(qty);
+        cartItem.setQty(cartItem.getQty() + qty);
         cartItemService.updateCartItem(cartItem);
+        shoppingCartService.updateShoppingCart(cartItem.getShoppingCart());
         return new ResponseEntity<>(cartItem,HttpStatus.OK);
 
     }

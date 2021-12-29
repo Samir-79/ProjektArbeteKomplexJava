@@ -1,5 +1,8 @@
 package se.iths.projektarbetekomplexjava.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 
 @Entity
@@ -14,6 +17,7 @@ public class Payment {
     private int cvc;
     private String holderName;
 
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @OneToOne
     private Orders orders;
 

@@ -1,8 +1,10 @@
 package se.iths.projektarbetekomplexjava.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import java.util.List;
 
 
 @Entity
@@ -18,10 +20,12 @@ public class Orders {
     private Double orderTotalPrice;
 
 
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
-    private ShoppingCart shoppingCart;
+    @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL,mappedBy = "order")
+    @JsonIgnore
+    private List<CartItem> cartItemList;
 
-    @OneToOne(mappedBy = "orders")
+
+    @OneToOne(targetEntity = Orders.class,cascade = CascadeType.ALL)
     private Payment payment;
 
     public Orders(String orderDate, String shippingMethod, String shippingAddress, Double orderTotalPrice) {
@@ -74,19 +78,19 @@ public class Orders {
         this.orderTotalPrice = orderTotalPrice;
     }
 
-    public ShoppingCart getShoppingCart() {
-        return shoppingCart;
-    }
-
-    public void setShoppingCart(ShoppingCart shoppingCart) {
-        this.shoppingCart = shoppingCart;
-    }
-
     public Payment getPayment() {
         return payment;
     }
 
     public void setPayment(Payment payment) {
         this.payment = payment;
+    }
+
+    public List<CartItem> getCartItemList() {
+        return cartItemList;
+    }
+
+    public void setCartItemList(List<CartItem> cartItemList) {
+        this.cartItemList = cartItemList;
     }
 }

@@ -43,6 +43,7 @@ public class ShoppingCartService {
 
     public ShoppingCart updateShoppingCart(ShoppingCart shoppingCart) {
         Double grandTotalPrice = 0.0;
+        int totalNumberOfBooks=0;
 
         List<CartItem> cartItemList = cartItemService.findByShoppingCart(shoppingCart);
 
@@ -50,10 +51,12 @@ public class ShoppingCartService {
             if (cartItem.getBook().getStock().getQuantity()>0) {
                 cartItemService.updateCartItem(cartItem);
                 grandTotalPrice = grandTotalPrice + (cartItem.getSubtotal());
+                totalNumberOfBooks=totalNumberOfBooks+(cartItem.getQty());
             }
         }
 
         shoppingCart.setGrandTotal(grandTotalPrice);
+        shoppingCart.setTotalNumberOfBooks(totalNumberOfBooks);
         shoppingCartRepository.save(shoppingCart);
 
         return shoppingCart;

@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import se.iths.projektarbetekomplexjava.entity.*;
 import se.iths.projektarbetekomplexjava.repository.BookToCartRepository;
 import se.iths.projektarbetekomplexjava.repository.CartItemRepository;
+import se.iths.projektarbetekomplexjava.repository.ShoppingCartRepository;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
@@ -13,10 +14,14 @@ public class CartItemService {
 
     private final CartItemRepository cartItemRepository;
     private final BookToCartRepository bookToCartRepository;
+    private final ShoppingCartRepository shoppingCartRepository;
 
-    public CartItemService(CartItemRepository cartItemRepository, BookToCartRepository bookToCartRepository) {
+    public CartItemService(CartItemRepository cartItemRepository,
+                           BookToCartRepository bookToCartRepository,
+                            ShoppingCartRepository shoppingCartRepository       ) {
         this.cartItemRepository = cartItemRepository;
         this.bookToCartRepository = bookToCartRepository;
+        this.shoppingCartRepository=shoppingCartRepository;
     }
 
     public List<CartItem> findByShoppingCart(ShoppingCart shoppingCart) {
@@ -24,9 +29,7 @@ public class CartItemService {
     }
     public CartItem updateCartItem(CartItem cartItem) {
         cartItem.setSubtotal((double) (cartItem.getBook().getPrice()* cartItem.getQty()));
-
         cartItemRepository.save(cartItem);
-
         return cartItem;
     }
 
