@@ -32,7 +32,7 @@ public class ShoppingCartController {
                                   CustomerRepository customerRepository,
                                   ShoppingCartRepository shoppingCartRepository,
                                   CartItemService cartItemService, BookService bookService
-                                   ) {
+    ) {
         this.shoppingCartService = shoppingCartService;
         this.customerRepository = customerRepository;
         this.shoppingCartRepository = shoppingCartRepository;
@@ -43,9 +43,9 @@ public class ShoppingCartController {
 
 
     @PutMapping("/addbooks/bookid/{bookid}/username/{username}/{qty}")
-    public ResponseEntity<CartItem> addBooksToCart(@PathVariable int qty,@PathVariable String username, @PathVariable Long bookid) {
+    public ResponseEntity<CartItem> addBooksToCart(@PathVariable int qty, @PathVariable String username, @PathVariable Long bookid) {
         Customer customer = customerRepository.findByUsername(username);
-        ShoppingCart shoppingCart=customer.getShoppingCart();
+        ShoppingCart shoppingCart = customer.getShoppingCart();
         Book book;
         book = bookService.findByBookId(bookid).orElseThrow(EntityNotFoundException::new);
 
@@ -59,29 +59,29 @@ public class ShoppingCartController {
     }
 
     @PutMapping("/updateCartItem/{cartid}/quantity/{qty}")
-    public ResponseEntity<CartItem>   updateCartItem(@PathVariable Long cartid,@PathVariable int qty){
-        CartItem cartItem=cartItemService.findById(cartid);
+    public ResponseEntity<CartItem> updateCartItem(@PathVariable Long cartid, @PathVariable int qty) {
+        CartItem cartItem = cartItemService.findById(cartid);
         cartItem.setQty(cartItem.getQty() + qty);
         cartItemService.updateCartItem(cartItem);
         shoppingCartService.updateShoppingCart(cartItem.getShoppingCart());
-        return new ResponseEntity<>(cartItem,HttpStatus.OK);
+        return new ResponseEntity<>(cartItem, HttpStatus.OK);
 
     }
 
 
     @DeleteMapping("/removebookfromcart/{id}")
     public ResponseEntity<Void> removeBookFromCart(@PathVariable Long id) {
-       cartItemService.removeCartItem(cartItemService.findById(id));
+        cartItemService.removeCartItem(cartItemService.findById(id));
         return new ResponseEntity<>(HttpStatus.RESET_CONTENT);
     }
 
     @PutMapping("/updateShoppingCart/username/{uname}")
-    public ResponseEntity<ShoppingCart> updateShoppingCart(@PathVariable String uname){
-        Customer customer=customerRepository.findByUsername(uname);
-        ShoppingCart shoppingCart=customer.getShoppingCart();
-      //  List<CartItem> cartItemList=cartItemService.findByShoppingCart(shoppingCart);
+    public ResponseEntity<ShoppingCart> updateShoppingCart(@PathVariable String uname) {
+        Customer customer = customerRepository.findByUsername(uname);
+        ShoppingCart shoppingCart = customer.getShoppingCart();
+        //  List<CartItem> cartItemList=cartItemService.findByShoppingCart(shoppingCart);
         shoppingCartService.updateShoppingCart(shoppingCart);
-        return new ResponseEntity<>(shoppingCart,HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(shoppingCart, HttpStatus.ACCEPTED);
 
     }
 

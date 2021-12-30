@@ -4,8 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
-import javax.persistence.criteria.Order;
-import java.math.BigDecimal;
 import java.util.List;
 
 @Entity
@@ -20,13 +18,14 @@ public class CartItem {
     @OneToOne
     private Book book;
 
-    @OneToMany(mappedBy = "cartItem",cascade =CascadeType.ALL,fetch=FetchType.EAGER)
+    @OneToMany(mappedBy = "cartItem", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonIgnore
     private List<BookToCart> bookToCart;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
     private Orders order;
 
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @ManyToOne(cascade = CascadeType.PERSIST)
     private ShoppingCart shoppingCart;
 

@@ -17,8 +17,9 @@ public class Payment {
     private int cvc;
     private String holderName;
 
+    @JsonIgnore
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER, targetEntity = Orders.class)
     private Orders orders;
 
     public Payment() {

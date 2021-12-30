@@ -16,31 +16,31 @@ public class PublisherController {
 
     private final PublisherService publisherService;
 
-    public PublisherController(PublisherService publisherService){
-        this.publisherService=publisherService;
+    public PublisherController(PublisherService publisherService) {
+        this.publisherService = publisherService;
     }
 
     @PutMapping("/updatepublisher")
     public ResponseEntity<Publisher> updatePublisher(@RequestBody Publisher publisher) {
         Publisher updatePublisher = publisherService.updatePublisher(publisher);
-        return  new ResponseEntity<>(updatePublisher, HttpStatus.OK);
+        return new ResponseEntity<>(updatePublisher, HttpStatus.OK);
     }
 
     @GetMapping("/getlistofpublishers")
     public ResponseEntity<Iterable<Publisher>> getAllPublishers() {
         Iterable<Publisher> allPublishers = publisherService.findAllPublishers();
-        return  new ResponseEntity<>(allPublishers,HttpStatus.OK);
+        return new ResponseEntity<>(allPublishers, HttpStatus.OK);
     }
 
     @GetMapping("/getpublisherbyid")
     public ResponseEntity<Optional<Publisher>> getPublisherById(@PathVariable Long id) {
         Optional<Publisher> publisherById = publisherService.findByPublisherId(id);
-        return new ResponseEntity<>(publisherById,HttpStatus.OK);
+        return new ResponseEntity<>(publisherById, HttpStatus.OK);
     }
 
     @GetMapping("/getpublisherbyname")
     public ResponseEntity<Publisher> getPublisherByName(@PathVariable String name) {
         Publisher publisherByName = publisherService.getPublisherByName(name);
-        return new ResponseEntity<>(publisherByName,HttpStatus.OK);
+        return new ResponseEntity<>(publisherByName, HttpStatus.OK);
     }
 }

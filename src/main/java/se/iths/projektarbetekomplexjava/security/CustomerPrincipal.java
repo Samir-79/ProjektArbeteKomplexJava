@@ -23,7 +23,7 @@ public record CustomerPrincipal(Customer customer) implements UserDetails {
 //    }
 
     @Override
-    public  Collection<? extends  GrantedAuthority> getAuthorities() {
+    public Collection<? extends GrantedAuthority> getAuthorities() {
         Role roles = customer.getRole();
         Collection<GrantedAuthority> grantedAuthorities = new ArrayList<>();
         grantedAuthorities.add(new SimpleGrantedAuthority(roles.toString()));

@@ -28,26 +28,25 @@ public class OrdersController {
     private final OrderService orderService;
 
 
-
     public OrdersController(ShoppingCartService shoppingCartService,
                             CustomerRepository customerRepository,
                             ShoppingCartRepository shoppingCartRepository,
-                            CartItemService cartItemService,CustomerService customerService,
+                            CartItemService cartItemService, CustomerService customerService,
                             OrderService orderService) {
         this.shoppingCartService = shoppingCartService;
         this.customerRepository = customerRepository;
         this.shoppingCartRepository = shoppingCartRepository;
         this.cartItemService = cartItemService;
-        this.customerService=customerService;
-        this.orderService=orderService;
+        this.customerService = customerService;
+        this.orderService = orderService;
     }
 
     @PostMapping("/createorder/userid/{userid}")
-    public ResponseEntity<Orders> createOrder(@RequestBody Orders orders, @PathVariable Long userid){
-        Customer customer=customerService.findUserById(userid).orElseThrow(EntityNotFoundException::new);
-        ShoppingCart foundShoppingCart=customer.getShoppingCart();
+    public ResponseEntity<Orders> createOrder(@RequestBody Orders orders, @PathVariable Long userid) {
+        Customer customer = customerService.findUserById(userid).orElseThrow(EntityNotFoundException::new);
+        ShoppingCart foundShoppingCart = customer.getShoppingCart();
 
-        Orders order= orderService.createOrder(orders,foundShoppingCart);
+        Orders order = orderService.createOrder(orders, foundShoppingCart);
 
         return new ResponseEntity<>(order, HttpStatus.CREATED);
 

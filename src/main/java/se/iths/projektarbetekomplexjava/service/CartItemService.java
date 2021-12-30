@@ -18,17 +18,18 @@ public class CartItemService {
 
     public CartItemService(CartItemRepository cartItemRepository,
                            BookToCartRepository bookToCartRepository,
-                            ShoppingCartRepository shoppingCartRepository       ) {
+                           ShoppingCartRepository shoppingCartRepository) {
         this.cartItemRepository = cartItemRepository;
         this.bookToCartRepository = bookToCartRepository;
-        this.shoppingCartRepository=shoppingCartRepository;
+        this.shoppingCartRepository = shoppingCartRepository;
     }
 
     public List<CartItem> findByShoppingCart(ShoppingCart shoppingCart) {
         return cartItemRepository.findByShoppingCart(shoppingCart);
     }
+
     public CartItem updateCartItem(CartItem cartItem) {
-        cartItem.setSubtotal((double) (cartItem.getBook().getPrice()* cartItem.getQty()));
+        cartItem.setSubtotal((double) (cartItem.getBook().getPrice() * cartItem.getQty()));
         cartItemRepository.save(cartItem);
         return cartItem;
     }
@@ -37,10 +38,10 @@ public class CartItemService {
 
         List<CartItem> cartItemList = findByShoppingCart(customer.getShoppingCart());
 
-        for(CartItem cartItem : cartItemList) {
-            if(book.getId() == cartItem.getBook().getId()) {
+        for (CartItem cartItem : cartItemList) {
+            if (book.getId() == cartItem.getBook().getId()) {
                 cartItem.setQty(cartItem.getQty() + qty);
-                cartItem.setSubtotal( cartItem.getSubtotal() + (book.getPrice() * qty));
+                cartItem.setSubtotal(cartItem.getSubtotal() + (book.getPrice() * qty));
                 cartItemRepository.save(cartItem);
                 return cartItem;
             }
@@ -51,7 +52,7 @@ public class CartItemService {
         cartItem.setShoppingCart(customer.getShoppingCart());
         cartItem.setBook(book);
         cartItem.setQty(qty);
-        cartItem.setSubtotal((double) (book.getPrice()* qty));
+        cartItem.setSubtotal((double) (book.getPrice() * qty));
 
         cartItem = cartItemRepository.save(cartItem);
 

@@ -27,11 +27,11 @@ public class Book {
 
     @ManyToOne(cascade = CascadeType.PERSIST)
     Stock stock;
-//     @JsonIgnore
+    //     @JsonIgnore
 //    @ManyToMany(cascade =CascadeType.PERSIST,mappedBy = "books")
 //    private Set<ShoppingCart> shoppingCart = new HashSet<>();
-     @OneToMany(mappedBy = "book",cascade =CascadeType.PERSIST)
-     @JsonIgnore
+    @OneToMany(mappedBy = "book", cascade = CascadeType.PERSIST)
+    @JsonIgnore
     private List<BookToCart> bookToCart;
 
     public Book(String ISBN13, String title, String publishingDate, Long weight, int pages, String language, String category, Long price) {
@@ -164,17 +164,17 @@ public class Book {
         this.stock = stock;
     }
 
-  /*  public Set<ShoppingCart> getShoppingCart() {
-        return shoppingCart;
-    }
+    /*  public Set<ShoppingCart> getShoppingCart() {
+          return shoppingCart;
+      }
 
-    public void setShoppingCart(Set<ShoppingCart> shoppingCart) {
-        this.shoppingCart = shoppingCart;
+      public void setShoppingCart(Set<ShoppingCart> shoppingCart) {
+          this.shoppingCart = shoppingCart;
+      }
+  */
+    public List<BookToCart> getBookToCart() {
+        return bookToCart;
     }
-*/
-  public List<BookToCart> getBookToCart() {
-      return bookToCart;
-  }
 
     public void setBookToCart(List<BookToCart> bookToCart) {
         this.bookToCart = bookToCart;

@@ -8,6 +8,8 @@ import se.iths.projektarbetekomplexjava.repository.PaymentRepository;
 import se.iths.projektarbetekomplexjava.repository.ShoppingCartRepository;
 
 import javax.persistence.criteria.Order;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,15 +19,18 @@ public class OrderService {
     private ShoppingCartRepository shoppingCartRepository;
     private PaymentRepository paymentRepository;
     private CartItemService cartItemService;
+    private ShoppingCartService shoppingCartService;
 
     public OrderService(OrderRepository orderRepository,
                         ShoppingCartRepository shoppingCartRepository,
-                        PaymentRepository paymentRepository,CartItemService cartItemService)
+                        PaymentRepository paymentRepository,CartItemService cartItemService,
+                        ShoppingCartService shoppingCartService)
     {
         this.orderRepository = orderRepository;
         this.shoppingCartRepository = shoppingCartRepository;
         this.paymentRepository = paymentRepository;
         this.cartItemService=cartItemService;
+       this.shoppingCartService=shoppingCartService;
     }
 
     public Orders createOrder(Orders order,ShoppingCart shoppingCart){
@@ -34,10 +39,10 @@ public class OrderService {
         for (CartItem cart:cartItemList) {
            cart.setOrder(order);
         }
-        order.setPayment(order.getPayment());
+       // order.aPayment(order.getPayment());
+        order.addToPayment(order.getPayment());
         order.setOrderTotalPrice(shoppingCart.getGrandTotal());
         order.setCartItemList(cartItemList);
-
         return orderRepository.save(order);
 
     }

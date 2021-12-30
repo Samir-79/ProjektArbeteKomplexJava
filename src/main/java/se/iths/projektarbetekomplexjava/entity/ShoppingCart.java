@@ -15,14 +15,14 @@ public class ShoppingCart {
     private Long id;
     private Double GrandTotal;
     private int totalNumberOfBooks;
-
-    @OneToMany(mappedBy="shoppingCart", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @OneToMany(mappedBy = "shoppingCart", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
     private List<CartItem> cartOfBooks;
 
     @JsonIgnore
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    @OneToOne(fetch=FetchType.EAGER, targetEntity = Customer.class)
+    @OneToOne(fetch = FetchType.EAGER, targetEntity = Customer.class)
     private Customer customer;
 
     public Long getId() {

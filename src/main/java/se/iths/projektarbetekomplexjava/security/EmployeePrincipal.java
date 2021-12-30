@@ -23,7 +23,7 @@ public record EmployeePrincipal(Employee employee) implements UserDetails {
 //    }
 
     @Override
-    public  Collection<? extends  GrantedAuthority> getAuthorities() {
+    public Collection<? extends GrantedAuthority> getAuthorities() {
         Role roles = employee.getRole();
         Collection<GrantedAuthority> grantedAuthorities = new ArrayList<>();
         grantedAuthorities.add(new SimpleGrantedAuthority(roles.toString()));

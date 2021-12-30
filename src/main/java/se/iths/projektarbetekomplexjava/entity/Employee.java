@@ -1,6 +1,7 @@
 package se.iths.projektarbetekomplexjava.entity;
 
 import se.iths.projektarbetekomplexjava.entity.Role;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;

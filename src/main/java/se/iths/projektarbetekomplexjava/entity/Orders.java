@@ -20,12 +20,13 @@ public class Orders {
     private Double orderTotalPrice;
 
 
-    @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL,mappedBy = "order")
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "order")
     @JsonIgnore
     private List<CartItem> cartItemList;
 
 
-    @OneToOne(targetEntity = Orders.class,cascade = CascadeType.ALL)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Payment payment;
 
     public Orders(String orderDate, String shippingMethod, String shippingAddress, Double orderTotalPrice) {
@@ -35,7 +36,13 @@ public class Orders {
         this.orderTotalPrice = orderTotalPrice;
     }
 
+
     public Orders() {
+    }
+
+    public void addToPayment(Payment payment) {
+        setPayment(payment);
+        payment.setOrder(this);
     }
 
     public Long getId() {

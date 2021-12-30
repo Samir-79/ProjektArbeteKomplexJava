@@ -20,7 +20,7 @@ public class CustomerDetailService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Customer entity = customerRepository.findByUsername(username);
-        if (entity == null){
+        if (entity == null) {
             throw new UsernameNotFoundException("Can't find user with username: " + "username");
         }
         return new CustomerPrincipal(entity);

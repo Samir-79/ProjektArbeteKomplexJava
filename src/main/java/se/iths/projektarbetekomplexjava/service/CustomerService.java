@@ -25,13 +25,13 @@ public class CustomerService {
         this.customerRepository = customerRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.shoppingCartRepository = shoppingCartRepository;
-        this.bookRepository=bookRepository;
+        this.bookRepository = bookRepository;
     }
 
     public Customer addCustomer(Customer customer) {
         customer.setPassword(bCryptPasswordEncoder.encode(customer.getPassword()));
         customer.setRole(Role.USER);
-       // customer.addShoppingCart(customer.getShoppingCart());
+        // customer.addShoppingCart(customer.getShoppingCart());
         return customerRepository.save(customer);
 
     }
@@ -57,7 +57,6 @@ public class CustomerService {
     public Customer updateCustomer(Customer customer) {
         return customerRepository.save(customer);
     }
-
 
 
 }
