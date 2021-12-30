@@ -43,8 +43,11 @@ public class OrderService {
         order.addToPayment(order.getPayment());
         order.setOrderTotalPrice(shoppingCart.getGrandTotal());
         order.setCartItemList(cartItemList);
-        return orderRepository.save(order);
-
+        try {
+            return orderRepository.save(order);
+        }finally {
+            shoppingCartService.clearShoppingCart(shoppingCart);
+        }
     }
 
     public Optional<Orders> findOrderById(Long id){

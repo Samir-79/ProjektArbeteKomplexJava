@@ -44,15 +44,15 @@ public class ShoppingCartService {
 
     public ShoppingCart updateShoppingCart(ShoppingCart shoppingCart) {
         Double grandTotalPrice = 0.0;
-        int totalNumberOfBooks=0;
+        int totalNumberOfBooks = 0;
 
         List<CartItem> cartItemList = cartItemService.findByShoppingCart(shoppingCart);
 
         for (CartItem cartItem : cartItemList) {
-            if (cartItem.getBook().getStock().getQuantity()>0) {
+            if (cartItem.getBook().getStock().getQuantity() > 0) {
                 cartItemService.updateCartItem(cartItem);
                 grandTotalPrice = grandTotalPrice + (cartItem.getSubtotal());
-                totalNumberOfBooks=totalNumberOfBooks+(cartItem.getQty());
+                totalNumberOfBooks = totalNumberOfBooks + (cartItem.getQty());
             }
         }
 
@@ -64,16 +64,20 @@ public class ShoppingCartService {
     }
 
 
-
     public void clearShoppingCart(ShoppingCart shoppingCart) {
         List<CartItem> cartItemList = cartItemService.findByShoppingCart(shoppingCart);
 
-        for(CartItem cartItem : cartItemList) {
-            cartItem.setShoppingCart(null);
-            cartItemService.save(cartItem);
-        }
+         cartItemRepository.deleteCartItemByShoppingCart(shoppingCart);
+        // bookToCartRepository.
+
+
+        /*for(CartItem cartItem : cartItemList) {
+            cartItemRepository.delete(cartItem);
+            bookToCartRepository.deleteByCartItem(cartItem);
+        }*/
 
         shoppingCart.setGrandTotal(0.0);
+        shoppingCart.setTotalNumberOfBooks(0);
 
         shoppingCartRepository.save(shoppingCart);
     }
