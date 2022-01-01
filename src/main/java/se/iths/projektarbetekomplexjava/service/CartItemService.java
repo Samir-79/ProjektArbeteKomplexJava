@@ -34,6 +34,13 @@ public class CartItemService {
         return cartItem;
     }
 
+    public CartItem removeBookFromCart(CartItem cartItem){
+        cartItem.setSubtotal((double) (cartItem.getBook().getPrice() * cartItem.getQty()));
+        cartItemRepository.save(cartItem);
+        return cartItem;
+    }
+
+
     public CartItem addBookToCart(Book book, Customer customer, int qty) {
 
         List<CartItem> cartItemList = findByShoppingCart(customer.getShoppingCart());
@@ -73,6 +80,12 @@ public class CartItemService {
     }
 
     public void removeCartItem(CartItem cartItem) {
+        ShoppingCart shoppingCart= shoppingCartRepository
+                                   .findById(cartItem.getShoppingCart().getId())
+                                   .orElseThrow(EntityNotFoundException::new);
+
+        shoppingCart.setTotalNumberOfBooks(shoppingCart.getTotalNumberOfBooks()-cartItem.getQty());
+        shoppingCart.setGrandTotal(shoppingCart.getGrandTotal() - cartItem.getSubtotal());
         bookToCartRepository.deleteByCartItem(cartItem);
         cartItemRepository.delete(cartItem);
     }

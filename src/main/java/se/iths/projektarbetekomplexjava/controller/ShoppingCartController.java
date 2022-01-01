@@ -68,6 +68,34 @@ public class ShoppingCartController {
 
     }
 
+    @PutMapping("/removeBookFromCart/{cartid}/quantity/{qty}")
+    public ResponseEntity<CartItem> removeBookFromCartItem(@PathVariable Long cartid, @PathVariable int qty) {
+        CartItem cartItem = cartItemService.findById(cartid);
+        if(cartItem.getQty() < qty) {
+            throw new NotFoundException("you do not have : " + qty + " books in your cart");
+
+        }
+        else if(cartItem.getQty() == qty){
+            try {
+                throw new NotFoundException("this will remove all the copies of this book from the cart");
+            }
+            finally {
+                cartItemService.removeCartItem(cartItemService.findById(cartid));
+            }
+
+        }
+
+            cartItem.setQty(cartItem.getQty() - qty);
+            cartItemService.removeBookFromCart(cartItem);
+            shoppingCartService.updateShoppingCart(cartItem.getShoppingCart());
+
+
+
+        return new ResponseEntity<>(cartItem, HttpStatus.OK);
+
+    }
+
+
 
     @DeleteMapping("/removebookfromcart/{id}")
     public ResponseEntity<Void> removeBookFromCart(@PathVariable Long id) {
