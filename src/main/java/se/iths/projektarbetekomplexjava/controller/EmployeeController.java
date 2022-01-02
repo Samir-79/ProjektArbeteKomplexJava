@@ -32,15 +32,11 @@ public class EmployeeController {
     @PostMapping("/signup")
     public ResponseEntity<Employee> addEmployee(@RequestBody Employee employee){
         Employee addedEmployee = employeeService.addEmployee(employee);
-        if (addedEmployee.getFirstName().isEmpty() || addedEmployee.getLastName().isEmpty() || addedEmployee.getAddress().isEmpty()
-                || addedEmployee.getPhone().isEmpty() || addedEmployee.getUsername().isEmpty() || addedEmployee.getEmail().isEmpty() || addedEmployee.getPassword().isEmpty()){
-            throw new BadRequestException("Insufficient data, please fill the required registration data.");
-        }
         return new ResponseEntity<>(addedEmployee, HttpStatus.CREATED);
     }
 
     @PostMapping("/login")
-    public Object logInCustomer(@RequestBody Employee employee){
+    public Object logInEmployee(@RequestBody Employee employee){
         Optional<Employee> loginEmployee = employeeService.getEmployeeByEmail(employee.getEmail(), employee.getPassword());
         List<Employee> employeeList = employeeService.getByEmail(employee.getEmail());
         for (Employee employees:employeeList){

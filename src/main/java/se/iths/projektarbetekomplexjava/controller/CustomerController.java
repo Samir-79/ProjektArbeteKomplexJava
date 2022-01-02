@@ -4,11 +4,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import se.iths.projektarbetekomplexjava.entity.Customer;
-import se.iths.projektarbetekomplexjava.entity.Employee;
 import se.iths.projektarbetekomplexjava.exception.BadRequestException;
 import se.iths.projektarbetekomplexjava.exception.NotAuthorizedException;
 import se.iths.projektarbetekomplexjava.exception.NotFoundException;
 import se.iths.projektarbetekomplexjava.security.PasswordEncoder;
+import se.iths.projektarbetekomplexjava.security.PasswordValidator;
 import se.iths.projektarbetekomplexjava.service.CustomerService;
 
 import java.util.List;
@@ -29,10 +29,6 @@ public class CustomerController {
     @PostMapping("/signup")
     public ResponseEntity<Customer> addCustomer(@RequestBody Customer customer){
             Customer addedCustomer = service.addCustomer(customer);
-            if (addedCustomer.getFirstName().isEmpty() || addedCustomer.getLastName().isEmpty() || addedCustomer.getAddress().isEmpty()
-            || addedCustomer.getPhone().isEmpty() || addedCustomer.getUsername().isEmpty() || addedCustomer.getEmail().isEmpty() || addedCustomer.getPassword().isEmpty()){
-                throw new BadRequestException("Insufficient data, please fill the required registration data.");
-            }
             return new ResponseEntity<>(addedCustomer, HttpStatus.CREATED);
     }
 
