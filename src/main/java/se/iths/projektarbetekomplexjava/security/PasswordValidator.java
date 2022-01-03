@@ -1,7 +1,5 @@
 package se.iths.projektarbetekomplexjava.security;
 
-import org.springframework.context.annotation.Configuration;
-
 import java.util.regex.*;
 
 public class PasswordValidator {
@@ -24,8 +22,7 @@ public class PasswordValidator {
         return m.matches();
     }
 
-    public static void main(String args[])
-    {
+    public static void main(String args[]) {
 
         // Test Case 1:
         String str1 = "Geeks@portal20";

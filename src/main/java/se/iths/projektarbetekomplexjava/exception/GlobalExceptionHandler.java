@@ -30,7 +30,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler({BadRequestException.class})
     public ResponseEntity<Object> BadRequestException(BadRequestException ex){
         logger.info(ex.getClass().getName());
-        String errorMessage = "Missing data.";
+        String errorMessage = "Missing or invalid data.";
         return buildResponseEntity(new ApiError(HttpStatus.BAD_REQUEST, errorMessage, ex));
     }
 
