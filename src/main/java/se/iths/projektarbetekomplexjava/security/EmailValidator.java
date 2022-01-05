@@ -1,4 +1,4 @@
-package se.iths.projektarbetekomplexjava.email;
+package se.iths.projektarbetekomplexjava.security;
 
 import org.springframework.stereotype.Service;
 

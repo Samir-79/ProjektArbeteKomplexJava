@@ -39,7 +39,6 @@ public class PublisherService {
         return publisherRepository.findByName(foundPublisher.getName());
     }
 
-
     public Optional<Publisher> findByPublisherId(Long id) {
         Publisher foundPublisher = publisherRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         return publisherRepository.findById(foundPublisher.getId());

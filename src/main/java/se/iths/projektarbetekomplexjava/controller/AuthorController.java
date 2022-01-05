@@ -19,7 +19,6 @@ public class AuthorController {
         this.authorService = authorService;
     }
 
-
     @GetMapping("/getauthorbyid")
     public ResponseEntity<Optional<Author>> getById(@PathVariable Long id) {
         Optional<Author> authorId = authorService.findAuthorById(id);
@@ -49,7 +48,4 @@ public class AuthorController {
         Author updateAuthor = authorService.updateAuthor(author);
         return new ResponseEntity<>(updateAuthor, HttpStatus.OK);
     }
-
-
-
 }

@@ -1,5 +1,7 @@
 package se.iths.projektarbetekomplexjava.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import se.iths.projektarbetekomplexjava.entity.Role;
 import javax.persistence.*;
 import java.util.HashSet;
@@ -24,6 +26,11 @@ public class Employee {
 
 //    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 //    private Set<Role> roles = new HashSet<>();
+
+    @JsonIgnore
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @OneToOne(fetch = FetchType.EAGER, targetEntity = LoggedIn.class)
+    private LoggedIn loggedIn;
 
     public Employee(String firstName, String lastName, String address, String phone, String username, String email, String password, Role role) {
         this.firstName = firstName;
@@ -118,5 +125,13 @@ public class Employee {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public LoggedIn getLoggedIn() {
+        return loggedIn;
+    }
+
+    public void setLoggedIn(LoggedIn loggedIn) {
+        this.loggedIn = loggedIn;
     }
 }

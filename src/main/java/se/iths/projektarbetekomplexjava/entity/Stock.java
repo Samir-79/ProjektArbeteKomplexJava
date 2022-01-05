@@ -15,7 +15,7 @@ public class Stock {
     private boolean inStock;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "stock",cascade =CascadeType.ALL,fetch=FetchType.EAGER)
+    @OneToMany(mappedBy = "stock", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Book> books= new ArrayList<>();
 
     public Stock(int quantity, boolean inStock) {

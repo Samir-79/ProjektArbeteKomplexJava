@@ -65,7 +65,7 @@ public class BookService {
         foundBook.setAuthors(book.getAuthors());
         foundBook.setPublisher(book.getPublisher());
         foundBook.setStock(book.getStock());
-        foundBook.setShoppingCart(book.getShoppingCart());
+        foundBook.setBookToCart(book.getBookToCart());
         return bookRepository.save(book);
     }
 

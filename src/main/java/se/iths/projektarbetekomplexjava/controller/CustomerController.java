@@ -30,16 +30,20 @@ public class CustomerController {
             return new ResponseEntity<>(addedCustomer, HttpStatus.CREATED);
     }
 
+//    @PostMapping("/login")
+//    public Object logInCustomer(@RequestBody Customer customer){
+////        Optional<Customer> loginCustomer = service.getCustomerByEmail(customer.getEmail(), customer.getPassword());
+//        Customer loginCustomer = service.CheckLogIn(customer);
+//        return loginCustomer.orElseThrow(() -> new NotAuthorizedException("Invalid login, please enter right login data or create new account"));
+//    }
+
     @PostMapping("/login")
-    public Object logInCustomer(@RequestBody Customer customer){
-        Optional<Customer> loginCustomer = service.getCustomerByEmail(customer.getEmail(), customer.getPassword());
-        List<Customer> customerList = service.getByEmail(customer.getEmail());
-        for (Customer customers:customerList){
-            if (passwordEncoder.bCryptPasswordEncoder().matches(customer.getPassword(), customers.getPassword())){
-                return customerList;
-            }
-        }
-        return loginCustomer.orElseThrow(() -> new NotAuthorizedException("Invalid login, please enter right login data or create new account"));
+    public ResponseEntity<Customer> logInCustomer(@RequestBody Customer customer){
+        Customer loginCustomer = service.CheckLogIn(customer.getEmail(), customer.getPassword());
+//        if (loginCustomer.equals(null)){
+//            throw new NotAuthorizedException("Invalid login, please enter right login data or create new account");
+//        }
+        return new ResponseEntity<>(loginCustomer, HttpStatus.OK);
     }
 
     @PutMapping("/update/{id}")

@@ -6,5 +6,4 @@ import se.iths.projektarbetekomplexjava.entity.ShoppingCart;
 
 @Repository
 public interface ShoppingCartRepository extends  CrudRepository<ShoppingCart, Long> {
-
 }
