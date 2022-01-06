@@ -4,12 +4,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import se.iths.projektarbetekomplexjava.entity.Customer;
-import se.iths.projektarbetekomplexjava.exception.NotAuthorizedException;
 import se.iths.projektarbetekomplexjava.exception.NotFoundException;
-import se.iths.projektarbetekomplexjava.security.PasswordEncoder;
 import se.iths.projektarbetekomplexjava.service.CustomerService;
 
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -17,11 +14,9 @@ import java.util.Optional;
 public class CustomerController {
 
     private final CustomerService service;
-    private final PasswordEncoder passwordEncoder;
 
-    public CustomerController(CustomerService service, PasswordEncoder passwordEncoder) {
+    public CustomerController(CustomerService service) {
         this.service = service;
-        this.passwordEncoder = passwordEncoder;
     }
 
     @PostMapping("/signup")
@@ -30,20 +25,16 @@ public class CustomerController {
             return new ResponseEntity<>(addedCustomer, HttpStatus.CREATED);
     }
 
-//    @PostMapping("/login")
-//    public Object logInCustomer(@RequestBody Customer customer){
-////        Optional<Customer> loginCustomer = service.getCustomerByEmail(customer.getEmail(), customer.getPassword());
-//        Customer loginCustomer = service.CheckLogIn(customer);
-//        return loginCustomer.orElseThrow(() -> new NotAuthorizedException("Invalid login, please enter right login data or create new account"));
-//    }
-
     @PostMapping("/login")
     public ResponseEntity<Customer> logInCustomer(@RequestBody Customer customer){
         Customer loginCustomer = service.CheckLogIn(customer.getEmail(), customer.getPassword());
-//        if (loginCustomer.equals(null)){
-//            throw new NotAuthorizedException("Invalid login, please enter right login data or create new account");
-//        }
         return new ResponseEntity<>(loginCustomer, HttpStatus.OK);
+    }
+
+    @PostMapping("/logout/{id}")
+    public ResponseEntity<Customer> logOutCustomer(@PathVariable Long id){
+        Customer logOutCustomer = service.CheckLogOut(id);
+        return new ResponseEntity<>(logOutCustomer, HttpStatus.OK);
     }
 
     @PutMapping("/update/{id}")

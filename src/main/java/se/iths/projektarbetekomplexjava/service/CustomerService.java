@@ -124,6 +124,15 @@ public class CustomerService {
         }
     }
 
+    public Customer CheckLogOut(Long id) {
+        Customer customer = customerRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        LoggedIn foundUser = logInRepository.findById(customer.getLoggedInCustomer().getId()).orElseThrow(EntityNotFoundException::new);
+        customer.changeLogin(foundUser);
+        foundUser.setLoggedIn(false);
+        logInRepository.save(foundUser);
+        return customerRepository.save(customer);
+    }
+
     public Optional<Customer> findUserById(Long id) {
         try{
             Receiver.receiver();
