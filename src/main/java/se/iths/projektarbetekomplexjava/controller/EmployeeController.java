@@ -35,15 +35,15 @@ public class EmployeeController {
     }
 
     @PostMapping("/login")
-    public Object logInEmployee(@RequestBody Employee employee){
-        Optional<Employee> loginEmployee = employeeService.getEmployeeByEmail(employee.getEmail(), employee.getPassword());
-        List<Employee> employeeList = employeeService.getByEmail(employee.getEmail());
-        for (Employee employees:employeeList){
-            if (passwordEncoder.bCryptPasswordEncoder().matches(employee.getPassword(), employees.getPassword())){
-                return employeeList;
-            }
-        }
-        return loginEmployee.orElseThrow(() -> new NotAuthorizedException("Invalid login, please enter right login data or create new account"));
+    public ResponseEntity<Employee> logInEmployee(@RequestBody Employee employee){
+        Employee loginEmployee = employeeService.CheckLogIn(employee.getEmail(), employee.getPassword());
+        return new ResponseEntity<>(loginEmployee, HttpStatus.OK);
+    }
+
+    @PostMapping("/logout/{id}")
+    public ResponseEntity<Employee> logOutEmployee(@PathVariable Long id){
+        Employee logOutEmployee = employeeService.CheckLogOut(id);
+        return new ResponseEntity<>(logOutEmployee, HttpStatus.OK);
     }
 
     @PutMapping("/update/{id}")
@@ -56,8 +56,8 @@ public class EmployeeController {
         return new ResponseEntity<>(updatedEmployee, HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/deleteCustomer/{id}")
-    public ResponseEntity<Void> removeCustomer(@PathVariable Long id){
+    @DeleteMapping("/admin/deleteEmployee/{id}")
+    public ResponseEntity<Void> removeEmployee(@PathVariable Long id){
         Optional<Employee> foundEmployee = employeeService.findUserById(id);
         if (foundEmployee.isEmpty()){
             throw new NotFoundException("No data available of user ID: " + id);
@@ -66,8 +66,17 @@ public class EmployeeController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+    @DeleteMapping("/admin/deleteCustomer/{id}")
+    public ResponseEntity<Void> removeCustomer(@PathVariable Long id){
+        Optional<Customer> foundCustomer = customerService.findUserById(id);
+        if (foundCustomer.isEmpty()){
+            throw new NotFoundException("No data available of user ID: " + id);
+        }
+        customerService.removeCustomer(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 
-    @GetMapping("/getListOfCustomer")
+    @GetMapping("/admin/getListOfCustomer")
     public ResponseEntity<Iterable<Customer>> getAllCustomers(){
         List<Customer> allCustomers = employeeService.findAllCustomers();
         if (allCustomers.isEmpty()){
@@ -76,7 +85,7 @@ public class EmployeeController {
         return new ResponseEntity<>(allCustomers, HttpStatus.OK);
     }
 
-    @GetMapping("/getListOfEmployee")
+    @GetMapping("/admin/getListOfEmployee")
     public ResponseEntity<Iterable<Employee>> getAllEmployees(){
         List<Employee> allEmployees = employeeService.findAllEmployees();
         if (allEmployees.isEmpty()){
@@ -85,7 +94,7 @@ public class EmployeeController {
         return new ResponseEntity<>(allEmployees, HttpStatus.OK);
     }
 
-    @GetMapping("/searchEmployee/{id}")
+    @GetMapping("/admin/searchEmployee/{id}")
     public ResponseEntity<Optional<Employee>> findEmployeeId(@PathVariable long id){
         Optional<Employee> foundEmployee = employeeService.findUserById(id);
         if (foundEmployee.isEmpty()){

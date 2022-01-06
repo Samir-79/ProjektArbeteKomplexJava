@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -11,6 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final CustomerDetailService userDetailsService;
@@ -40,8 +42,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/bokhandel/api/v*/**").permitAll()
-                .antMatchers("/", "/home", "/customer/signup", "/employee/signup").permitAll()
-                .antMatchers("/employee").hasRole("ADMIN")
+                .antMatchers("/bokhandel/api/v1/book/addbook/admin").hasRole("ADMIN")
+                .antMatchers("/", "/home", "/signup").permitAll()
+                .antMatchers("/admin").hasRole("ADMIN")
                 .antMatchers("/customer").hasRole("USER")
                 .antMatchers("/h2-console/**").permitAll()
                 .anyRequest().authenticated()

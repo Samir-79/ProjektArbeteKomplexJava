@@ -24,13 +24,9 @@ public class Employee {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-//    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-//    private Set<Role> roles = new HashSet<>();
-
-    @JsonIgnore
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    @OneToOne(fetch = FetchType.EAGER, targetEntity = LoggedIn.class)
-    private LoggedIn loggedIn;
+    @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    private LoggedIn loggedInEmployee;
 
     public Employee(String firstName, String lastName, String address, String phone, String username, String email, String password, Role role) {
         this.firstName = firstName;
@@ -46,14 +42,10 @@ public class Employee {
     public Employee() {
     }
 
-//    public void addRole(Role role){
-//        roles.add(role);
-//        role.getEmployees().add(this);
-//    }
-
-//    public Set<Role> getRoles(){
-//        return roles;
-//    }
+    public void changeLogin(LoggedIn loggedIn){
+        setLoggedInEmployee(loggedIn);
+        loggedIn.setEmployee(this);
+    }
 
     public Long getId() {
         return id;
@@ -127,11 +119,11 @@ public class Employee {
         this.role = role;
     }
 
-    public LoggedIn getLoggedIn() {
-        return loggedIn;
+    public LoggedIn getLoggedInEmployee() {
+        return loggedInEmployee;
     }
 
-    public void setLoggedIn(LoggedIn loggedIn) {
-        this.loggedIn = loggedIn;
+    public void setLoggedInEmployee(LoggedIn loggedIn) {
+        this.loggedInEmployee = loggedIn;
     }
 }

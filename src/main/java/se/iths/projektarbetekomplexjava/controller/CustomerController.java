@@ -46,14 +46,4 @@ public class CustomerController {
         }
         return new ResponseEntity<>(updatedCustomer, HttpStatus.CREATED);
     }
-
-    @DeleteMapping("/deleteCustomer/{id}")
-    public ResponseEntity<Void> removeCustomer(@PathVariable Long id){
-        Optional<Customer> foundCustomer = service.findUserById(id);
-        if (foundCustomer.isEmpty()){
-            throw new NotFoundException("No data available of user ID: " + id);
-        }
-        service.removeCustomer(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
 }

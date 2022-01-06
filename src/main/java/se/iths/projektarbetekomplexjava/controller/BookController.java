@@ -2,6 +2,7 @@ package se.iths.projektarbetekomplexjava.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import se.iths.projektarbetekomplexjava.entity.Book;
 import se.iths.projektarbetekomplexjava.entity.Customer;
@@ -20,7 +21,8 @@ public class BookController {
         this.bookService = bookService;
     }
 
-    @PostMapping("/addbook")
+    @PostMapping("/addbook/admin")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Book> addBook(@RequestBody Book book) {
         Book addedBook = bookService.addBook(book);
         return new ResponseEntity<>(addedBook, HttpStatus.CREATED);

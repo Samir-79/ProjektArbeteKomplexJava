@@ -9,9 +9,7 @@ import se.iths.projektarbetekomplexjava.entity.*;
 import se.iths.projektarbetekomplexjava.exception.BadRequestException;
 import se.iths.projektarbetekomplexjava.jms.Receiver;
 import se.iths.projektarbetekomplexjava.jms.Sender;
-import se.iths.projektarbetekomplexjava.repository.BookRepository;
 import se.iths.projektarbetekomplexjava.repository.CustomerRepository;
-import se.iths.projektarbetekomplexjava.repository.ShoppingCartRepository;
 import se.iths.projektarbetekomplexjava.security.PasswordEncoder;
 import se.iths.projektarbetekomplexjava.security.PasswordValidator;
 
@@ -25,24 +23,18 @@ public class CustomerService {
     private final CustomerRepository customerRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final PasswordEncoder passwordEncoder;
-    private final ShoppingCartRepository shoppingCartRepository;
-    private final BookRepository bookRepository;
     private final EmailValidator emailValidator;
     private final EmailVerification emailVerification;
     private final LogInRepository logInRepository;
 
     public CustomerService(CustomerRepository customerRepository,
                            BCryptPasswordEncoder bCryptPasswordEncoder,
-                           ShoppingCartRepository shoppingCartRepository,
-                           BookRepository bookRepository,
                            PasswordEncoder passwordEncoder,
                            EmailValidator emailValidator,
                            EmailVerification emailVerification,
     LogInRepository logInRepository) {
         this.customerRepository = customerRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-        this.shoppingCartRepository = shoppingCartRepository;
-        this.bookRepository = bookRepository;
         this.passwordEncoder = passwordEncoder;
         this.emailValidator = emailValidator;
         this.emailVerification = emailVerification;

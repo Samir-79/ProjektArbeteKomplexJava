@@ -1,6 +1,5 @@
 package se.iths.projektarbetekomplexjava.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
@@ -21,9 +20,6 @@ public class Customer {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-//    @ManyToMany(fetch = FetchType.EAGER)
-//    private Set<Role> roles = new HashSet<>();
-
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private ShoppingCart shoppingCart;
@@ -40,7 +36,7 @@ public class Customer {
         this.username = username;
         this.email = email;
         this.password = password;
-        this.role = Role.USER;
+        this.role = role;
     }
 
     public Customer() {

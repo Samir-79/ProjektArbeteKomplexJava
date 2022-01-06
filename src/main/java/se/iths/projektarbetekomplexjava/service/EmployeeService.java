@@ -2,6 +2,9 @@ package se.iths.projektarbetekomplexjava.service;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import se.iths.projektarbetekomplexjava.entity.LoggedIn;
+import se.iths.projektarbetekomplexjava.exception.NotAuthorizedException;
+import se.iths.projektarbetekomplexjava.repository.LogInRepository;
 import se.iths.projektarbetekomplexjava.security.EmailValidator;
 import se.iths.projektarbetekomplexjava.entity.Customer;
 import se.iths.projektarbetekomplexjava.entity.Employee;
@@ -26,15 +29,23 @@ public class EmployeeService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final PasswordEncoder passwordEncoder;
     private final EmailValidator emailValidator;
+    private final EmailVerification emailVerification;
+    private final LogInRepository logInRepository;
 
     public EmployeeService(EmployeeRepository employeeRepository,
                            CustomerRepository customerRepository,
-                           BCryptPasswordEncoder bCryptPasswordEncoder, PasswordEncoder passwordEncoder, EmailValidator emailValidator) {
+                           BCryptPasswordEncoder bCryptPasswordEncoder,
+                           PasswordEncoder passwordEncoder,
+                           EmailValidator emailValidator,
+                           EmailVerification emailVerification,
+                           LogInRepository logInRepository) {
         this.employeeRepository = employeeRepository;
         this.customerRepository = customerRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.passwordEncoder = passwordEncoder;
         this.emailValidator = emailValidator;
+        this.emailVerification = emailVerification;
+        this.logInRepository = logInRepository;
     }
 
     public Employee addEmployee(Employee employee){
@@ -71,12 +82,39 @@ public class EmployeeService {
                     It does’t contain any white space.""");
         }
         employee.setRole(Role.ADMIN);
+        employee.changeLogin(employee.getLoggedInEmployee());
         try {
             Sender.sender(employee.getFirstName(), employee.getLastName(), employee.getEmail(), employee.getUsername(),
                     employee.getAddress(), employee.getPhone(), employee.getRole());
         } catch (Exception e) {
             e.printStackTrace();
         }
+        emailVerification.sendConfirmationEmail(employee.getEmail());
+        return employeeRepository.save(employee);
+    }
+
+    public Employee CheckLogIn(String email, String password){
+        Employee loginEmployee = employeeRepository.findEmployeeByEmail(email);
+        try {
+            if (passwordEncoder.bCryptPasswordEncoder().matches(password, loginEmployee.getPassword())){
+                return employeeRepository.save(loginEmployee);
+            }
+            else {
+                throw new NotAuthorizedException("Invalid login, please enter right login data or create new account");
+            }
+        } finally {
+            LoggedIn foundUser = logInRepository.findById(loginEmployee.getLoggedInEmployee().getId()).orElseThrow(EntityNotFoundException::new);
+            foundUser.setLoggedIn(true);
+            logInRepository.save(foundUser);
+        }
+    }
+
+    public Employee CheckLogOut(Long id) {
+        Employee employee = employeeRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        LoggedIn foundUser = logInRepository.findById(employee.getLoggedInEmployee().getId()).orElseThrow(EntityNotFoundException::new);
+        employee.changeLogin(foundUser);
+        foundUser.setLoggedIn(false);
+        logInRepository.save(foundUser);
         return employeeRepository.save(employee);
     }
 
@@ -86,7 +124,7 @@ public class EmployeeService {
     }
 
     public List<Employee> getByEmail(String email){
-        return employeeRepository.findEmployeeByEmail(email);
+        return employeeRepository.findEmployeesByEmail(email);
     }
 
     public Optional<Employee> findUserById(Long id){
@@ -104,10 +142,6 @@ public class EmployeeService {
 
     public List<Employee> findAllEmployees(){
         return (List<Employee>) employeeRepository.findAll();
-    }
-
-    public Optional<Employee> getEmployeeByEmail(String email, String password) {
-        return employeeRepository.findEmployeeByEmailAndPassword(email, password);
     }
 
     public Employee updateEmployee(Employee employee) {

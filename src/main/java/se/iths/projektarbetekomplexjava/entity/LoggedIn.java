@@ -19,9 +19,10 @@ public class LoggedIn {
     @OneToOne(fetch = FetchType.EAGER, targetEntity = Customer.class)
     private Customer customer;
 
-//    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-//    @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-//    private Employee employee;
+    @JsonIgnore
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @OneToOne(fetch = FetchType.EAGER, targetEntity = Employee.class)
+    private Employee employee;
 
     public LoggedIn(boolean loggedIn) {
         this.loggedIn = loggedIn;
@@ -54,11 +55,11 @@ public class LoggedIn {
         this.customer = customer;
     }
 
-//    public Employee getEmployee() {
-//        return employee;
-//    }
-//
-//    public void setEmployee(Employee employee) {
-//        this.employee = employee;
-//    }
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
 }
