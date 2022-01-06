@@ -2,6 +2,7 @@ package se.iths.projektarbetekomplexjava.service;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import se.iths.projektarbetekomplexjava.exception.NotAuthorizedException;
 import se.iths.projektarbetekomplexjava.repository.LogInRepository;
 import se.iths.projektarbetekomplexjava.security.EmailValidator;
 import se.iths.projektarbetekomplexjava.entity.*;
@@ -109,18 +110,18 @@ public class CustomerService {
 
     public Customer CheckLogIn(String email, String password){
         Customer loginCustomer = customerRepository.findCustomerByEmail(email);
-        List<Customer> customerList = customerRepository.findCustomersByEmail(email);
         try {
-            for (Customer customers:customerList){
-                if (passwordEncoder.bCryptPasswordEncoder().matches(password, customers.getPassword())){
-                    return loginCustomer;
-                }
+            if (passwordEncoder.bCryptPasswordEncoder().matches(password, loginCustomer.getPassword())){
+                return customerRepository.save(loginCustomer);
+            }
+            else {
+                throw new NotAuthorizedException("Invalid login, please enter right login data or create new account");
             }
         } finally {
             LoggedIn foundUser = logInRepository.findById(loginCustomer.getLoggedInCustomer().getId()).orElseThrow(EntityNotFoundException::new);
             foundUser.setLoggedIn(true);
+            logInRepository.save(foundUser);
         }
-        return customerRepository.save(loginCustomer);
     }
 
     public Optional<Customer> findUserById(Long id) {
@@ -132,12 +133,7 @@ public class CustomerService {
         return customerRepository.findById(id);
     }
 
-    public Customer getCustomerByEmail(String email, String password) {
-        return customerRepository.findCustomerByEmailAndPassword(email, password);
-    }
-
     public Customer updateCustomer(Customer customer) {
         return customerRepository.save(customer);
     }
-
 }
