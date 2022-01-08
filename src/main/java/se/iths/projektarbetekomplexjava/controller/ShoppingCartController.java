@@ -2,17 +2,23 @@ package se.iths.projektarbetekomplexjava.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.annotation.CurrentSecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import se.iths.projektarbetekomplexjava.entity.*;
 import se.iths.projektarbetekomplexjava.exception.NotFoundException;
 import se.iths.projektarbetekomplexjava.repository.*;
+import se.iths.projektarbetekomplexjava.security.CustomerPrincipal;
 import se.iths.projektarbetekomplexjava.service.BookService;
 import se.iths.projektarbetekomplexjava.service.CartItemService;
 import se.iths.projektarbetekomplexjava.service.ShoppingCartService;
 
 import javax.persistence.EntityNotFoundException;
+import javax.servlet.http.HttpServletRequest;
 import javax.websocket.server.PathParam;
 import java.security.Principal;
 import java.util.List;
@@ -50,13 +56,14 @@ public class ShoppingCartController {
         Book book;
         book = bookService.findByBookId(bookid).orElseThrow(EntityNotFoundException::new);
 
-        if (qty > book.getStock().getQuantity()) {
-            throw new NotFoundException("books in stock are not enough for your request");
-        }
-        CartItem cartItem = cartItemService.addBookToCart(book, customer, qty);
-        //auto increment number of books and subtotal
-        shoppingCartService.updateShoppingCart(shoppingCart);
-        return new ResponseEntity<>(cartItem, HttpStatus.OK);
+           if (qty > book.getStock().getQuantity()) {
+               throw new NotFoundException("books in stock are not enough for your request");
+           }
+           CartItem cartItem = cartItemService.addBookToCart(book, customer, qty);
+           //auto increment number of books and subtotal
+           shoppingCartService.updateShoppingCart(shoppingCart);
+           return new ResponseEntity<>(cartItem, HttpStatus.OK);
+      // }
     }
 
     @PutMapping("/updateCartItem/{cartid}/quantity/{qty}")
