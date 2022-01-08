@@ -8,19 +8,14 @@ import se.iths.projektarbetekomplexjava.entity.Role;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Set;
 
-public record EmployeePrincipal(Employee employee) implements UserDetails {
+public class EmployeePrincipal implements UserDetails {
 
-//    @Override
-//    public Collection<? extends GrantedAuthority> getAuthorities() {
-//        Set<Role> roles = employee.getRoles();
-//        Collection<GrantedAuthority> grantedAuthorities = new ArrayList<>(roles.size());
-//        for (Role role : roles) {
-//            grantedAuthorities.add(new SimpleGrantedAuthority(role.getRole().toUpperCase()));
-//        }
-//        return grantedAuthorities;
-//    }
+    private final Employee employee;
+
+    public EmployeePrincipal(Employee employee) {
+        this.employee = employee;
+    }
 
     @Override
     public  Collection<? extends  GrantedAuthority> getAuthorities() {

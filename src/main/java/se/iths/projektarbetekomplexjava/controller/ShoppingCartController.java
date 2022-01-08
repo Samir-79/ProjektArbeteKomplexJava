@@ -2,18 +2,23 @@ package se.iths.projektarbetekomplexjava.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.annotation.CurrentSecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import se.iths.projektarbetekomplexjava.entity.*;
-import se.iths.projektarbetekomplexjava.exception.NotAuthorizedException;
 import se.iths.projektarbetekomplexjava.exception.NotFoundException;
 import se.iths.projektarbetekomplexjava.repository.*;
+import se.iths.projektarbetekomplexjava.security.CustomerPrincipal;
 import se.iths.projektarbetekomplexjava.service.BookService;
 import se.iths.projektarbetekomplexjava.service.CartItemService;
 import se.iths.projektarbetekomplexjava.service.ShoppingCartService;
 
 import javax.persistence.EntityNotFoundException;
+import javax.servlet.http.HttpServletRequest;
 import javax.websocket.server.PathParam;
 import java.security.Principal;
 import java.util.List;
@@ -29,6 +34,7 @@ public class ShoppingCartController {
     public final CartItemService cartItemService;
     private final BookService bookService;
 
+
     public ShoppingCartController(ShoppingCartService shoppingCartService,
                                   CustomerRepository customerRepository,
                                   ShoppingCartRepository shoppingCartRepository,
@@ -39,15 +45,11 @@ public class ShoppingCartController {
         this.shoppingCartRepository = shoppingCartRepository;
         this.cartItemService = cartItemService;
         this.bookService = bookService;
-
     }
 
     @PutMapping("/addbooks/bookid/{bookid}/username/{username}/{qty}")
     public ResponseEntity<CartItem> addBooksToCart(@PathVariable int qty, @PathVariable String username, @PathVariable Long bookid) {
         Customer customer = customerRepository.findByUsername(username);
-        if (!customer.getLoggedInCustomer().isLoggedIn()){
-            throw new NotAuthorizedException("You need to login in order to add a book to the cart.");
-        }
         ShoppingCart shoppingCart = customer.getShoppingCart();
         Book book;
         book = bookService.findByBookId(bookid).orElseThrow(EntityNotFoundException::new);
@@ -64,25 +66,19 @@ public class ShoppingCartController {
     @PutMapping("/updateCartItem/{cartid}/quantity/{qty}")
     public ResponseEntity<CartItem> updateCartItem(@PathVariable Long cartid, @PathVariable int qty) {
         CartItem cartItem = cartItemService.findById(cartid);
-        Customer customer = cartItem.getShoppingCart().getCustomer();
-        if (!customer.getLoggedInCustomer().isLoggedIn()){
-            throw new NotAuthorizedException("You need to login in order to add a book to the cart.");
-        }
         cartItem.setQty(cartItem.getQty() + qty);
         cartItemService.updateCartItem(cartItem);
         shoppingCartService.updateShoppingCart(cartItem.getShoppingCart());
         return new ResponseEntity<>(cartItem, HttpStatus.OK);
+
     }
 
     @PutMapping("/removeBookFromCart/{cartid}/quantity/{qty}")
     public ResponseEntity<CartItem> removeBookFromCartItem(@PathVariable Long cartid, @PathVariable int qty) {
         CartItem cartItem = cartItemService.findById(cartid);
-        Customer customer = cartItem.getShoppingCart().getCustomer();
-        if (!customer.getLoggedInCustomer().isLoggedIn()){
-            throw new NotAuthorizedException("You need to login in order to add a book to the cart.");
-        }
         if(cartItem.getQty() < qty) {
             throw new NotFoundException("you do not have : " + qty + " books in your cart");
+
         }
         else if(cartItem.getQty() == qty){
             try {
@@ -100,24 +96,18 @@ public class ShoppingCartController {
         return new ResponseEntity<>(cartItem, HttpStatus.OK);
     }
 
-    @DeleteMapping("/removeCart/{id}")
+    @DeleteMapping("/removebookfromcart/{id}")
     public ResponseEntity<Void> removeBookFromCart(@PathVariable Long id) {
-        CartItem cartItem = cartItemService.findById(id);
-        Customer customer = cartItem.getShoppingCart().getCustomer();
-        if (!customer.getLoggedInCustomer().isLoggedIn()){
-            throw new NotAuthorizedException("You need to login in order to add a book to the cart.");
-        }
         cartItemService.removeCartItem(cartItemService.findById(id));
         return new ResponseEntity<>(HttpStatus.RESET_CONTENT);
     }
 
-//    @PutMapping("/updateShoppingCart/username/{uname}")
-//    public ResponseEntity<ShoppingCart> updateShoppingCart(@PathVariable String uname) {
-//        Customer customer = customerRepository.findByUsername(uname);
-//        ShoppingCart shoppingCart = customer.getShoppingCart();
-//        //  List<CartItem> cartItemList=cartItemService.findByShoppingCart(shoppingCart);
-//        shoppingCartService.updateShoppingCart(shoppingCart);
-//        return new ResponseEntity<>(shoppingCart, HttpStatus.ACCEPTED);
-//
-//    }
+    @PutMapping("/updateShoppingCart/username/{uname}")
+    public ResponseEntity<ShoppingCart> updateShoppingCart(@PathVariable String uname) {
+        Customer customer = customerRepository.findByUsername(uname);
+        ShoppingCart shoppingCart = customer.getShoppingCart();
+        //  List<CartItem> cartItemList=cartItemService.findByShoppingCart(shoppingCart);
+        shoppingCartService.updateShoppingCart(shoppingCart);
+        return new ResponseEntity<>(shoppingCart, HttpStatus.ACCEPTED);
+    }
 }

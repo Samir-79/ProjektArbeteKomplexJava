@@ -8,19 +8,15 @@ import se.iths.projektarbetekomplexjava.entity.Role;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Set;
 
-public record CustomerPrincipal(Customer customer) implements UserDetails {
+public class CustomerPrincipal implements UserDetails {
 
-//    @Override
-//    public Collection<? extends GrantedAuthority> getAuthorities() {
-//        Set<Role> roles = customer.getRoles();
-//        Collection<GrantedAuthority> grantedAuthorities = new ArrayList<>(roles.size());
-//        for (Role role : roles) {
-//            grantedAuthorities.add(new SimpleGrantedAuthority(role.getRole().toUpperCase()));
-//        }
-//        return grantedAuthorities;
-//    }
+    private final Customer customer;
+
+    public CustomerPrincipal(Customer customer) {
+        super();
+        this.customer = customer;
+    }
 
     @Override
     public  Collection<? extends  GrantedAuthority> getAuthorities() {
