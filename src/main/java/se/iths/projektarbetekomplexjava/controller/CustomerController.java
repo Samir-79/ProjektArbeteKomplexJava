@@ -6,7 +6,6 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.*;
 import se.iths.projektarbetekomplexjava.entity.Customer;
-import se.iths.projektarbetekomplexjava.entity.Employee;
 import se.iths.projektarbetekomplexjava.entity.mailsender.MailConstructor;
 import se.iths.projektarbetekomplexjava.exception.BadRequestException;
 import se.iths.projektarbetekomplexjava.exception.NotAuthorizedException;

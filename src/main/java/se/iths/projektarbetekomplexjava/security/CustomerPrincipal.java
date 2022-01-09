@@ -10,9 +10,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Set;
 
-public record CustomerPrincipal(Customer customer) implements UserDetails {
+public class CustomerPrincipal implements UserDetails {
+        Customer customer;
 
-//    @Override
+    public CustomerPrincipal(Customer customer) {
+        this.customer = customer;
+    }
+    //    @Override
 //    public Collection<? extends GrantedAuthority> getAuthorities() {
 //        Set<Role> roles = customer.getRoles();
 //        Collection<GrantedAuthority> grantedAuthorities = new ArrayList<>(roles.size());
