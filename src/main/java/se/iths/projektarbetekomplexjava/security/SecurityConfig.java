@@ -11,14 +11,16 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Configuration
-@EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+//@EnableWebSecurity
+//@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final CustomerDetailService userDetailsService;
+    private final EmployeeDetailService employeeDetailService;
 
-    public SecurityConfig(CustomerDetailService userDetailsService) {
+    public SecurityConfig(CustomerDetailService userDetailsService, EmployeeDetailService employeeDetailService) {
         this.userDetailsService = userDetailsService;
+        this.employeeDetailService = employeeDetailService;
     }
 
     @Bean
@@ -29,23 +31,35 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return provider;
     }
 
-//    @Override
-//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.authenticationProvider(authenticationProvider());
-//    }
+    @Bean
+    public DaoAuthenticationProvider authenticationProvider1() {
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+        provider.setUserDetailsService(employeeDetailService);
+        provider.setPasswordEncoder(new BCryptPasswordEncoder());
+        return  provider;
+    }
+
+
+
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.authenticationProvider(authenticationProvider());
+        auth.authenticationProvider(authenticationProvider1());
+
+    }
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 .csrf().disable()
-                .headers().frameOptions().disable()
+                .httpBasic()
                 .and()
                 .authorizeRequests()
-                .antMatchers("/bokhandel/api/v*/**").permitAll()
-                .antMatchers("/bokhandel/api/v1/book/addbook/admin").hasRole("ADMIN")
-                .antMatchers("/", "/home", "/signup").permitAll()
+                .antMatchers("/bokhandel/api/v1/book/addbook").hasRole("ADMIN")
+                .antMatchers("/", "/home", "/bokhandel/api/v1/**/signup").permitAll()
+                .antMatchers("/application").hasRole("USER")
                 .antMatchers("/admin").hasRole("ADMIN")
-                .antMatchers("/customer").hasRole("USER")
                 .antMatchers("/h2-console/**").permitAll()
                 .anyRequest().authenticated()
                 .and()

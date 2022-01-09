@@ -74,7 +74,7 @@ public class CustomerService {
                     It contains at least one special character which includes !@#$%&*()-+=^.
                     It does’t contain any white space.""");
         }
-        customer.setRole(Role.USER);
+        customer.setRole(Role.ROLE_USER);
         customer.changeLogin(customer.getLoggedInCustomer());
         customer.addShoppingCart(customer.getShoppingCart());
         try {

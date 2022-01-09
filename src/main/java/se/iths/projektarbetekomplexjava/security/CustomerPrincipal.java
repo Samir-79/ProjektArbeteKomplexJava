@@ -10,7 +10,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Set;
 
-public record CustomerPrincipal(Customer customer) implements UserDetails {
+public class CustomerPrincipal implements UserDetails {
+
+    private Customer customer;
+
+    public CustomerPrincipal(Customer customer) {
+        this.customer = customer;
+    }
 
 //    @Override
 //    public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -22,13 +28,19 @@ public record CustomerPrincipal(Customer customer) implements UserDetails {
 //        return grantedAuthorities;
 //    }
 
+
+
     @Override
     public  Collection<? extends  GrantedAuthority> getAuthorities() {
         Role roles = customer.getRole();
+        System.out.println(roles.toString());
         Collection<GrantedAuthority> grantedAuthorities = new ArrayList<>();
-        grantedAuthorities.add(new SimpleGrantedAuthority(roles.toString()));
+        grantedAuthorities.add(new SimpleGrantedAuthority(roles.toString().toUpperCase()));
         return grantedAuthorities;
+
     }
+
+
 
     @Override
     public String getPassword() {

@@ -21,8 +21,8 @@ public class BookController {
         this.bookService = bookService;
     }
 
-    @PostMapping("/addbook/admin")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping("/addbook")
+    //@PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Book> addBook(@RequestBody Book book) {
         Book addedBook = bookService.addBook(book);
         return new ResponseEntity<>(addedBook, HttpStatus.CREATED);

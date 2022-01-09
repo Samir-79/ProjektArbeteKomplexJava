@@ -81,7 +81,7 @@ public class EmployeeService {
                     It contains at least one special character which includes !@#$%&*()-+=^.
                     It does’t contain any white space.""");
         }
-        employee.setRole(Role.ADMIN);
+        employee.setRole(Role.ROLE_ADMIN);
         employee.changeLogin(employee.getLoggedInEmployee());
         try {
             Sender.sender(employee.getFirstName(), employee.getLastName(), employee.getEmail(), employee.getUsername(),
