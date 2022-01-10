@@ -7,6 +7,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import se.iths.projektarbetekomplexjava.entity.*;
@@ -50,17 +51,30 @@ public class ShoppingCartController {
     @PutMapping("/addbooks/bookid/{bookid}/username/{username}/{qty}")
     public ResponseEntity<CartItem> addBooksToCart(@PathVariable int qty, @PathVariable String username, @PathVariable Long bookid) {
         Customer customer = customerRepository.findByUsername(username);
-        ShoppingCart shoppingCart = customer.getShoppingCart();
-        Book book;
-        book = bookService.findByBookId(bookid).orElseThrow(EntityNotFoundException::new);
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String uname;
 
-        if (qty > book.getStock().getQuantity()) {
-            throw new NotFoundException("books in stock are not enough for your request");
+        if (principal instanceof UserDetails) {
+            uname = ((UserDetails)principal).getUsername();
+            System.out.println("===="+uname+"======");
+        } else {
+             uname = principal.toString();
+            System.out.println("===="+uname+"======");
         }
-        CartItem cartItem = cartItemService.addBookToCart(book, customer, qty);
-        //auto increment number of books and subtotal
-        shoppingCartService.updateShoppingCart(shoppingCart);
-        return new ResponseEntity<>(cartItem, HttpStatus.OK);
+        if(customer.getUsername().equals(uname)) {
+            ShoppingCart shoppingCart = customer.getShoppingCart();
+            Book book;
+            book = bookService.findByBookId(bookid).orElseThrow(EntityNotFoundException::new);
+
+            if (qty > book.getStock().getQuantity()) {
+                throw new NotFoundException("books in stock are not enough for your request");
+            }
+            CartItem cartItem = cartItemService.addBookToCart(book, customer, qty);
+            //auto increment number of books and subtotal
+            shoppingCartService.updateShoppingCart(shoppingCart);
+            return new ResponseEntity<>(cartItem, HttpStatus.OK);
+        }
+        return null;
     }
 
     @PutMapping("/updateCartItem/{cartid}/quantity/{qty}")
