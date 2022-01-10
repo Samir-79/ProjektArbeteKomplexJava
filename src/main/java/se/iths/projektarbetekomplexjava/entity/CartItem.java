@@ -22,7 +22,7 @@ public class CartItem {
     @JsonIgnore
     private List<BookToCart> bookToCart;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne
     private Orders order;
 
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})

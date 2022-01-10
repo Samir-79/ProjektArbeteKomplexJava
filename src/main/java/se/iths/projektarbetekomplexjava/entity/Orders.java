@@ -18,7 +18,7 @@ public class Orders {
     private String shippingAddress;
     private Double orderTotalPrice;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "order")
+    @OneToMany( cascade = CascadeType.REMOVE, mappedBy = "order")
     @JsonIgnore
     private List<CartItem> cartItemList;
 
