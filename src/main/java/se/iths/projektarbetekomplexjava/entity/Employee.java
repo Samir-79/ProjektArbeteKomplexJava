@@ -1,11 +1,6 @@
 package se.iths.projektarbetekomplexjava.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import se.iths.projektarbetekomplexjava.entity.Role;
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 public class Employee {
@@ -24,10 +19,6 @@ public class Employee {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    private LoggedIn loggedInEmployee;
-
     public Employee(String firstName, String lastName, String address, String phone, String username, String email, String password, Role role) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -40,11 +31,6 @@ public class Employee {
     }
 
     public Employee() {
-    }
-
-    public void changeLogin(LoggedIn loggedIn){
-        setLoggedInEmployee(loggedIn);
-        loggedIn.setEmployee(this);
     }
 
     public Long getId() {
@@ -117,13 +103,5 @@ public class Employee {
 
     public void setRole(Role role) {
         this.role = role;
-    }
-
-    public LoggedIn getLoggedInEmployee() {
-        return loggedInEmployee;
-    }
-
-    public void setLoggedInEmployee(LoggedIn loggedIn) {
-        this.loggedInEmployee = loggedIn;
     }
 }

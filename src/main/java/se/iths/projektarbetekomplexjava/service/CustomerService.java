@@ -2,8 +2,6 @@ package se.iths.projektarbetekomplexjava.service;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import se.iths.projektarbetekomplexjava.exception.NotAuthorizedException;
-import se.iths.projektarbetekomplexjava.repository.LogInRepository;
 import se.iths.projektarbetekomplexjava.security.EmailValidator;
 import se.iths.projektarbetekomplexjava.entity.*;
 import se.iths.projektarbetekomplexjava.exception.BadRequestException;
@@ -25,20 +23,17 @@ public class CustomerService {
     private final PasswordEncoder passwordEncoder;
     private final EmailValidator emailValidator;
     private final EmailVerification emailVerification;
-    private final LogInRepository logInRepository;
 
     public CustomerService(CustomerRepository customerRepository,
                            BCryptPasswordEncoder bCryptPasswordEncoder,
                            PasswordEncoder passwordEncoder,
                            EmailValidator emailValidator,
-                           EmailVerification emailVerification,
-    LogInRepository logInRepository) {
+                           EmailVerification emailVerification) {
         this.customerRepository = customerRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.passwordEncoder = passwordEncoder;
         this.emailValidator = emailValidator;
         this.emailVerification = emailVerification;
-        this.logInRepository = logInRepository;
     }
 
     public Customer addCustomer(Customer customer) {
@@ -75,7 +70,6 @@ public class CustomerService {
                     It does’t contain any white space.""");
         }
         customer.setRole(Role.ROLE_USER);
-        customer.changeLogin(customer.getLoggedInCustomer());
         customer.addShoppingCart(customer.getShoppingCart());
         try {
             Sender.sender(customer.getFirstName(), customer.getLastName(), customer.getEmail(), customer.getUsername(),
@@ -100,30 +94,30 @@ public class CustomerService {
         return customerRepository.findCustomerByEmail(email);
     }
 
-    public Customer CheckLogIn(String email, String password){
-        Customer loginCustomer = customerRepository.findCustomerByEmail(email);
-        try {
-            if (passwordEncoder.bCryptPasswordEncoder().matches(password, loginCustomer.getPassword())){
-                return customerRepository.save(loginCustomer);
-            }
-            else {
-                throw new NotAuthorizedException("Invalid login, please enter right login data or create new account");
-            }
-        } finally {
-            LoggedIn foundUser = logInRepository.findById(loginCustomer.getLoggedInCustomer().getId()).orElseThrow(EntityNotFoundException::new);
-            foundUser.setLoggedIn(true);
-            logInRepository.save(foundUser);
-        }
-    }
-
-    public Customer CheckLogOut(Long id) {
-        Customer customer = customerRepository.findById(id).orElseThrow(EntityNotFoundException::new);
-        LoggedIn foundUser = logInRepository.findById(customer.getLoggedInCustomer().getId()).orElseThrow(EntityNotFoundException::new);
-        customer.changeLogin(foundUser);
-        foundUser.setLoggedIn(false);
-        logInRepository.save(foundUser);
-        return customerRepository.save(customer);
-    }
+//    public Customer CheckLogIn(String email, String password){
+//        Customer loginCustomer = customerRepository.findCustomerByEmail(email);
+//        try {
+//            if (passwordEncoder.bCryptPasswordEncoder().matches(password, loginCustomer.getPassword())){
+//                return customerRepository.save(loginCustomer);
+//            }
+//            else {
+//                throw new NotAuthorizedException("Invalid login, please enter right login data or create new account");
+//            }
+//        } finally {
+//            LoggedIn foundUser = logInRepository.findById(loginCustomer.getLoggedInCustomer().getId()).orElseThrow(EntityNotFoundException::new);
+//            foundUser.setLoggedIn(true);
+//            logInRepository.save(foundUser);
+//        }
+//    }
+//
+//    public Customer CheckLogOut(Long id) {
+//        Customer customer = customerRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+//        LoggedIn foundUser = logInRepository.findById(customer.getLoggedInCustomer().getId()).orElseThrow(EntityNotFoundException::new);
+//        customer.changeLogin(foundUser);
+//        foundUser.setLoggedIn(false);
+//        logInRepository.save(foundUser);
+//        return customerRepository.save(customer);
+//    }
 
     public Optional<Customer> findUserById(Long id) {
         try{

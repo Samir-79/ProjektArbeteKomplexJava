@@ -6,7 +6,6 @@ import se.iths.projektarbetekomplexjava.entity.Author;
 import se.iths.projektarbetekomplexjava.entity.Book;
 
 import java.util.List;
-import java.util.Set;
 
 @Repository
 public interface BookRepository extends CrudRepository<Book,Long> {

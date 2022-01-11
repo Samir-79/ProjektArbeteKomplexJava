@@ -13,8 +13,7 @@ public class Author {
     private Long id;
     private String firstName;
     private String lastName;
-
-
+    
     @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Book> books = new HashSet<>();
@@ -35,7 +34,6 @@ public class Author {
         this.id = id;
     }
 
-
     public String getFirstName() {
         return firstName;
     }
@@ -44,11 +42,9 @@ public class Author {
         this.firstName = firstName;
     }
 
-
     public String getLastName() {
         return lastName;
     }
-
 
     public void setLastName(String lastName) {
         this.lastName = lastName;

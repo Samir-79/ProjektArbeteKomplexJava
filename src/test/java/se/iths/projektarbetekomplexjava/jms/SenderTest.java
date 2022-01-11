@@ -1,5 +1,7 @@
 package se.iths.projektarbetekomplexjava.jms;
 
+import com.rabbitmq.client.Channel;
+import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -43,6 +45,12 @@ public class SenderTest {
     @DisplayName("Public a Queue")
     public void basicPublic() throws IOException, TimeoutException {
         String QUEUE_NAME = "iamATest1";
+
+        ConnectionFactory factory = new ConnectionFactory();
+        Connection connection = factory.newConnection();
+        Channel channel = connection.createChannel();
+
+        channel.queueDeclare(QUEUE_NAME, false, false, false,  null);
         String message = "Test";
         connectionFactory.newConnection().createChannel().basicPublish("",
                 QUEUE_NAME,null, message.getBytes(StandardCharsets.UTF_8));

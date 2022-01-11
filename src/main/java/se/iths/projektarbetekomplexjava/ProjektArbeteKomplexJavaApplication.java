@@ -23,31 +23,25 @@ public class ProjektArbeteKomplexJavaApplication {
 //                                                          StockRepository stockRepository, ShoppingCartRepository shoppingCartRepository,
 //                                                          OrderRepository orderRepository, PaymentRepository paymentRepository) {
 //        return (args) -> {
-//            Customer customer1 = new Customer("Sara", "Hamilton", "Street 69", "53513515465", "SAHL", "sara.hamilton@mail.com", "sdf4sd7f48", Role.USER);
-//            Customer customer2 = new Customer("Ed", "Thomas", "Sector 8", "54646516557", "EDMA", "ed.thomas@mail.com", "ssdfhrsghs", Role.USER);
-//            Customer customer3 = new Customer("Jason", "Voorhees", "Crystal Lake Camp", "8784564984", "JAES", "jason.voorhees@mail.com", "13547844", Role.USER);
-//            Customer customer4 = new Customer("John", "Smith", "Street 78", "4987531357", "JOSI", "john.smith@mail.com", "sdfhdfhdssd", Role.USER);
-//            Customer customer5 = new Customer("Robert", "Gustafsson", "Vallhallavägen 45", "213548654", "ROSO", "robert.gustafsson@mail.com", "sdfsdfrghdf", Role.USER);
-//            Customer customer6 = new Customer("Eva", "Andersson", "Vasa Gatan 64", "879845143", "EVSO", "eva.andersson@mail.com", "öjiohjmghj", Role.USER);
-//            Customer customer7 = new Customer("Mathilda", "Lindqvist", "Oden Gatan 25", "658424896", "MALI", "mathilda.lindqvist@mail.com", "ghjfhdfhg", Role.USER);
-//            Customer customer8 = new Customer("Albert", "Wesker", "Street 23", "1654746835", "ALWR", "albert.wesker@umbrella.com", "dfggkghjfg", Role.USER);
-//            Customer customer9 = new Customer("Lisa", "Lavinski", "Sector 4", "351687146547", "LILI", "lisa.lavinski@mail.com", "asdsefrsdf", Role.USER);
-//            Customer customer10 = new Customer("Veronika", "Jones", "Sector 2", "56498765684", "VEJS", "veronika.jones@mail.com", "sdfsgtfgthdg", Role.USER);
+//            Customer customer1 = new Customer("Sara", "Hamilton", "Street 69", "53513515465", "SAHL", "sara.hamilton@mail.com", "sdf4sd7f48", Role.ROLE_USER);
+//            Customer customer2 = new Customer("Ed", "Thomas", "Sector 8", "54646516557", "EDMA", "ed.thomas@mail.com", "ssdfhrsghs", Role.ROLE_USER);
+//            Customer customer3 = new Customer("Jason", "Voorhees", "Crystal Lake Camp", "8784564984", "JAES", "jason.voorhees@mail.com", "13547844", Role.ROLE_USER);
+//            Customer customer4 = new Customer("John", "Smith", "Street 78", "4987531357", "JOSI", "john.smith@mail.com", "sdfhdfhdssd", Role.ROLE_USER);
+//            Customer customer5 = new Customer("Robert", "Gustafsson", "Vallhallavägen 45", "213548654", "ROSO", "robert.gustafsson@mail.com", "sdfsdfrghdf", Role.ROLE_USER);
+//            Customer customer6 = new Customer("Eva", "Andersson", "Vasa Gatan 64", "879845143", "EVSO", "eva.andersson@mail.com", "öjiohjmghj", Role.ROLE_USER);
+//            Customer customer7 = new Customer("Mathilda", "Lindqvist", "Oden Gatan 25", "658424896", "MALI", "mathilda.lindqvist@mail.com", "ghjfhdfhg", Role.ROLE_USER);
+//            Customer customer8 = new Customer("Albert", "Wesker", "Street 23", "1654746835", "ALWR", "albert.wesker@umbrella.com", "dfggkghjfg", Role.ROLE_USER);
+//            Customer customer9 = new Customer("Lisa", "Lavinski", "Sector 4", "351687146547", "LILI", "lisa.lavinski@mail.com", "asdsefrsdf", Role.ROLE_USER);
+//            Customer customer10 = new Customer("Veronika", "Jones", "Sector 2", "56498765684", "VEJS", "veronika.jones@mail.com", "sdfsgtfgthdg", Role.ROLE_USER);
 //
 //            customerRepository.saveAll(Arrays.asList(customer1, customer2, customer3, customer4, customer5, customer6, customer7, customer8, customer9, customer10));
 //
 //
-//            Employee employee1 = new Employee("Philip", "Mattsson", "Classified", "Classified", "PHMA", "philip.mattsson@mail.com", "sdgfghdfsfg",Role.ADMIN);
-//            Employee employee2 = new Employee("Samir", "Alsalhani", "Classified", "Classified", "SAAL", "samir.alsalhani@mail.com", "fghfghdfhk",Role.ADMIN);
-//            Employee employee3 = new Employee("Biniam", "Haile Kifle", "Classified", "Classified", "BIHK", "biniam.haile.kifle@mail.com", "hgkfghgdff",Role.ADMIN);
+//            Employee employee1 = new Employee("Philip", "Mattsson", "Classified", "Classified", "PHMA", "philip.mattsson@mail.com", "sdgfghdfsfg",Role.ROLE_ADMIN);
+//            Employee employee2 = new Employee("Samir", "Alsalhani", "Classified", "Classified", "SAAL", "samir.alsalhani@mail.com", "fghfghdfhk",Role.ROLE_ADMIN);
+//            Employee employee3 = new Employee("Biniam", "Haile Kifle", "Classified", "Classified", "BIHK", "biniam.haile.kifle@mail.com", "hgkfghgdff",Role.ROLE_ADMIN);
 //
 //            employeeRepository.saveAll(Arrays.asList(employee1, employee2, employee3));
-//
-//            Role role1 = Role.ADMIN;
-//            Role role2 = Role.USER;
-//
-//            employeeRepository.saveAll(Arrays.asList(employee1, employee2, employee3));
-//            //DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
 //
 //            Book book1 = new Book("9789178871148", "Depphjärnan : Varför mår vi så dåligt när vi har det så bra?", "2021-10-28", 629L, 224, "Svenska", "Hälso&Livsstil", 250L);
 //            Book book2 = new Book("9789178872718", "Middag i en gryta", "2021-11-03", 734L, 160, "Svenska", "Kokböcker", 251L);
@@ -57,8 +51,6 @@ public class ProjektArbeteKomplexJavaApplication {
 //            Book book6 = new Book("9789100197186", "Paradiset", "2021-12-11", 383L, 276, "Svenska", "Skönlitteratur", 255L);
 //            Book book7 = new Book("9781565841635", "Paradise", "1995-05-18", null, 246, "Engelska", "Skönlitteratur", 256L);
 //            Book book8 = new Book("9781292273730", "Java How to Program, Late Objects,Global Edition", "2019-09-11", null, 1248, "Engelska", "Programmering", 257L);
-//
-//
 //
 //            Author author1 = new Author("Anders", "Hansen");
 //            Author author2 = new Author("Tareq", "Taylor");
@@ -77,7 +69,7 @@ public class ProjektArbeteKomplexJavaApplication {
 //            Publisher publisher4 = new Publisher("The New Press");
 //            Publisher publisher5 = new Publisher("Pearson Education Limited");
 //
-//            //publisherRepository.saveAll(Arrays.asList(publisher1, publisher2, publisher3, publisher4, publisher5));
+//            publisherRepository.saveAll(Arrays.asList(publisher1, publisher2, publisher3, publisher4, publisher5));
 //
 //            Stock stock1 = new Stock(100, true);
 //            Stock stock2 = new Stock(0, false);
@@ -88,7 +80,7 @@ public class ProjektArbeteKomplexJavaApplication {
 //            Stock stock7 = new Stock(0, false);
 //            Stock stock8 = new Stock(10, true);
 //
-//            //stockRepository.saveAll(Arrays.asList(stock1, stock2, stock3, stock4, stock5, stock6, stock7, stock8));
+//            stockRepository.saveAll(Arrays.asList(stock1, stock2, stock3, stock4, stock5, stock6, stock7, stock8));
 //
 //            book1.addAuthor(author1);
 //            book1.addPublisher(publisher1);
@@ -123,20 +115,17 @@ public class ProjektArbeteKomplexJavaApplication {
 //            book8.addPublisher(publisher5);
 //            book8.addToStock(stock8);
 //
-//            //bookRepository.saveAll(Arrays.asList(book1, book2, book3, book4, book5, book6, book7, book8));
-//
+//            bookRepository.saveAll(Arrays.asList(book1, book2, book3, book4, book5, book6, book7, book8));
 //
 //            ShoppingCart shoppingCart1 = new ShoppingCart();
 //            ShoppingCart shoppingCart2 = new ShoppingCart();
 //            ShoppingCart shoppingCart3 = new ShoppingCart();
 //
-//            //shoppingCartRepository.saveAll(Arrays.asList(shoppingCart1, shoppingCart2, shoppingCart3));
+//            shoppingCartRepository.saveAll(Arrays.asList(shoppingCart1, shoppingCart2, shoppingCart3));
 //
 //            Orders order1 = new Orders("2021-12-07", "motorcycle", "styrbjörnsvägen", 5000.00);
 //            Orders order2 = new Orders("2021-11-11", "Car", "styrbjörnsvägen", 1200.00);
 //            Orders order3 = new Orders("2021-10-10", "plane", "styrbjörnsvägen", 245.50);
-//
-//
 //
 //            Payment payment1 = new Payment("Swedbank", "1233...", 6, 2025, 345, "biniam");
 //            Payment payment2 = new Payment("SEB", "1233...", 10, 2026, 123, "Philip");
@@ -147,9 +136,9 @@ public class ProjektArbeteKomplexJavaApplication {
 //            customer1.addShoppingCart(shoppingCart1);
 //            customer2.addShoppingCart(shoppingCart2);
 //            customer3.addShoppingCart(shoppingCart3);
-////            shoppingCart1.addCustomer(customer1);
-////            shoppingCart2.addCustomer(customer2);
-////            shoppingCart3.addCustomer(customer3);
+//            shoppingCart1.addCustomer(customer1);
+//            shoppingCart2.addCustomer(customer2);
+//            shoppingCart3.addCustomer(customer3);
 //
 //            shoppingCart1.addBook(book1);
 //            shoppingCart1.addBook(book2);

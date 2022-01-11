@@ -1,5 +1,7 @@
 package se.iths.projektarbetekomplexjava.jms;
 
+import com.rabbitmq.client.Channel;
+import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.DeliverCallback;
 import org.junit.jupiter.api.BeforeEach;
@@ -43,12 +45,20 @@ public class ReceiverTest {
     @Test
     @DisplayName("Consume a Queue")
     public void basicConsume() throws IOException, TimeoutException {
+
+        String QUEUE_NAME = "iamATest1";
+
+        ConnectionFactory factory = new ConnectionFactory();
+        Connection connection = factory.newConnection();
+        Channel channel = connection.createChannel();
+
+        channel.queueDeclare(QUEUE_NAME, false, false, false,  null);
         DeliverCallback deliverCallback = (consumerTag, delivery) -> {
             String message = new String(delivery.getBody(), StandardCharsets.UTF_8);
             System.out.println("======> Hello from Rabbitmq I send this message:  " + message);
         };
         connectionFactory.newConnection().createChannel()
-                .basicConsume("iamATest1", true, deliverCallback, consumerTag -> { });
+                .basicConsume(QUEUE_NAME, true, deliverCallback, consumerTag -> { });
         assertTrue(true);
     }
 }

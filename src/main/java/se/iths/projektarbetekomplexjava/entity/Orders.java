@@ -12,13 +12,12 @@ public class Orders {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    //@Temporal(TemporalType.DATE)
     private String orderDate;
     private String shippingMethod;
     private String shippingAddress;
     private Double orderTotalPrice;
 
-    @OneToMany( cascade = CascadeType.REMOVE, mappedBy = "order")
+    @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "order")
     @JsonIgnore
     private List<CartItem> cartItemList;
 

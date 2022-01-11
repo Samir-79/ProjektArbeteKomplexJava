@@ -8,7 +8,6 @@ import se.iths.projektarbetekomplexjava.repository.BookRepository;
 import se.iths.projektarbetekomplexjava.repository.PublisherRepository;
 
 import javax.persistence.EntityNotFoundException;
-import java.lang.management.OperatingSystemMXBean;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,25 +25,23 @@ public class AuthorService {
     }
 
     public Optional<Author> findAuthorById(Long id) {
-        Author foundAuthor = authorRepository.findById(id).orElseThrow(EntityNotFoundException::new);
-        ;
-        return authorRepository.findById(foundAuthor.getId());
+        return authorRepository.findById(id);
     }
 
     public List<Author> getAuthorByFirstName(String firstName) {
         List<Author> foundAuthor = authorRepository.findByFirstName(firstName);
-        if (foundAuthor == null) {
+        if (foundAuthor.isEmpty()) {
             throw new NotFoundException("No authors found!");
         }
         return authorRepository.findByFirstName(firstName);
     }
 
     public List<Author> getAuthorByLastName(String lastName) {
-        List<Author> foundAuthor = authorRepository.findByFirstName(lastName);
-        if (foundAuthor == null) {
+        List<Author> foundAuthor = authorRepository.findByLastName(lastName);
+        if (foundAuthor.isEmpty()) {
             throw new NotFoundException("No authors found!");
         }
-        return authorRepository.findByFirstName(lastName);
+        return authorRepository.findByLastName(lastName);
     }
 
     public Author getAuthorByFullName(String firstName, String lastName) {
@@ -55,12 +52,12 @@ public class AuthorService {
         return authorRepository.findByFirstNameAndLastName(firstName, lastName);
     }
 
-    public Iterable<Author> findAllAuthors() {
-        return authorRepository.findAll();
+    public Author updateAuthor(Author author) {
+        return authorRepository.save(author);
     }
 
-    public Author updateAuthor(Author author) {
-        Author foundAuthor = authorRepository.findById(author.getId()).orElseThrow(EntityNotFoundException::new);
-        return authorRepository.save(foundAuthor);
+    public void removeAuthor(Long id) {
+        Author foundAuthor = authorRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        authorRepository.deleteById(foundAuthor.getId());
     }
 }

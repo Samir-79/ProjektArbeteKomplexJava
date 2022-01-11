@@ -24,17 +24,17 @@ public class EmailVerification {
         }
     }
 
-    public ResponseEntity<?> sendOrderConfirmationEmail(Customer customer, Orders orders){
+    public void sendOrderConfirmationEmail(Customer customer, Orders orders){
         try {
             emailService.send("projektbokhandel@gmail.com", customer.getEmail(), "Order Confirmation",
-                    "Hello " + customer.getEmail()
-                    + " We have received your order, and we will send it to you as soon as possible. "
-                    + orders
+                    "Hello " + customer.getEmail() + "\n"
+                    + " We have received your order, and we will send it to you as soon as possible. \n"
+                    + orders.getOrderDate()
                     + customer
                     + orders.getCartItemList());
-            return ResponseEntity.ok("Order Confirmation sent to " + customer.getEmail());
+            ResponseEntity.ok("Order Confirmation sent to " + customer.getEmail());
         }catch (Exception e){
-            return ResponseEntity.badRequest().body("Error " + e.getMessage());
+            ResponseEntity.badRequest().body("Error " + e.getMessage());
         }
     }
 }

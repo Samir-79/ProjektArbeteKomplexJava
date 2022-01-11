@@ -29,10 +29,10 @@ public class CartItem {
     @ManyToOne(cascade = CascadeType.PERSIST)
     private ShoppingCart shoppingCart;
 
-    public void addToOrder(Orders orders) {
-        setOrder(orders);
-        orders.getCartItemList().add(this);
-    }
+//    public void addToOrder(Orders orders) {
+//        setOrder(orders);
+//        orders.getCartItemList().add(this);
+//    }
 
     public Long getId() {
         return id;

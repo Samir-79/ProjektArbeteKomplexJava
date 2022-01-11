@@ -17,16 +17,13 @@ public class Customer {
     private String username;
     private String email;
     private String password;
+
     @Enumerated(EnumType.STRING)
     private Role role;
 
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private ShoppingCart shoppingCart;
-
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    private LoggedIn loggedInCustomer;
 
     public Customer(String firstName, String lastName, String address, String phone, String username, String email, String password, Role role) {
         this.firstName = firstName;
@@ -45,11 +42,6 @@ public class Customer {
     public void addShoppingCart(ShoppingCart shoppingCart) {
         setShoppingCart(shoppingCart);
         shoppingCart.setCustomer(this);
-    }
-
-    public void changeLogin(LoggedIn loggedIn){
-        setLoggedInCustomer(loggedIn);
-        loggedIn.setCustomer(this);
     }
 
     public Long getId() {
@@ -130,13 +122,5 @@ public class Customer {
 
     public void setRole(Role role) {
         this.role = role;
-    }
-
-    public LoggedIn getLoggedInCustomer() {
-        return loggedInCustomer;
-    }
-
-    public void setLoggedInCustomer(LoggedIn loggedIn) {
-        this.loggedInCustomer = loggedIn;
     }
 }

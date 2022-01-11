@@ -11,6 +11,4 @@ import java.util.List;
 public interface CartItemRepository extends CrudRepository<CartItem, Long> {
     List<CartItem> findByShoppingCart(ShoppingCart shoppingCart);
     void deleteCartItemByShoppingCart(ShoppingCart shoppingCart);
-
-    // List<CartItem> findByOrder(Order order);
 }

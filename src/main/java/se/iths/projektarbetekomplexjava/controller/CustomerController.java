@@ -25,17 +25,17 @@ public class CustomerController {
             return new ResponseEntity<>(addedCustomer, HttpStatus.CREATED);
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<Customer> logInCustomer(@RequestBody Customer customer){
-        Customer loginCustomer = service.CheckLogIn(customer.getEmail(), customer.getPassword());
-        return new ResponseEntity<>(loginCustomer, HttpStatus.OK);
-    }
-
-    @PostMapping("/logout/{id}")
-    public ResponseEntity<Customer> logOutCustomer(@PathVariable Long id){
-        Customer logOutCustomer = service.CheckLogOut(id);
-        return new ResponseEntity<>(logOutCustomer, HttpStatus.OK);
-    }
+//    @PostMapping("/login")
+//    public ResponseEntity<Customer> logInCustomer(@RequestBody Customer customer){
+//        Customer loginCustomer = service.CheckLogIn(customer.getEmail(), customer.getPassword());
+//        return new ResponseEntity<>(loginCustomer, HttpStatus.OK);
+//    }
+//
+//    @PostMapping("/logout/{id}")
+//    public ResponseEntity<Customer> logOutCustomer(@PathVariable Long id){
+//        Customer logOutCustomer = service.CheckLogOut(id);
+//        return new ResponseEntity<>(logOutCustomer, HttpStatus.OK);
+//    }
 
     @PutMapping("/update/{id}")
     public ResponseEntity<Customer> updateCustomer(@PathVariable Long id, @RequestBody Customer customer){
