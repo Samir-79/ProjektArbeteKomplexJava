@@ -43,7 +43,7 @@ public class BookService {
 
     public void removeBook(Long id) {
         Book foundBook = bookRepository.findById(id).orElseThrow(EntityNotFoundException::new);
-        bookRepository.deleteById(foundBook.getId());
+        bookRepository.deleteById(id);
     }
 
 //    public Book updateBook(Book book) {
@@ -69,11 +69,8 @@ public class BookService {
     }
 
     public Optional<Book> findByBookId(Long id) {
-        Book foundBook = bookRepository.findById(id).orElseThrow(EntityNotFoundException::new);
-        if (foundBook == null){
-            throw new NotFoundException("No data available of book ID: " + id);
-        }
-        return bookRepository.findById(foundBook.getId());
+
+        return bookRepository.findById(id);
     }
 
     public List<Book> getBookByTitle(String title) {

@@ -2,6 +2,7 @@ package se.iths.projektarbetekomplexjava.service;
 
 import org.springframework.stereotype.Service;
 import se.iths.projektarbetekomplexjava.entity.*;
+import se.iths.projektarbetekomplexjava.exception.NotFoundException;
 import se.iths.projektarbetekomplexjava.repository.BookToCartRepository;
 import se.iths.projektarbetekomplexjava.repository.CartItemRepository;
 import se.iths.projektarbetekomplexjava.repository.ShoppingCartRepository;
@@ -70,7 +71,7 @@ public class CartItemService {
     }
 
     public CartItem findById(Long id) {
-        return cartItemRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        return cartItemRepository.findById(id).orElseThrow(()-> new NotFoundException("Cart with id: "+id+" not found"));
     }
 
     public CartItem save(CartItem cartItem) {

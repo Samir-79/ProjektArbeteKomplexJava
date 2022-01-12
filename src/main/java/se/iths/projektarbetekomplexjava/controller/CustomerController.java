@@ -2,6 +2,7 @@ package se.iths.projektarbetekomplexjava.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import se.iths.projektarbetekomplexjava.entity.Customer;
 import se.iths.projektarbetekomplexjava.exception.NotFoundException;
@@ -25,18 +26,6 @@ public class CustomerController {
             return new ResponseEntity<>(addedCustomer, HttpStatus.CREATED);
     }
 
-//    @PostMapping("/login")
-//    public ResponseEntity<Customer> logInCustomer(@RequestBody Customer customer){
-//        Customer loginCustomer = service.CheckLogIn(customer.getEmail(), customer.getPassword());
-//        return new ResponseEntity<>(loginCustomer, HttpStatus.OK);
-//    }
-//
-//    @PostMapping("/logout/{id}")
-//    public ResponseEntity<Customer> logOutCustomer(@PathVariable Long id){
-//        Customer logOutCustomer = service.CheckLogOut(id);
-//        return new ResponseEntity<>(logOutCustomer, HttpStatus.OK);
-//    }
-
     @PutMapping("/update/{id}")
     public ResponseEntity<Customer> updateCustomer(@PathVariable Long id, @RequestBody Customer customer){
         Optional<Customer> foundCustomer = service.findUserById(id);
@@ -45,5 +34,16 @@ public class CustomerController {
             throw new NotFoundException("No data available of user ID: " + id);
         }
         return new ResponseEntity<>(updatedCustomer, HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("/deleteCustomer/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Void> removeCustomer(@PathVariable Long id){
+        Optional<Customer> foundCustomer = service.findUserById(id);
+        if (foundCustomer.isEmpty()){
+            throw new NotFoundException("No data available of user ID: " + id);
+        }
+        service.removeCustomer(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

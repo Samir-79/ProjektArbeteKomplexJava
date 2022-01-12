@@ -13,9 +13,6 @@ import se.iths.projektarbetekomplexjava.service.BookService;
 import se.iths.projektarbetekomplexjava.service.CartItemService;
 import se.iths.projektarbetekomplexjava.service.ShoppingCartService;
 
-import javax.persistence.EntityNotFoundException;
-import java.util.Objects;
-
 @RestController
 @RequestMapping("bokhandel/api/v1/shoppingcart/")
 public class ShoppingCartController {
@@ -41,30 +38,27 @@ public class ShoppingCartController {
     @PutMapping("/addbooks/bookid/{bookid}/username/{username}/{qty}")
     public Object addBooksToCart(@PathVariable int qty, @PathVariable String username, @PathVariable Long bookid) {
         Customer customer = customerRepository.findByUsername(username);
-        if (customer == null){
+        if (customer == null) {
             throw new NotFoundException("Customer not found");
         }
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String uname;
 
         if (principal instanceof UserDetails) {
-            uname = ((UserDetails)principal).getUsername();
+            uname = ((UserDetails) principal).getUsername();
         } else {
             uname = principal.toString();
         }
-        if(customer.getUsername().equals(uname)) {
+        if (customer.getUsername().equals(uname)) {
             ShoppingCart shoppingCart = customer.getShoppingCart();
             Book book;
-            book = bookService.findByBookId(bookid).orElseThrow(EntityNotFoundException::new);
+            book = bookService.findByBookId(bookid).orElseThrow(() -> new NotFoundException("book with Id: " + bookid + " not found"));
 
-             if (book.getId() != bookid){
-                throw new NotFoundException("Book id: " + bookid + " does not exist in the database");
-             }
-             else if (qty > book.getStock().getQuantity() || book.getStock().getQuantity() == 0 || qty == 0) {
+            if (qty > book.getStock().getQuantity() || book.getStock().getQuantity() == 0 || qty == 0) {
                 throw new BadRequestException("Book quantity is not available");
-             }
+            }
+
             CartItem cartItem = cartItemService.addBookToCart(book, customer, qty);
-            //auto increment number of books and subtotal
             shoppingCartService.updateShoppingCart(shoppingCart);
             return new ResponseEntity<>(cartItem, HttpStatus.OK);
         }
@@ -78,19 +72,16 @@ public class ShoppingCartController {
         cartItemService.updateCartItem(cartItem);
         shoppingCartService.updateShoppingCart(cartItem.getShoppingCart());
         return new ResponseEntity<>(cartItem, HttpStatus.OK);
-
     }
 
     @PutMapping("/removeBookFromCart/{cartid}/quantity/{qty}")
     public Object removeBookFromCartItem(@PathVariable Long cartid, @PathVariable int qty) {
         CartItem cartItem = cartItemService.findById(cartid);
-        if (cartItem == null){
-            return new NotFoundException("Cart ID: " + cartid + " not found");
-        }
-        else if(cartItem.getQty() < qty) {
+
+        if (cartItem.getQty() < qty) {
             return "you do not have : " + qty + " books in your cart";
         }
-        else if(cartItem.getQty() == qty){
+        else if (cartItem.getQty() == qty) {
             try {
                 return "this will remove all the copies of this book from the cart";
             }
@@ -106,18 +97,9 @@ public class ShoppingCartController {
         return new ResponseEntity<>(cartItem, HttpStatus.OK);
     }
 
-    @DeleteMapping("/removebookfromcart/{id}")
+    @DeleteMapping("/removecartItem/{id}")
     public ResponseEntity<Void> removeBookFromCart(@PathVariable Long id) {
         cartItemService.removeCartItem(cartItemService.findById(id));
         return new ResponseEntity<>(HttpStatus.RESET_CONTENT);
-    }
-
-    @PutMapping("/updateShoppingCart/username/{uname}")
-    public ResponseEntity<ShoppingCart> updateShoppingCart(@PathVariable String uname) {
-        Customer customer = customerRepository.findByUsername(uname);
-        ShoppingCart shoppingCart = customer.getShoppingCart();
-        //  List<CartItem> cartItemList=cartItemService.findByShoppingCart(shoppingCart);
-        shoppingCartService.updateShoppingCart(shoppingCart);
-        return new ResponseEntity<>(shoppingCart, HttpStatus.ACCEPTED);
     }
 }

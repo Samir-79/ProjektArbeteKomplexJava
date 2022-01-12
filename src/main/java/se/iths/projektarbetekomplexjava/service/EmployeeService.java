@@ -139,6 +139,37 @@ public class EmployeeService {
     }
 
     public Employee updateEmployee(Employee employee) {
-        return employeeRepository.save(employee);
+        List<Employee> employeeList = getByEmail(employee.getEmail());
+
+        if (employee.getFirstName().isEmpty() || employee.getLastName().isEmpty() || employee.getAddress().isEmpty()
+                || employee.getPhone().isEmpty() || employee.getUsername().isEmpty() || employee.getEmail().isEmpty() || employee.getPassword().isEmpty()) {
+            throw new BadRequestException("Insufficient data, please fill the required registration data.");
+        }
+
+        for (Employee employees : employeeList) {
+            if (passwordEncoder.bCryptPasswordEncoder().matches(employee.getPassword(), employees.getPassword())) {
+                throw new BadRequestException("Password: " + employee.getPassword() + " is already taken.");
+            } else if (employee.getUsername().equals(employees.getUsername())) {
+                throw new BadRequestException("Username: " + employee.getUsername() + " is already taken.");
+            } else if (employee.getEmail().equals(employees.getEmail())) {
+                throw new BadRequestException("you are not allowed to change you email. contact your Admin to change your email");
+            }
+        }
+        if (PasswordValidator.isValidPassword(employee.getPassword())) {
+            employee.setPassword(bCryptPasswordEncoder.encode(employee.getPassword()));
+
+        }
+        else {
+            throw new BadRequestException("""
+                    Password must fulfill the password requirement: It contains at least 8 characters and at most 20 characters.
+                    It contains at least one digit.
+                    It contains at least one upper case alphabet.
+                    It contains at least one lower case alphabet.
+                    It contains at least one special character which includes !@#$%&*()-+=^.
+                    It does’t contain any white space.""");
+        }
+        employee.setRole(Role.ROLE_ADMIN);
+
+            return employeeRepository.save(employee);
+        }
     }
-}

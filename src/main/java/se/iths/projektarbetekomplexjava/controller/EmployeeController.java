@@ -2,12 +2,11 @@ package se.iths.projektarbetekomplexjava.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import se.iths.projektarbetekomplexjava.entity.Customer;
 import se.iths.projektarbetekomplexjava.entity.Employee;
-import se.iths.projektarbetekomplexjava.exception.NotAuthorizedException;
 import se.iths.projektarbetekomplexjava.exception.NotFoundException;
-import se.iths.projektarbetekomplexjava.security.PasswordEncoder;
 import se.iths.projektarbetekomplexjava.service.CustomerService;
 import se.iths.projektarbetekomplexjava.service.EmployeeService;
 
@@ -20,12 +19,10 @@ public class EmployeeController {
 
     private final CustomerService customerService;
     private final EmployeeService employeeService;
-    private final PasswordEncoder passwordEncoder;
 
-    public EmployeeController(CustomerService customerService, EmployeeService employeeService, PasswordEncoder passwordEncoder) {
+    public EmployeeController(CustomerService customerService, EmployeeService employeeService) {
         this.customerService = customerService;
         this.employeeService = employeeService;
-        this.passwordEncoder = passwordEncoder;
     }
 
     @PostMapping("/signup")
@@ -47,6 +44,7 @@ public class EmployeeController {
 //    }
 
     @PutMapping("/update/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Employee> updateEmployee(@PathVariable Long id, @RequestBody Employee employee){
         Optional<Employee> foundEmployee = employeeService.findUserById(id);
         Employee updatedEmployee = employeeService.updateEmployee(employee);
@@ -56,7 +54,8 @@ public class EmployeeController {
         return new ResponseEntity<>(updatedEmployee, HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/admin/deleteEmployee/{id}")
+    @DeleteMapping("/deleteEmployee/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> removeEmployee(@PathVariable Long id){
         Optional<Employee> foundEmployee = employeeService.findUserById(id);
         if (foundEmployee.isEmpty()){
@@ -66,17 +65,8 @@ public class EmployeeController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @DeleteMapping("/admin/deleteCustomer/{id}")
-    public ResponseEntity<Void> removeCustomer(@PathVariable Long id){
-        Optional<Customer> foundCustomer = customerService.findUserById(id);
-        if (foundCustomer.isEmpty()){
-            throw new NotFoundException("No data available of user ID: " + id);
-        }
-        customerService.removeCustomer(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
-
-    @GetMapping("/admin/getListOfCustomer")
+    @GetMapping("/getListOfCustomer")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Iterable<Customer>> getAllCustomers(){
         List<Customer> allCustomers = employeeService.findAllCustomers();
         if (allCustomers.isEmpty()){
@@ -85,7 +75,8 @@ public class EmployeeController {
         return new ResponseEntity<>(allCustomers, HttpStatus.OK);
     }
 
-    @GetMapping("/admin/getListOfEmployee")
+    @GetMapping("/getListOfEmployee")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Iterable<Employee>> getAllEmployees(){
         List<Employee> allEmployees = employeeService.findAllEmployees();
         if (allEmployees.isEmpty()){
@@ -94,7 +85,8 @@ public class EmployeeController {
         return new ResponseEntity<>(allEmployees, HttpStatus.OK);
     }
 
-    @GetMapping("/admin/searchEmployee/{id}")
+    @GetMapping("/searchEmployee/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Optional<Employee>> findEmployeeId(@PathVariable long id){
         Optional<Employee> foundEmployee = employeeService.findUserById(id);
         if (foundEmployee.isEmpty()){
@@ -104,6 +96,7 @@ public class EmployeeController {
     }
 
     @GetMapping("/searchCustomer/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Optional<Customer>> findCustomerId(@PathVariable long id){
         Optional<Customer> foundCustomer = customerService.findUserById(id);
         if (foundCustomer.isEmpty()){
