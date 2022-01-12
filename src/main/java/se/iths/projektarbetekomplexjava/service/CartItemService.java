@@ -40,9 +40,7 @@ public class CartItemService {
         return cartItem;
     }
 
-
     public CartItem addBookToCart(Book book, Customer customer, int qty) {
-
         List<CartItem> cartItemList = findByShoppingCart(customer.getShoppingCart());
 
         for (CartItem cartItem : cartItemList) {

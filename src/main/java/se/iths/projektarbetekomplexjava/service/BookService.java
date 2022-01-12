@@ -17,13 +17,13 @@ import java.util.Optional;
 public class BookService {
 
     private final BookRepository bookRepository;
-    private final AuthorRepository authorRespository;
+    private final AuthorRepository authorRepository;
     private final PublisherRepository publisherRepository;
     private final ShoppingCartRepository shoppingCartRepository;
 
-    public BookService(BookRepository bookRepository, AuthorRepository authorRespository, PublisherRepository publisherRepository, ShoppingCartRepository shoppingCartRepository) {
+    public BookService(BookRepository bookRepository, AuthorRepository authorRepository, PublisherRepository publisherRepository, ShoppingCartRepository shoppingCartRepository) {
         this.bookRepository = bookRepository;
-        this.authorRespository = authorRespository;
+        this.authorRepository = authorRepository;
         this.publisherRepository = publisherRepository;
         this.shoppingCartRepository = shoppingCartRepository;
     }
@@ -38,7 +38,6 @@ public class BookService {
         book.addPublisher(book.getPublisher());
         book.addToStock(book.getStock());
 
-
         return bookRepository.save(book);
     }
 
@@ -47,10 +46,10 @@ public class BookService {
         bookRepository.deleteById(foundBook.getId());
     }
 
-    public Book updateBook(Book book) {
-        Book foundBook = bookRepository.findById(book.getId()).orElseThrow(EntityNotFoundException::new);
-        return bookRepository.save(foundBook);
-    }
+//    public Book updateBook(Book book) {
+//        Book foundBook = bookRepository.findById(book.getId()).orElseThrow(EntityNotFoundException::new);
+//        return bookRepository.save(foundBook);
+//    }
 
     public Book updateBook1(Book book) {
         Book foundBook = bookRepository.findById(book.getId()).orElseThrow(EntityNotFoundException::new);
@@ -71,46 +70,43 @@ public class BookService {
 
     public Optional<Book> findByBookId(Long id) {
         Book foundBook = bookRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        if (foundBook == null){
+            throw new NotFoundException("No data available of book ID: " + id);
+        }
         return bookRepository.findById(foundBook.getId());
-
     }
 
     public List<Book> getBookByTitle(String title) {
-
         List<Book> foundBooks = bookRepository.findByTitle(title);
-
-        if (foundBooks == null) {
+        if (foundBooks.isEmpty()) {
             throw new NotFoundException("Title  not found!");
         }
         return bookRepository.findByTitle(title);
     }
 
-
     public Book getBookByISBN13(String ISBN13) {
         Book foundBook = bookRepository.findByISBN13(ISBN13);
-        if (foundBook.getISBN13() == null) {
+        if (foundBook == null) {
             throw new NotFoundException("Book not found!");
         }
         return bookRepository.findByISBN13(ISBN13);
-
     }
 
     public List<Book> getBooksByLanguage(String language) {
         List<Book> foundBooks = bookRepository.findByLanguage(language);
-        if (foundBooks == null) {
+        if (foundBooks.isEmpty()) {
             throw new NotFoundException("Book not found!");
         }
         return bookRepository.findByLanguage(language);
     }
 
     public List<Book> getBooksByAuthor(String firstName, String lastName) {
-        Author foundAuthor = authorRespository.findByFirstNameAndLastName(firstName, lastName);
+        Author foundAuthor = authorRepository.findByFirstNameAndLastName(firstName, lastName);
         List<Book> booksByAuthor = bookRepository.findByAuthors(foundAuthor);
-        if (booksByAuthor == null) {
+        if (booksByAuthor.isEmpty()) {
             throw new NotFoundException("No books by this author!");
         }
         return bookRepository.findByAuthors(foundAuthor);
-
     }
 
     public Iterable<Book> findAllBooks() {

@@ -22,13 +22,13 @@ public class Book {
     @ManyToMany(cascade = CascadeType.ALL, mappedBy = "books")
     private Set<Author> authors = new HashSet<>();
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.ALL)
     Publisher publisher;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.ALL)
     Stock stock;
 
-    @OneToMany(mappedBy = "book", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<BookToCart> bookToCart;
 

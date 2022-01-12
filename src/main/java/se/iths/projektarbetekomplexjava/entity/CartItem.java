@@ -18,9 +18,9 @@ public class CartItem {
     @OneToOne
     private Book book;
 
-    @OneToMany(mappedBy = "cartItem", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToOne(mappedBy = "cartItem", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonIgnore
-    private List<BookToCart> bookToCart;
+    private BookToCart bookToCart;
 
     @ManyToOne
     private Orders order;
@@ -66,13 +66,13 @@ public class CartItem {
         this.book = book;
     }
 
-    public List<BookToCart> getBookToCart() {
-        return bookToCart;
-    }
-
-    public void setBookToCartOfBooks(List<BookToCart> bookToCartList) {
-        this.bookToCart = bookToCartList;
-    }
+//    public List<BookToCart> getBookToCart() {
+//        return bookToCart;
+//    }
+//
+//    public void setBookToCartOfBooks(List<BookToCart> bookToCartList) {
+//        this.bookToCart = bookToCartList;
+//    }
 
     public ShoppingCart getShoppingCart() {
         return shoppingCart;
@@ -82,9 +82,9 @@ public class CartItem {
         this.shoppingCart = shoppingCart;
     }
 
-    public void setBookToCart(List<BookToCart> bookToCart) {
-        this.bookToCart = bookToCart;
-    }
+//    public void setBookToCart(List<BookToCart> bookToCart) {
+//        this.bookToCart = bookToCart;
+//    }
 
     public Orders getOrder() {
         return order;
@@ -92,5 +92,13 @@ public class CartItem {
 
     public void setOrder(Orders order) {
         this.order = order;
+    }
+
+    public BookToCart getBookToCart() {
+        return bookToCart;
+    }
+
+    public void setBookToCart(BookToCart bookToCart) {
+        this.bookToCart = bookToCart;
     }
 }

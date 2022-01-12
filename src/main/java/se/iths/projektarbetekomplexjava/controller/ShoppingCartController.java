@@ -6,6 +6,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import se.iths.projektarbetekomplexjava.entity.*;
+import se.iths.projektarbetekomplexjava.exception.BadRequestException;
 import se.iths.projektarbetekomplexjava.exception.NotFoundException;
 import se.iths.projektarbetekomplexjava.repository.*;
 import se.iths.projektarbetekomplexjava.service.BookService;
@@ -13,6 +14,7 @@ import se.iths.projektarbetekomplexjava.service.CartItemService;
 import se.iths.projektarbetekomplexjava.service.ShoppingCartService;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("bokhandel/api/v1/shoppingcart/")
@@ -23,7 +25,6 @@ public class ShoppingCartController {
     public final ShoppingCartRepository shoppingCartRepository;
     public final CartItemService cartItemService;
     private final BookService bookService;
-
 
     public ShoppingCartController(ShoppingCartService shoppingCartService,
                                   CustomerRepository customerRepository,
@@ -40,24 +41,28 @@ public class ShoppingCartController {
     @PutMapping("/addbooks/bookid/{bookid}/username/{username}/{qty}")
     public Object addBooksToCart(@PathVariable int qty, @PathVariable String username, @PathVariable Long bookid) {
         Customer customer = customerRepository.findByUsername(username);
+        if (customer == null){
+            throw new NotFoundException("Customer not found");
+        }
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String uname;
 
         if (principal instanceof UserDetails) {
             uname = ((UserDetails)principal).getUsername();
-            System.out.println("===="+uname+"======");
         } else {
-             uname = principal.toString();
-            System.out.println("===="+uname+"======");
+            uname = principal.toString();
         }
         if(customer.getUsername().equals(uname)) {
             ShoppingCart shoppingCart = customer.getShoppingCart();
             Book book;
             book = bookService.findByBookId(bookid).orElseThrow(EntityNotFoundException::new);
 
-            if (qty > book.getStock().getQuantity()) {
-                throw new NotFoundException("books in stock are not enough for your request");
-            }
+             if (book.getId() != bookid){
+                throw new NotFoundException("Book id: " + bookid + " does not exist in the database");
+             }
+             else if (qty > book.getStock().getQuantity() || book.getStock().getQuantity() == 0 || qty == 0) {
+                throw new BadRequestException("Book quantity is not available");
+             }
             CartItem cartItem = cartItemService.addBookToCart(book, customer, qty);
             //auto increment number of books and subtotal
             shoppingCartService.updateShoppingCart(shoppingCart);
@@ -77,15 +82,17 @@ public class ShoppingCartController {
     }
 
     @PutMapping("/removeBookFromCart/{cartid}/quantity/{qty}")
-    public ResponseEntity<CartItem> removeBookFromCartItem(@PathVariable Long cartid, @PathVariable int qty) {
+    public Object removeBookFromCartItem(@PathVariable Long cartid, @PathVariable int qty) {
         CartItem cartItem = cartItemService.findById(cartid);
-        if(cartItem.getQty() < qty) {
-            throw new NotFoundException("you do not have : " + qty + " books in your cart");
-
+        if (cartItem == null){
+            return new NotFoundException("Cart ID: " + cartid + " not found");
+        }
+        else if(cartItem.getQty() < qty) {
+            return "you do not have : " + qty + " books in your cart";
         }
         else if(cartItem.getQty() == qty){
             try {
-                throw new NotFoundException("this will remove all the copies of this book from the cart");
+                return "this will remove all the copies of this book from the cart";
             }
             finally {
                 cartItemService.removeCartItem(cartItemService.findById(cartid));

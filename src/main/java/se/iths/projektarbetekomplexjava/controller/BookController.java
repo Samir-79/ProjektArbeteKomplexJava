@@ -4,9 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import se.iths.projektarbetekomplexjava.entity.Author;
 import se.iths.projektarbetekomplexjava.entity.Book;
-import se.iths.projektarbetekomplexjava.entity.Customer;
 import se.iths.projektarbetekomplexjava.exception.NotFoundException;
 import se.iths.projektarbetekomplexjava.service.BookService;
 
@@ -36,12 +34,6 @@ public class BookController {
         return new ResponseEntity<>(searchBook, HttpStatus.OK);
     }
 
-//    @GetMapping("/getbookbyauthor")
-//    public ResponseEntity<List<Book>> getBooksByAuthor(@PathVariable String firstName, String lastName) {
-//        List<Book> booksByAuthor = bookService.getBooksByAuthor(firstName, lastName);
-//        return new ResponseEntity<>(booksByAuthor, HttpStatus.OK);
-//    }
-
     @GetMapping("/getbookbytitle/{title}")
     public ResponseEntity<List<Book>> getBookByTitle(@PathVariable String title) {
         List<Book> booksByTitle = bookService.getBookByTitle(title);
@@ -55,6 +47,7 @@ public class BookController {
     }
 
     @GetMapping("/getbookbyid/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Optional<Book>> getBookById(@PathVariable Long id) {
         Optional<Book> bookById = bookService.findByBookId(id);
         return new ResponseEntity<>(bookById, HttpStatus.OK);
@@ -62,7 +55,7 @@ public class BookController {
 
     @DeleteMapping("/deletebook/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Void> removeBoook(@PathVariable Long id) {
+    public ResponseEntity<Void> removeBook(@PathVariable Long id) {
         Optional<Book> foundBook = bookService.findByBookId(id);
         if (foundBook.isEmpty()){
             throw new NotFoundException("No data available of book ID: " + id);
@@ -72,17 +65,18 @@ public class BookController {
     }
 
     @GetMapping("/getlistofbooks")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Iterable<Book>> getAllBooks() {
         Iterable<Book> allBooks = bookService.findAllBooks();
         return new ResponseEntity<>(allBooks, HttpStatus.OK);
     }
 
-    @PutMapping("/updatebook")
-    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Book> updateBook(@RequestBody Book book) {
-        Book updateBook = bookService.updateBook(book);
-        return new ResponseEntity<>(updateBook, HttpStatus.OK);
-    }
+//    @PutMapping("/updatebook")
+//    @PreAuthorize("hasRole('ADMIN')")
+//    public ResponseEntity<Book> updateBook(@RequestBody Book book) {
+//        Book updateBook = bookService.updateBook(book);
+//        return new ResponseEntity<>(updateBook, HttpStatus.OK);
+//    }
 
     @PatchMapping("/updatebookinformation")
     @PreAuthorize("hasRole('ADMIN')")
