@@ -9,6 +9,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
+import se.iths.projektarbetekomplexjava.logInPolicy.ActiveUserStore;
 
 @Configuration
 //@EnableWebSecurity
@@ -64,6 +66,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginPage("/login").permitAll()
                 .and()
                 .logout()
+                //.logoutUrl("/bokhandel/api/v1/*/logout")
+                .addLogoutHandler(new SecurityContextLogoutHandler())
                 .invalidateHttpSession(true)
                 .clearAuthentication(true)
                 .permitAll();

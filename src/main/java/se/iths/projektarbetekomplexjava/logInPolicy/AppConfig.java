@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 public class AppConfig {
 
     @Bean
-    public ActiveUserStore activeUserStore(){
+    public ActiveUserStore activeUserStore() {
         return new ActiveUserStore();
     }
 }

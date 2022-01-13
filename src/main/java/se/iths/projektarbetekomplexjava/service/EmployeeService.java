@@ -151,7 +151,26 @@ public class EmployeeService {
                 || employee.getPhone().isEmpty() || employee.getUsername().isEmpty() || employee.getEmail().isEmpty() || employee.getPassword().isEmpty()) {
             throw new BadRequestException("Insufficient data, please fill the required registration data.");
         }
-       else if (PasswordValidator.isValidPassword(employee.getPassword())) {
+
+
+
+
+
+        for (Employee employees:employeeList ) {
+            if (passwordEncoder.bCryptPasswordEncoder().matches(employee.getPassword(), employees.getPassword())) {
+                if (!(passwordEncoder.bCryptPasswordEncoder().matches(employee.getPassword(), foundEmployee.getPassword()))) {
+                    throw new BadRequestException("Password: " + employee.getPassword() + " is already taken.");
+                }
+            }
+            else if (employees.getUsername().equals(employee.getUsername())) {
+                if(!(employees.getUsername().equals(foundEmployee.getUsername())))
+                throw new BadRequestException("Username: " + employee.getUsername() + " is already taken.");
+            }
+
+
+        }
+
+      if (PasswordValidator.isValidPassword(employee.getPassword())) {
             employee.setPassword(bCryptPasswordEncoder.encode(employee.getPassword()));
         }
         else {
@@ -163,24 +182,6 @@ public class EmployeeService {
                     It contains at least one special character which includes !@#$%&*()-+=^.
                     It does’t contain any white space.""");
         }
-
-
-        for (Employee employees:employeeList ) {
-            if (passwordEncoder.bCryptPasswordEncoder().matches(employees.getPassword(), employee.getPassword())){
-                if(!(passwordEncoder.bCryptPasswordEncoder().matches(employees.getPassword(), foundEmployee.getPassword()))) {
-                    throw new BadRequestException("Password: " + employee.getPassword() + " is already taken.");
-                }
-            }
-
-            else if (employees.getUsername().equals(employee.getUsername())) {
-                if(!(employees.getUsername().equals(foundEmployee.getUsername())))
-                throw new BadRequestException("Username: " + employee.getUsername() + " is already taken.");
-            }
-
-
-        }
-
-
        /* else if (passwordEncoder.bCryptPasswordEncoder().matches(employee.getPassword(), foundemployee.getPassword())) {
                 throw new BadRequestException("Password: " + employee.getPassword() + " is already taken.");
             }

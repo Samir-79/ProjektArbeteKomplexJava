@@ -44,4 +44,12 @@ public class LoggedUser implements HttpSessionBindingListener {
     public void setUsername(String username) {
         this.username = username;
     }
+
+    public ActiveUserStore getActiveUserStore() {
+        return activeUserStore;
+    }
+
+    public void setActiveUserStore(ActiveUserStore activeUserStore) {
+        this.activeUserStore = activeUserStore;
+    }
 }

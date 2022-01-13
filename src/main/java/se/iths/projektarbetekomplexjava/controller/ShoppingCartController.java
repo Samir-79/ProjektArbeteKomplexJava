@@ -62,7 +62,7 @@ public class ShoppingCartController {
             shoppingCartService.updateShoppingCart(shoppingCart);
             return new ResponseEntity<>(cartItem, HttpStatus.OK);
         }
-        return "you have to logged in to add book to cart";
+        return "you have to be logged in to add book to cart";
     }
 
     @PutMapping("/updateCartItem/{cartid}/quantity/{qty}")
