@@ -3,6 +3,7 @@ package se.iths.projektarbetekomplexjava.service;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import se.iths.projektarbetekomplexjava.exception.NotAuthorizedException;
+import se.iths.projektarbetekomplexjava.exception.NotFoundException;
 import se.iths.projektarbetekomplexjava.security.EmailValidator;
 import se.iths.projektarbetekomplexjava.entity.Customer;
 import se.iths.projektarbetekomplexjava.entity.Employee;
@@ -139,22 +140,57 @@ public class EmployeeService {
     }
 
     public Employee updateEmployee(Employee employee) {
-        List<Employee> employeeList = getByEmail(employee.getEmail());
+        Employee foundEmployee = employeeRepository.findById(employee.getId()).orElseThrow(()->new NotFoundException("employee not found"));
+        List<Employee> employeeList= (List<Employee>) employeeRepository.findAll();
 
-        if (employee.getFirstName().isEmpty() || employee.getLastName().isEmpty() || employee.getAddress().isEmpty()
+        if(!(foundEmployee.getEmail().equals(employee.getEmail()))){
+            throw new NotAuthorizedException("you are not allowed to change the email");
+        }
+
+       else if (employee.getFirstName().isEmpty() || employee.getLastName().isEmpty() || employee.getAddress().isEmpty()
                 || employee.getPhone().isEmpty() || employee.getUsername().isEmpty() || employee.getEmail().isEmpty() || employee.getPassword().isEmpty()) {
             throw new BadRequestException("Insufficient data, please fill the required registration data.");
         }
+       else if (PasswordValidator.isValidPassword(employee.getPassword())) {
+            employee.setPassword(bCryptPasswordEncoder.encode(employee.getPassword()));
+        }
+        else {
+            throw new BadRequestException("""
+                    Password must fulfill the password requirement: It contains at least 8 characters and at most 20 characters.
+                    It contains at least one digit.
+                    It contains at least one upper case alphabet.
+                    It contains at least one lower case alphabet.
+                    It contains at least one special character which includes !@#$%&*()-+=^.
+                    It does’t contain any white space.""");
+        }
 
-        for (Employee employees : employeeList) {
-            if (passwordEncoder.bCryptPasswordEncoder().matches(employee.getPassword(), employees.getPassword())) {
-                throw new BadRequestException("Password: " + employee.getPassword() + " is already taken.");
-            } else if (employee.getUsername().equals(employees.getUsername())) {
+
+        for (Employee employees:employeeList ) {
+            if (passwordEncoder.bCryptPasswordEncoder().matches(employees.getPassword(), employee.getPassword())){
+                if(!(passwordEncoder.bCryptPasswordEncoder().matches(employees.getPassword(), foundEmployee.getPassword()))) {
+                    throw new BadRequestException("Password: " + employee.getPassword() + " is already taken.");
+                }
+            }
+
+            else if (employees.getUsername().equals(employee.getUsername())) {
+                if(!(employees.getUsername().equals(foundEmployee.getUsername())))
                 throw new BadRequestException("Username: " + employee.getUsername() + " is already taken.");
-            } else if (employee.getEmail().equals(employees.getEmail())) {
+            }
+
+
+        }
+
+
+       /* else if (passwordEncoder.bCryptPasswordEncoder().matches(employee.getPassword(), foundemployee.getPassword())) {
+                throw new BadRequestException("Password: " + employee.getPassword() + " is already taken.");
+            }
+        else if (employee.getUsername().equals(employee.getUsername())) {
+                throw new BadRequestException("Username: " + employee.getUsername() + " is already taken.");
+            }
+        else if (employee.getEmail().equals(employee.getEmail())) {
                 throw new BadRequestException("you are not allowed to change you email. contact your Admin to change your email");
             }
-        }
+
         if (PasswordValidator.isValidPassword(employee.getPassword())) {
             employee.setPassword(bCryptPasswordEncoder.encode(employee.getPassword()));
 
@@ -167,7 +203,7 @@ public class EmployeeService {
                     It contains at least one lower case alphabet.
                     It contains at least one special character which includes !@#$%&*()-+=^.
                     It does’t contain any white space.""");
-        }
+        }*/
         employee.setRole(Role.ROLE_ADMIN);
 
             return employeeRepository.save(employee);

@@ -43,15 +43,11 @@ public class EmployeeController {
 //        return new ResponseEntity<>(logOutEmployee, HttpStatus.OK);
 //    }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/update")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Employee> updateEmployee(@PathVariable Long id, @RequestBody Employee employee){
-        Optional<Employee> foundEmployee = employeeService.findUserById(id);
-        Employee updatedEmployee = employeeService.updateEmployee(employee);
-        if (foundEmployee.isEmpty()){
-            throw new NotFoundException("No data available of user ID: " + id);
-        }
-        return new ResponseEntity<>(updatedEmployee, HttpStatus.CREATED);
+    public ResponseEntity<Employee> updateEmployee(@RequestBody Employee employee){
+        Employee updateEmployee = employeeService.updateEmployee(employee);
+        return new ResponseEntity<>(updateEmployee, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/deleteEmployee/{id}")
