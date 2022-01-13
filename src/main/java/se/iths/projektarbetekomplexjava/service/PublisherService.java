@@ -25,9 +25,7 @@ public class PublisherService {
     }
 
     public Publisher updatePublisher(Publisher publisher) {
-        //Publisher foundPublisher = publisherRepository.findById(publisher.getId()).orElseThrow(EntityNotFoundException::new);
-        //Optional<Publisher> foundPublisher= publisherRepository.findById(publisher.getId());
-        //foundPublisher.setName(foundPublisher.getName());
+       findByPublisherId(publisher.getId());
         return publisherRepository.save(publisher);
     }
 
@@ -39,9 +37,9 @@ public class PublisherService {
         return publisherRepository.findByName(foundPublisher.getName());
     }
 
-    public Optional<Publisher> findByPublisherId(Long id) {
-        Publisher foundPublisher = publisherRepository.findById(id).orElseThrow(EntityNotFoundException::new);
-        return publisherRepository.findById(foundPublisher.getId());
+    public Publisher findByPublisherId(Long id) {
+        Publisher foundPublisher = publisherRepository.findById(id).orElseThrow(()->new NotFoundException("Publisher not found"));
+        return foundPublisher;
 
     }
 

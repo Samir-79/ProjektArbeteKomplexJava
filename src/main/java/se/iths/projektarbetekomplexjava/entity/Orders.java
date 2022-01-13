@@ -37,7 +37,7 @@ public class Orders {
 
     public void addToPayment(Payment payment) {
         setPayment(payment);
-        payment.setOrder(this);
+        //payment.setOrder(this);
     }
 
     public Long getId() {

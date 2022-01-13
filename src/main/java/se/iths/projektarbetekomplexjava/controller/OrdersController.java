@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import se.iths.projektarbetekomplexjava.entity.Customer;
 import se.iths.projektarbetekomplexjava.entity.Orders;
 import se.iths.projektarbetekomplexjava.entity.ShoppingCart;
+import se.iths.projektarbetekomplexjava.exception.NotFoundException;
 import se.iths.projektarbetekomplexjava.repository.CustomerRepository;
 import se.iths.projektarbetekomplexjava.repository.ShoppingCartRepository;
 import se.iths.projektarbetekomplexjava.service.CartItemService;
@@ -16,6 +17,7 @@ import se.iths.projektarbetekomplexjava.service.ShoppingCartService;
 import se.iths.projektarbetekomplexjava.service.EmailVerification;
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.Optional;
 
 
 @RestController
@@ -47,27 +49,31 @@ public class OrdersController {
     }
 
     @PostMapping("/createorder/userid/{userid}")
-    public ResponseEntity<Orders> createOrder(@RequestBody Orders orders, @PathVariable Long userid) {
-        Customer customer = customerService.findUserById(userid).orElseThrow(EntityNotFoundException::new);
-        ShoppingCart foundShoppingCart = customer.getShoppingCart();
+    public ResponseEntity <Optional<Orders>> createOrder(@RequestBody Orders orders, @PathVariable Long userid) {
+        Optional<Customer> customer = customerService.findUserById(userid);
+        if (customer.isEmpty()){
+            throw new NotFoundException("No data available of user ID: " + userid);
+        }
+        ShoppingCart foundShoppingCart = customer.get().getShoppingCart();
 
-        Orders order = orderService.createOrder(orders, foundShoppingCart);
+
+        Optional<Orders> order = Optional.ofNullable(orderService.createOrder(orders, foundShoppingCart));
         emailVerification.sendOrderConfirmationEmail(customer, order);
         return new ResponseEntity<>(order, HttpStatus.CREATED);
     }
 
     @PutMapping("/updateorder")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Orders> updateorder(@RequestBody Orders ordres) {
-        Orders order= orderService.findOrderById(ordres.getId());
-        return  new ResponseEntity<>(order, HttpStatus.OK);
+    public ResponseEntity<Orders> updateorder(@RequestBody Orders orders) {
+        Orders updatedOrder= orderService.updateOrder(orders);
+        return  new ResponseEntity<>(updatedOrder, HttpStatus.OK);
     }
 
     @DeleteMapping("/deleteorder/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> deleteOrder(@PathVariable Long id){
         orderService.removeOrder(id);
-        return new ResponseEntity<>("Order:"+ id+ "removed from repository",HttpStatus.OK);
+        return new ResponseEntity<>("Order: "+ id+ " removed from repository",HttpStatus.OK);
 
     }
 

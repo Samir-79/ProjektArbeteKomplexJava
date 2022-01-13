@@ -31,6 +31,9 @@ public class OrderService {
 
     public Orders createOrder(Orders order, ShoppingCart shoppingCart) {
         List<CartItem> cartItemList = cartItemService.findByShoppingCart(shoppingCart);
+        if (cartItemList.isEmpty()) {
+            throw new NotFoundException("No books in shopping cart with id: " + shoppingCart.getId());
+        }
         Stock stock = new Stock();
 
         for (CartItem cart : cartItemList) {
@@ -64,5 +67,10 @@ public class OrderService {
 
     public List<Orders> findAllOrders() {
         return (List<Orders>) orderRepository.findAll();
+    }
+
+    public Orders updateOrder(Orders orders) {
+        findOrderById(orders.getId());
+        return orderRepository.save(orders);
     }
 }
