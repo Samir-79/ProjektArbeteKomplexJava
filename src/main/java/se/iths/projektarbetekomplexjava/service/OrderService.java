@@ -2,6 +2,7 @@ package se.iths.projektarbetekomplexjava.service;
 
 import org.springframework.stereotype.Service;
 import se.iths.projektarbetekomplexjava.entity.*;
+import se.iths.projektarbetekomplexjava.exception.NotFoundException;
 import se.iths.projektarbetekomplexjava.repository.OrderRepository;
 import se.iths.projektarbetekomplexjava.repository.PaymentRepository;
 import se.iths.projektarbetekomplexjava.repository.ShoppingCartRepository;
@@ -21,21 +22,20 @@ public class OrderService {
     public OrderService(OrderRepository orderRepository,
                         CartItemService cartItemService,
                         ShoppingCartService shoppingCartService,
-                        StockRepository stockRepository)
-    {
+                        StockRepository stockRepository) {
         this.orderRepository = orderRepository;
         this.cartItemService = cartItemService;
         this.shoppingCartService = shoppingCartService;
-        this.stockRepository=stockRepository;
+        this.stockRepository = stockRepository;
     }
 
-    public Orders createOrder(Orders order,ShoppingCart shoppingCart){
+    public Orders createOrder(Orders order, ShoppingCart shoppingCart) {
         List<CartItem> cartItemList = cartItemService.findByShoppingCart(shoppingCart);
-        Stock stock=new Stock();
+        Stock stock = new Stock();
 
-        for (CartItem cart:cartItemList) {
+        for (CartItem cart : cartItemList) {
             cart.setOrder(order);
-            stock=cart.getBook().getStock();
+            stock = cart.getBook().getStock();
             stock.setQuantity(stock.getQuantity() - cart.getQty());
 
         }
@@ -43,16 +43,26 @@ public class OrderService {
         order.addToPayment(order.getPayment());
         order.setOrderTotalPrice(shoppingCart.getGrandTotal());
         order.setCartItemList(cartItemList);
-      //
-         try {
+        //
+        try {
             return orderRepository.save(order);
-       }
-         finally {
-          shoppingCartService.clearShoppingCart(shoppingCart);
+        } finally {
+            shoppingCartService.clearShoppingCart(shoppingCart);
         }
     }
 
-    public Optional<Orders> findOrderById(Long id){
-        return orderRepository.findById(id);
+    public Orders findOrderById(Long id) {
+        Orders foundOrder = orderRepository.findById(id).orElseThrow(() -> new NotFoundException("Order not found"));
+        return foundOrder;
+    }
+
+    public void removeOrder(Long id) {
+        Orders foundOrder = orderRepository.findById(id).orElseThrow(() -> new NotFoundException("Order not found"));
+        orderRepository.deleteById(foundOrder.getId());
+
+    }
+
+    public List<Orders> findAllOrders() {
+        return (List<Orders>) orderRepository.findAll();
     }
 }
