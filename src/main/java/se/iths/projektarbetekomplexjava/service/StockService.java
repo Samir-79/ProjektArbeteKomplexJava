@@ -22,11 +22,13 @@ public class StockService {
 
     public Stock updateStock(Stock stock) {
         Stock foundStock = findStockById(stock.getId());
+        foundStock.setQuantity(stock.getQuantity());
+        foundStock.setInStock(stock.isInStock());
         return stockRepository.save(foundStock);
     }
 
     public Stock findStockById(Long id) {
-        Stock foundStock = stockRepository.findById(id).orElseThrow(() -> new NotFoundException("employee not found"));
+        Stock foundStock = stockRepository.findById(id).orElseThrow(() -> new NotFoundException("stock not found"));
         return foundStock;
 
     }

@@ -26,15 +26,15 @@ public class EmailVerification {
         }
     }
 
-    public void sendOrderConfirmationEmail(Optional<Customer> customer, Optional<Orders> orders){
+    public void sendOrderConfirmationEmail(Optional<Customer> customer, Optional<Orders> order){
         try {
             emailService.send("projektbokhandel@gmail.com", customer.get().getEmail(), "Order Confirmation",
                     "Hello " + customer.get().getEmail() + "\n"
-                    + " We have received your order, and we will send it to you as soon as possible. \n"
-                    + orders.get().getOrderDate()
-                    + customer
-                    + orders.get().getCartItemList());
-            ResponseEntity.ok("Order Confirmation sent to " + customer.get().getEmail());
+                    + " We have received your order, and we will send it to you as soon as possible. \n"+
+                            order.get()+
+//                    + order.get().getCartItemList().toString()
+//                    + customer.get());
+            ResponseEntity.ok("Order Confirmation sent to " + customer.get().getEmail()));
         }catch (Exception e){
             ResponseEntity.badRequest().body("Error " + e.getMessage());
         }

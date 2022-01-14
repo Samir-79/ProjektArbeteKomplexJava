@@ -43,6 +43,7 @@ public class StockController {
 
 
     @DeleteMapping("/removeStock/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> removeStock(@PathVariable Long id) {
         stockService.removeStock(id);
         return new ResponseEntity<>(HttpStatus.RESET_CONTENT);
