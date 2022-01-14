@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -17,8 +18,14 @@ public class Orders {
     private String shippingAddress;
     private Double orderTotalPrice;
 
-    @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "order")
+
+
     @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "order")
+    private List<OrderedBooks> orderedBooks= new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "order")
     private List<CartItem> cartItemList;
 
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -39,6 +46,13 @@ public class Orders {
         setPayment(payment);
         //payment.setOrder(this);
     }
+
+    public  void addToOrderedBooks(OrderedBooks orderedBook){
+        System.out.println(orderedBook.getISBN13());
+        //orderedBooks.add(orderedBook);
+        orderedBook.setOrders(this);
+    }
+
 
     public Long getId() {
         return id;
@@ -94,5 +108,13 @@ public class Orders {
 
     public void setCartItemList(List<CartItem> cartItemList) {
         this.cartItemList = cartItemList;
+    }
+
+    public List<OrderedBooks> getOrderedBooks() {
+        return orderedBooks;
+    }
+
+    public void setOrderedBooks(List<OrderedBooks> orderedBooks) {
+        this.orderedBooks = orderedBooks;
     }
 }

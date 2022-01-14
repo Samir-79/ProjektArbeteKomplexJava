@@ -31,7 +31,7 @@ public class EmailVerification {
             emailService.send("projektbokhandel@gmail.com", customer.get().getEmail(), "Order Confirmation",
                     "Hello " + customer.get().getEmail() + "\n"
                     + " We have received your order, and we will send it to you as soon as possible. \n"+
-                            order.get()+
+                            order.get().getCartItemList()+
 //                    + order.get().getCartItemList().toString()
 //                    + customer.get());
             ResponseEntity.ok("Order Confirmation sent to " + customer.get().getEmail()));

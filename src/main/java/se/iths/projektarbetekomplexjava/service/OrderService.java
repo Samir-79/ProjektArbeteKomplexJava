@@ -19,6 +19,7 @@ public class OrderService {
     private final ShoppingCartService shoppingCartService;
     private final StockRepository stockRepository;
 
+
     public OrderService(OrderRepository orderRepository,
                         CartItemService cartItemService,
                         ShoppingCartService shoppingCartService,
@@ -34,17 +35,24 @@ public class OrderService {
         if (cartItemList.isEmpty()) {
             throw new NotFoundException("No books in shopping cart with id: " + shoppingCart.getId());
         }
-        Stock stock = new Stock();
+        Stock stock;
+
+
 
         for (CartItem cart : cartItemList) {
             cart.setOrder(order);
             stock = cart.getBook().getStock();
             stock.setQuantity(stock.getQuantity() - cart.getQty());
+            OrderedBooks orderedBook = new OrderedBooks(cart.getBook().getISBN13(),cart.getQty());
+            System.out.println(orderedBook.getISBN13());
+            orderedBook.addOrderedBooks(order);
 
         }
+
         // order.aPayment(order.getPayment());
         order.addToPayment(order.getPayment());
         order.setOrderTotalPrice(shoppingCart.getGrandTotal());
+
         order.setCartItemList(cartItemList);
         //
         try {
