@@ -60,4 +60,12 @@ public class OrderedBooks {
     public void setOrders(Orders order) {
         this.order = order;
     }
+
+    @Override
+    public String toString() {
+        return
+                "ISBN13='" + ISBN13 + '\'' +
+                ", numCopies=" + numCopies +
+                '}';
+    }
 }

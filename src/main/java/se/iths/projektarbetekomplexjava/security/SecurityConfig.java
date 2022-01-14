@@ -13,8 +13,6 @@ import org.springframework.security.web.authentication.logout.SecurityContextLog
 import se.iths.projektarbetekomplexjava.logInPolicy.ActiveUserStore;
 
 @Configuration
-//@EnableWebSecurity
-//@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final CustomerDetailService userDetailsService;
@@ -66,7 +64,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginPage("/login").permitAll()
                 .and()
                 .logout()
-                //.logoutUrl("/bokhandel/api/v1/*/logout")
                 .addLogoutHandler(new SecurityContextLogoutHandler())
                 .invalidateHttpSession(true)
                 .clearAuthentication(true)

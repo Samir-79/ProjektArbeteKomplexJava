@@ -18,18 +18,6 @@ public class CustomerPrincipal implements UserDetails {
         this.customer = customer;
     }
 
-//    @Override
-//    public Collection<? extends GrantedAuthority> getAuthorities() {
-//        Set<Role> roles = customer.getRoles();
-//        Collection<GrantedAuthority> grantedAuthorities = new ArrayList<>(roles.size());
-//        for (Role role : roles) {
-//            grantedAuthorities.add(new SimpleGrantedAuthority(role.getRole().toUpperCase()));
-//        }
-//        return grantedAuthorities;
-//    }
-
-
-
     @Override
     public  Collection<? extends  GrantedAuthority> getAuthorities() {
         Role roles = customer.getRole();

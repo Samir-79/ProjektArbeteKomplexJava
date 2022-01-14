@@ -19,16 +19,6 @@ public class EmployeePrincipal implements UserDetails {
         this.employee = employee;
     }
 
-    //    @Override
-//    public Collection<? extends GrantedAuthority> getAuthorities() {
-//        Set<Role> roles = employee.getRoles();
-//        Collection<GrantedAuthority> grantedAuthorities = new ArrayList<>(roles.size());
-//        for (Role role : roles) {
-//            grantedAuthorities.add(new SimpleGrantedAuthority(role.getRole().toUpperCase()));
-//        }
-//        return grantedAuthorities;
-//    }
-
     @Override
     public  Collection<? extends  GrantedAuthority> getAuthorities() {
         Role roles = employee.getRole();
