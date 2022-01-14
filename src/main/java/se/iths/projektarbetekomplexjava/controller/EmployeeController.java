@@ -31,18 +31,6 @@ public class EmployeeController {
         return new ResponseEntity<>(addedEmployee, HttpStatus.CREATED);
     }
 
-//    @PostMapping("/login")
-//    public ResponseEntity<Employee> logInEmployee(@RequestBody Employee employee){
-//        Employee loginEmployee = employeeService.CheckLogIn(employee.getEmail(), employee.getPassword());
-//        return new ResponseEntity<>(loginEmployee, HttpStatus.OK);
-//    }
-//
-//    @PostMapping("/logout/{id}")
-//    public ResponseEntity<Employee> logOutEmployee(@PathVariable Long id){
-//        Employee logOutEmployee = employeeService.CheckLogOut(id);
-//        return new ResponseEntity<>(logOutEmployee, HttpStatus.OK);
-//    }
-
     @PutMapping("/update")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Employee> updateEmployee(@RequestBody Employee employee){

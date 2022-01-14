@@ -88,31 +88,6 @@ public class EmployeeService {
         return employeeRepository.save(employee);
     }
 
-//    public Employee CheckLogIn(String email, String password){
-//        Employee loginEmployee = employeeRepository.findEmployeeByEmail(email);
-//        try {
-//            if (passwordEncoder.bCryptPasswordEncoder().matches(password, loginEmployee.getPassword())){
-//                return employeeRepository.save(loginEmployee);
-//            }
-//            else {
-//                throw new NotAuthorizedException("Invalid login, please enter right login data or create new account");
-//            }
-//        } finally {
-//            LoggedIn foundUser = logInRepository.findById(loginEmployee.getLoggedInEmployee().getId()).orElseThrow(EntityNotFoundException::new);
-//            foundUser.setLoggedIn(true);
-//            logInRepository.save(foundUser);
-//        }
-//    }
-
-//    public Employee CheckLogOut(Long id) {
-//        Employee employee = employeeRepository.findById(id).orElseThrow(EntityNotFoundException::new);
-//        LoggedIn foundUser = logInRepository.findById(employee.getLoggedInEmployee().getId()).orElseThrow(EntityNotFoundException::new);
-//        employee.changeLogin(foundUser);
-//        foundUser.setLoggedIn(false);
-//        logInRepository.save(foundUser);
-//        return employeeRepository.save(employee);
-//    }
-
     public void removeEmployee(Long id){
         Employee foundEmployee = employeeRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         employeeRepository.deleteById(foundEmployee.getId());
@@ -140,7 +115,7 @@ public class EmployeeService {
     }
 
     public Employee updateEmployee(Employee employee) {
-        Employee foundEmployee = employeeRepository.findById(employee.getId()).orElseThrow(()->new NotFoundException("employee not found"));
+        Employee foundEmployee = employeeRepository.findById(employee.getId()).orElseThrow(() -> new NotFoundException("employee not found"));
         List<Employee> employeeList= (List<Employee>) employeeRepository.findAll();
 
         if(!(foundEmployee.getEmail().equals(employee.getEmail()))){
@@ -152,10 +127,6 @@ public class EmployeeService {
             throw new BadRequestException("Insufficient data, please fill the required registration data.");
         }
 
-
-
-
-
         for (Employee employees:employeeList ) {
             if (passwordEncoder.bCryptPasswordEncoder().matches(employee.getPassword(), employees.getPassword())) {
                 if (!(passwordEncoder.bCryptPasswordEncoder().matches(employee.getPassword(), foundEmployee.getPassword()))) {
@@ -166,8 +137,6 @@ public class EmployeeService {
                 if(!(employees.getUsername().equals(foundEmployee.getUsername())))
                 throw new BadRequestException("Username: " + employee.getUsername() + " is already taken.");
             }
-
-
         }
 
       if (PasswordValidator.isValidPassword(employee.getPassword())) {
@@ -182,31 +151,7 @@ public class EmployeeService {
                     It contains at least one special character which includes !@#$%&*()-+=^.
                     It does’t contain any white space.""");
         }
-       /* else if (passwordEncoder.bCryptPasswordEncoder().matches(employee.getPassword(), foundemployee.getPassword())) {
-                throw new BadRequestException("Password: " + employee.getPassword() + " is already taken.");
-            }
-        else if (employee.getUsername().equals(employee.getUsername())) {
-                throw new BadRequestException("Username: " + employee.getUsername() + " is already taken.");
-            }
-        else if (employee.getEmail().equals(employee.getEmail())) {
-                throw new BadRequestException("you are not allowed to change you email. contact your Admin to change your email");
-            }
-
-        if (PasswordValidator.isValidPassword(employee.getPassword())) {
-            employee.setPassword(bCryptPasswordEncoder.encode(employee.getPassword()));
-
-        }
-        else {
-            throw new BadRequestException("""
-                    Password must fulfill the password requirement: It contains at least 8 characters and at most 20 characters.
-                    It contains at least one digit.
-                    It contains at least one upper case alphabet.
-                    It contains at least one lower case alphabet.
-                    It contains at least one special character which includes !@#$%&*()-+=^.
-                    It does’t contain any white space.""");
-        }*/
         employee.setRole(Role.ROLE_ADMIN);
-
-            return employeeRepository.save(employee);
-        }
+        return employeeRepository.save(employee);
     }
+}

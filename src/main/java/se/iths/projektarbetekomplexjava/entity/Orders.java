@@ -2,7 +2,6 @@ package se.iths.projektarbetekomplexjava.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,8 +16,6 @@ public class Orders {
     private String shippingMethod;
     private String shippingAddress;
     private Double orderTotalPrice;
-
-
 
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "order")
@@ -52,7 +49,6 @@ public class Orders {
         //orderedBooks.add(orderedBook);
         orderedBook.setOrders(this);
     }
-
 
     public Long getId() {
         return id;

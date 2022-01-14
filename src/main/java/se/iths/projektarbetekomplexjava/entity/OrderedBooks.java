@@ -14,8 +14,6 @@ public class OrderedBooks {
     private String ISBN13;
     private int numCopies;
 
-
-
     @ManyToOne(cascade = CascadeType.ALL)
     Orders order;
 

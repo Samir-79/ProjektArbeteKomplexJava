@@ -3,7 +3,6 @@ services:
   database:
     image: mysql
     container_name: docker-mysql
-    restart: always
     environment:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: bokhandel
@@ -24,9 +23,11 @@ services:
       SPRING_DATASOURCE_URL: jdbc:mysql://docker-mysql:3306/bokhandel?createDatabaseIfNotExist=true
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: password
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: com.mysql.cj.jdbc.Driver
+      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.MySQL5Dialect
 
   rabbitmq_manager:
-   container_name: rabbitmqmanager
+   container_name: RabbitMqManager
    image: rabbitmq:3-management
    ports:
      - "5672:5672"

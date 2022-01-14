@@ -6,11 +6,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.test.context.junit4.SpringRunner;
 import se.iths.projektarbetekomplexjava.repository.CustomerRepository;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-
 
 @DataJpaTest
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
@@ -19,7 +17,6 @@ public class CustomerTest {
     CustomerRepository repository;
     @Autowired
     TestEntityManager entityManager;
-
 
     @Test
     public void testCreateCustomer() {
@@ -38,6 +35,5 @@ public class CustomerTest {
         Customer existcustomer = entityManager.find(Customer.class, savedCustomer.getId());
 
         assertThat(customer.getEmail()).isEqualTo(existcustomer.getEmail());
-
     }
 }

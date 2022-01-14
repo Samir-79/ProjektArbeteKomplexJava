@@ -15,7 +15,7 @@ public class Receiver {
 
         ConnectionFactory factory = new ConnectionFactory();
         factory.setPort(5672);
-        factory.setHost("localhost");
+        factory.setHost("RabbitMqManager");
 
         Connection connection = factory.newConnection();
         Channel channel = connection.createChannel();

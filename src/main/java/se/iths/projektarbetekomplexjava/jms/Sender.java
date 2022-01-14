@@ -14,7 +14,7 @@ public class Sender {
 
         ConnectionFactory factory = new ConnectionFactory();
         factory.setPort(5672);
-        factory.setHost("localhost");
+        factory.setHost("RabbitMqManager");
 
         try(Connection connection = factory.newConnection()) {
 

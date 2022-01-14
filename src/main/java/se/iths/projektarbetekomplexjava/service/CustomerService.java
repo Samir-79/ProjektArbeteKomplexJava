@@ -2,6 +2,8 @@ package se.iths.projektarbetekomplexjava.service;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import se.iths.projektarbetekomplexjava.exception.NotAuthorizedException;
+import se.iths.projektarbetekomplexjava.exception.NotFoundException;
 import se.iths.projektarbetekomplexjava.security.EmailValidator;
 import se.iths.projektarbetekomplexjava.entity.*;
 import se.iths.projektarbetekomplexjava.exception.BadRequestException;
@@ -90,35 +92,6 @@ public class CustomerService {
         return customerRepository.findCustomersByEmail(email);
     }
 
-    public Customer findCustomerByEmail(String email){
-        return customerRepository.findCustomerByEmail(email);
-    }
-
-//    public Customer CheckLogIn(String email, String password){
-//        Customer loginCustomer = customerRepository.findCustomerByEmail(email);
-//        try {
-//            if (passwordEncoder.bCryptPasswordEncoder().matches(password, loginCustomer.getPassword())){
-//                return customerRepository.save(loginCustomer);
-//            }
-//            else {
-//                throw new NotAuthorizedException("Invalid login, please enter right login data or create new account");
-//            }
-//        } finally {
-//            LoggedIn foundUser = logInRepository.findById(loginCustomer.getLoggedInCustomer().getId()).orElseThrow(EntityNotFoundException::new);
-//            foundUser.setLoggedIn(true);
-//            logInRepository.save(foundUser);
-//        }
-//    }
-//
-//    public Customer CheckLogOut(Long id) {
-//        Customer customer = customerRepository.findById(id).orElseThrow(EntityNotFoundException::new);
-//        LoggedIn foundUser = logInRepository.findById(customer.getLoggedInCustomer().getId()).orElseThrow(EntityNotFoundException::new);
-//        customer.changeLogin(foundUser);
-//        foundUser.setLoggedIn(false);
-//        logInRepository.save(foundUser);
-//        return customerRepository.save(customer);
-//    }
-
     public Optional<Customer> findUserById(Long id) {
         try{
             Receiver.receiver();
@@ -129,6 +102,43 @@ public class CustomerService {
     }
 
     public Customer updateCustomer(Customer customer) {
+        Customer foundCustomer = customerRepository.findById(customer.getId()).orElseThrow(() -> new NotFoundException("employee not found"));
+        List<Customer> customerList= (List<Customer>) customerRepository.findAll();
+
+        if(!(foundCustomer.getEmail().equals(customer.getEmail()))){
+            throw new NotAuthorizedException("you are not allowed to change the email");
+        }
+
+        else if (customer.getFirstName().isEmpty() || customer.getLastName().isEmpty() || customer.getAddress().isEmpty()
+                || customer.getPhone().isEmpty() || customer.getUsername().isEmpty() || customer.getEmail().isEmpty() || customer.getPassword().isEmpty()) {
+            throw new BadRequestException("Insufficient data, please fill the required registration data.");
+        }
+
+        for (Customer customers:customerList ) {
+            if (passwordEncoder.bCryptPasswordEncoder().matches(customer.getPassword(), customers.getPassword())) {
+                if (!(passwordEncoder.bCryptPasswordEncoder().matches(customer.getPassword(), foundCustomer.getPassword()))) {
+                    throw new BadRequestException("Password: " + customer.getPassword() + " is already taken.");
+                }
+            }
+            else if (customers.getUsername().equals(customer.getUsername())) {
+                if(!(customers.getUsername().equals(foundCustomer.getUsername())))
+                    throw new BadRequestException("Username: " + customer.getUsername() + " is already taken.");
+            }
+        }
+
+        if (PasswordValidator.isValidPassword(customer.getPassword())) {
+            customer.setPassword(bCryptPasswordEncoder.encode(customer.getPassword()));
+        }
+        else {
+            throw new BadRequestException("""
+                    Password must fulfill the password requirement: It contains at least 8 characters and at most 20 characters.
+                    It contains at least one digit.
+                    It contains at least one upper case alphabet.
+                    It contains at least one lower case alphabet.
+                    It contains at least one special character which includes !@#$%&*()-+=^.
+                    It does’t contain any white space.""");
+        }
+        customer.setRole(Role.ROLE_USER);
         return customerRepository.save(customer);
     }
 }
