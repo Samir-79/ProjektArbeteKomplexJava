@@ -15,7 +15,6 @@ import se.iths.projektarbetekomplexjava.service.CustomerService;
 import se.iths.projektarbetekomplexjava.service.OrderService;
 import se.iths.projektarbetekomplexjava.service.ShoppingCartService;
 import se.iths.projektarbetekomplexjava.service.EmailVerification;
-import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 
@@ -56,7 +55,6 @@ public class OrdersController {
         }
         ShoppingCart foundShoppingCart = customer.get().getShoppingCart();
 
-
         Optional<Orders> order = Optional.ofNullable(orderService.createOrder(orders, foundShoppingCart));
         emailVerification.sendOrderConfirmationEmail(customer, order);
         return new ResponseEntity<>(order, HttpStatus.CREATED);
@@ -89,6 +87,4 @@ public class OrdersController {
         List<Orders>  foundOrders= orderService.findAllOrders();
         return  new ResponseEntity<>(foundOrders,HttpStatus.OK);
     }
-
-
 }

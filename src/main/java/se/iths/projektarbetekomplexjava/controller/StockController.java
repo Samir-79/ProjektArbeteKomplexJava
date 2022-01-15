@@ -8,7 +8,7 @@ import se.iths.projektarbetekomplexjava.entity.Stock;
 import se.iths.projektarbetekomplexjava.service.StockService;
 
 @RestController
-@RequestMapping("bokhandel/api/v1/stock")
+@RequestMapping("bokhandel/api/v1/stock/")
 public class StockController {
 
 

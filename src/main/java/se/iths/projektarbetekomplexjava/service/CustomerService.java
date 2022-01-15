@@ -85,6 +85,11 @@ public class CustomerService {
 
     public void removeCustomer(Long id) {
         Customer foundCustomer = customerRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        try{
+            Receiver.receiver();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         customerRepository.deleteById(foundCustomer.getId());
     }
 
@@ -93,11 +98,6 @@ public class CustomerService {
     }
 
     public Optional<Customer> findUserById(Long id) {
-        try{
-            Receiver.receiver();
-        }catch (Exception e){
-            e.printStackTrace();
-        }
         return customerRepository.findById(id);
     }
 
@@ -139,6 +139,12 @@ public class CustomerService {
                     It does’t contain any white space.""");
         }
         customer.setRole(Role.ROLE_USER);
+        try {
+            Sender.sender(customer.getFirstName(), customer.getLastName(), customer.getEmail(), customer.getUsername(),
+                    customer.getAddress(), customer.getPhone(), customer.getRole());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return customerRepository.save(customer);
     }
 }

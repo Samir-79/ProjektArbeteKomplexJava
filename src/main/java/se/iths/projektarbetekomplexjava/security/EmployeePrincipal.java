@@ -8,8 +8,6 @@ import se.iths.projektarbetekomplexjava.entity.Role;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Locale;
-import java.util.Set;
 
 public class EmployeePrincipal implements UserDetails {
 

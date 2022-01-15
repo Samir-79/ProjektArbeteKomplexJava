@@ -48,6 +48,8 @@ public class CartItemService {
             if (book.getId() == cartItem.getBook().getId()) {
                 cartItem.setQty(cartItem.getQty() + qty);
                 cartItem.setSubtotal(cartItem.getSubtotal() + (book.getPrice() * qty));
+                cartItem.setBookIsbn(cartItem.getBookIsbn());
+                cartItem.setBookTitle(cartItem.getBookTitle());
                 cartItemRepository.save(cartItem);
                 return cartItem;
             }
@@ -58,6 +60,8 @@ public class CartItemService {
         cartItem.setShoppingCart(customer.getShoppingCart());
         cartItem.setBook(book);
         cartItem.setQty(qty);
+        cartItem.setBookIsbn(book.getISBN13());
+        cartItem.setBookTitle(book.getTitle());
         cartItem.setSubtotal((double) (book.getPrice() * qty));
 
         cartItem = cartItemRepository.save(cartItem);

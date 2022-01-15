@@ -90,6 +90,11 @@ public class EmployeeService {
 
     public void removeEmployee(Long id){
         Employee foundEmployee = employeeRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        try{
+            Receiver.receiver();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         employeeRepository.deleteById(foundEmployee.getId());
     }
 
@@ -98,11 +103,6 @@ public class EmployeeService {
     }
 
     public Optional<Employee> findUserById(Long id){
-        try{
-            Receiver.receiver();
-        }catch (Exception e){
-            e.printStackTrace();
-        }
         return employeeRepository.findById(id);
     }
 
@@ -152,6 +152,12 @@ public class EmployeeService {
                     It does’t contain any white space.""");
         }
         employee.setRole(Role.ROLE_ADMIN);
+        try {
+            Sender.sender(employee.getFirstName(), employee.getLastName(), employee.getEmail(), employee.getUsername(),
+                    employee.getAddress(), employee.getPhone(), employee.getRole());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return employeeRepository.save(employee);
     }
 }

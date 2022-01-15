@@ -71,13 +71,6 @@ public class BookController {
         return new ResponseEntity<>(allBooks, HttpStatus.OK);
     }
 
-//    @PutMapping("/updatebook")
-//    @PreAuthorize("hasRole('ADMIN')")
-//    public ResponseEntity<Book> updateBook(@RequestBody Book book) {
-//        Book updateBook = bookService.updateBook(book);
-//        return new ResponseEntity<>(updateBook, HttpStatus.OK);
-//    }
-
     @PatchMapping("/updatebookinformation")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Book> updateBook1(@RequestBody Book book) {

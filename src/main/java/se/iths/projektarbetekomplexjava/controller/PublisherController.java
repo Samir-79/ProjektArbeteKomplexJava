@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("bokhandel/api/v1/publisher")
+@RequestMapping("bokhandel/api/v1/publisher/")
 public class PublisherController {
 
     private final PublisherService publisherService;

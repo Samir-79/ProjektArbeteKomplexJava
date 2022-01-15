@@ -12,6 +12,7 @@ services:
   bokhandel:
     image: bokhandel
     container_name: bokhandel-app
+    restart: always
     build:
       context: .
       dockerfile: Dockerfile

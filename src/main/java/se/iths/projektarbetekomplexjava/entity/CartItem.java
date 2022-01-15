@@ -14,6 +14,8 @@ public class CartItem {
     private Long id;
     private int qty;
     private Double subtotal;
+    private String bookIsbn;
+    private String BookTitle;
 
     @OneToOne
     private Book book;
@@ -28,11 +30,6 @@ public class CartItem {
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @ManyToOne(cascade = CascadeType.PERSIST)
     private ShoppingCart shoppingCart;
-
-//    public void addToOrder(Orders orders) {
-//        setOrder(orders);
-//        orders.getCartItemList().add(this);
-//    }
 
     public Long getId() {
         return id;
@@ -66,14 +63,6 @@ public class CartItem {
         this.book = book;
     }
 
-//    public List<BookToCart> getBookToCart() {
-//        return bookToCart;
-//    }
-//
-//    public void setBookToCartOfBooks(List<BookToCart> bookToCartList) {
-//        this.bookToCart = bookToCartList;
-//    }
-
     public ShoppingCart getShoppingCart() {
         return shoppingCart;
     }
@@ -81,10 +70,6 @@ public class CartItem {
     public void setShoppingCart(ShoppingCart shoppingCart) {
         this.shoppingCart = shoppingCart;
     }
-
-//    public void setBookToCart(List<BookToCart> bookToCart) {
-//        this.bookToCart = bookToCart;
-//    }
 
     public Orders getOrder() {
         return order;
@@ -100,5 +85,21 @@ public class CartItem {
 
     public void setBookToCart(BookToCart bookToCart) {
         this.bookToCart = bookToCart;
+    }
+
+    public String getBookIsbn() {
+        return bookIsbn;
+    }
+
+    public void setBookIsbn(String bookIsbn) {
+        this.bookIsbn = bookIsbn;
+    }
+
+    public String getBookTitle() {
+        return BookTitle;
+    }
+
+    public void setBookTitle(String bookTitle) {
+        BookTitle = bookTitle;
     }
 }

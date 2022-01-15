@@ -8,7 +8,6 @@ import se.iths.projektarbetekomplexjava.entity.Role;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Set;
 
 public class CustomerPrincipal implements UserDetails {
 
@@ -27,8 +26,6 @@ public class CustomerPrincipal implements UserDetails {
         return grantedAuthorities;
 
     }
-
-
 
     @Override
     public String getPassword() {
