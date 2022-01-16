@@ -159,18 +159,30 @@ public class Book {
         this.stock = stock;
     }
 
-    /*  public Set<ShoppingCart> getShoppingCart() {
-          return shoppingCart;
-      }
-      public void setShoppingCart(Set<ShoppingCart> shoppingCart) {
-          this.shoppingCart = shoppingCart;
-      }
-  */
     public List<BookToCart> getBookToCart() {
         return bookToCart;
     }
 
     public void setBookToCart(List<BookToCart> bookToCart) {
         this.bookToCart = bookToCart;
+    }
+
+    @Override
+    public String toString() {
+        return "Book{" +
+                "id=" + id +
+                ", ISBN13='" + ISBN13 + '\'' +
+                ", title='" + title + '\'' +
+                ", publishingDate=" + publishingDate +
+                ", weight=" + weight +
+                ", pages=" + pages +
+                ", language='" + language + '\'' +
+                ", category='" + category + '\'' +
+                ", price=" + price +
+                ", authors=" + authors +
+                ", publisher=" + publisher +
+                ", stock=" + stock +
+                ", bookToCart=" + bookToCart +
+                '}';
     }
 }

@@ -1,16 +1,11 @@
 package se.iths.projektarbetekomplexjava.service;
 
 import org.springframework.stereotype.Service;
-import se.iths.projektarbetekomplexjava.entity.Book;
 import se.iths.projektarbetekomplexjava.entity.CartItem;
-import se.iths.projektarbetekomplexjava.entity.Customer;
 import se.iths.projektarbetekomplexjava.entity.ShoppingCart;
 import se.iths.projektarbetekomplexjava.repository.*;
 
-import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
-import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.*;
 
 @Transactional
@@ -62,18 +57,9 @@ public class ShoppingCartService {
         return shoppingCart;
     }
 
-
     public void clearShoppingCart(ShoppingCart shoppingCart) {
-        List<CartItem> cartItemList = cartItemService.findByShoppingCart(shoppingCart);
-
+        cartItemService.findByShoppingCart(shoppingCart);
         cartItemRepository.deleteCartItemByShoppingCart(shoppingCart);
-        // bookToCartRepository.
-
-
-        /*for(CartItem cartItem : cartItemList) {
-            cartItemRepository.delete(cartItem);
-            bookToCartRepository.deleteByCartItem(cartItem);
-        }*/
 
         shoppingCart.setGrandTotal(0.0);
         shoppingCart.setTotalNumberOfBooks(0);

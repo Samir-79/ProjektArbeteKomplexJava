@@ -74,7 +74,13 @@ public class BookController {
     @PatchMapping("/updatebookinformation")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Book> updateBook1(@RequestBody Book book) {
-        Book updateBook = bookService.updateBook1(book);
+        Book updateBook = bookService.updateBook(book);
         return new ResponseEntity<>(updateBook, HttpStatus.OK);
+    }
+
+    @GetMapping("/getbooksbyauthor/{firstName}/{surName}")
+    public ResponseEntity<Iterable<Book>> getBooksByAuthor(@PathVariable String firstName,@PathVariable String surName){
+          Iterable<Book> booksByAuthor = bookService.getBooksByAuthor(firstName,surName);
+          return  new ResponseEntity<>(booksByAuthor,HttpStatus.OK);
     }
 }

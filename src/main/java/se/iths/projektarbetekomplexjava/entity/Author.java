@@ -15,7 +15,7 @@ public class Author {
     private String lastName;
     
     @JsonIgnore
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     private Set<Book> books = new HashSet<>();
 
     public Author(String firstName, String lastName) {

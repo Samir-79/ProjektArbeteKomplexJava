@@ -1,15 +1,11 @@
 package se.iths.projektarbetekomplexjava.service;
 
 import org.springframework.stereotype.Service;
-import se.iths.projektarbetekomplexjava.entity.Book;
 import se.iths.projektarbetekomplexjava.entity.Publisher;
 import se.iths.projektarbetekomplexjava.exception.NotFoundException;
 import se.iths.projektarbetekomplexjava.repository.AuthorRepository;
 import se.iths.projektarbetekomplexjava.repository.BookRepository;
 import se.iths.projektarbetekomplexjava.repository.PublisherRepository;
-
-import javax.persistence.EntityNotFoundException;
-import java.util.Optional;
 
 @Service
 public class PublisherService {

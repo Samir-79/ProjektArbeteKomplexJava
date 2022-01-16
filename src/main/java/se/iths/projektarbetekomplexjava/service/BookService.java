@@ -13,6 +13,7 @@ import se.iths.projektarbetekomplexjava.repository.ShoppingCartRepository;
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class BookService {
@@ -32,9 +33,21 @@ public class BookService {
     public Book addBook(Book book) {
         Book foundBook = bookRepository.findByISBN13(book.getISBN13());
 
+
         if (!(foundBook == null)) {
             throw new BadRequestException("Book already exists in database!");
         }
+//        List<Author> repAuthors = (List<Author>) authorRepository.findAll();
+//        Set<Author> authors = book.getAuthors();
+//        for (Author author:authors){
+//            for ( Author author1:repAuthors) {
+//                if(author.getFirstName().equals(author1.getFirstName()) && author.getLastName().equals(author1.getLastName())){
+//                  author=author1;
+//                }
+//
+//            }
+//            //book.addAuthor(book.getAuthors().stream().findFirst().get());
+//        }
 
         book.addAuthor(book.getAuthors().stream().findFirst().get());
         book.addPublisher(book.getPublisher());
@@ -47,12 +60,7 @@ public class BookService {
         bookRepository.deleteById(id);
     }
 
-//    public Book updateBook(Book book) {
-//        Book foundBook = bookRepository.findById(book.getId()).orElseThrow(EntityNotFoundException::new);
-//        return bookRepository.save(foundBook);
-//    }
-
-    public Book updateBook1(Book book) {
+    public Book updateBook(Book book) {
         Book foundBook = bookRepository.findById(book.getId()).orElseThrow(EntityNotFoundException::new);
         foundBook.setISBN13(book.getISBN13());
         foundBook.setTitle(book.getTitle());
@@ -97,20 +105,21 @@ public class BookService {
         return bookRepository.findByLanguage(language);
     }
 
-    public List<Book> getBooksByAuthor(String firstName, String lastName) {
+    public Set<Book> getBooksByAuthor(String firstName, String lastName) {
         Author foundAuthor = authorRepository.findByFirstNameAndLastName(firstName, lastName);
-        List<Book> booksByAuthor = bookRepository.findByAuthors(foundAuthor);
+        if (foundAuthor == null) {
+            throw new NotFoundException("Author not found!");
+        }
+        Set<Book> booksByAuthor =  foundAuthor.getBooks();
+        System.out.println(booksByAuthor);
         if (booksByAuthor.isEmpty()) {
             throw new NotFoundException("No books by this author!");
         }
-        return bookRepository.findByAuthors(foundAuthor);
+        return booksByAuthor;
     }
 
     public Iterable<Book> findAllBooks() {
         return bookRepository.findAll();
     }
 
-//    public Book getBookByPublisingYear(String year) {
-//
-//    }
 }

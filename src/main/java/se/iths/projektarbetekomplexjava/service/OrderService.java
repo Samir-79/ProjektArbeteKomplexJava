@@ -4,13 +4,10 @@ import org.springframework.stereotype.Service;
 import se.iths.projektarbetekomplexjava.entity.*;
 import se.iths.projektarbetekomplexjava.exception.NotFoundException;
 import se.iths.projektarbetekomplexjava.repository.OrderRepository;
-import se.iths.projektarbetekomplexjava.repository.PaymentRepository;
-import se.iths.projektarbetekomplexjava.repository.ShoppingCartRepository;
 import se.iths.projektarbetekomplexjava.repository.StockRepository;
-
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
+
 
 @Service
 public class OrderService {
@@ -46,14 +43,12 @@ public class OrderService {
             System.out.println(orderedBook.getISBN13());
             orderedBook.addOrderedBooks(order);
         }
-
-        // order.aPayment(order.getPayment());
         order.addToPayment(order.getPayment());
         order.setOrderTotalPrice(shoppingCart.getGrandTotal());
         order.setOrderDate(LocalDateTime.now().withNano(0));
 
         order.setCartItemList(cartItemList);
-        //
+
         try {
             return orderRepository.save(order);
         } finally {

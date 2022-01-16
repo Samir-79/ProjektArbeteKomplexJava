@@ -42,7 +42,6 @@ public class Orders {
 
     public void addToPayment(Payment payment) {
         setPayment(payment);
-        //payment.setOrder(this);
     }
 
 

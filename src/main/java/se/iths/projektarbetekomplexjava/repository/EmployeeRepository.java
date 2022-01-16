@@ -10,5 +10,4 @@ import java.util.List;
 public interface EmployeeRepository extends CrudRepository<Employee, Long> {
     Employee findByUsername(String username);
     List<Employee> findEmployeesByEmail(String email);
-    Employee findEmployeeByEmail(String email);
 }

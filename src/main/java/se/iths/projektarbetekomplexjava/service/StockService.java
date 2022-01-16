@@ -27,7 +27,6 @@ public class StockService {
     public Stock findStockById(Long id) {
         Stock foundStock = stockRepository.findById(id).orElseThrow(() -> new NotFoundException("stock not found"));
         return foundStock;
-
     }
 
     public Iterable<Stock> findAllStocks() {

@@ -10,5 +10,4 @@ import java.util.List;
 public interface CustomerRepository extends CrudRepository<Customer, Long> {
     Customer findByUsername(String username);
     List<Customer> findCustomersByEmail(String email);
-    Customer findCustomerByEmail(String email);
 }
