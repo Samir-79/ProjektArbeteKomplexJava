@@ -8,6 +8,7 @@ import se.iths.projektarbetekomplexjava.repository.PaymentRepository;
 import se.iths.projektarbetekomplexjava.repository.ShoppingCartRepository;
 import se.iths.projektarbetekomplexjava.repository.StockRepository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,8 +38,6 @@ public class OrderService {
         }
         Stock stock;
 
-
-
         for (CartItem cart : cartItemList) {
             cart.setOrder(order);
             stock = cart.getBook().getStock();
@@ -46,12 +45,12 @@ public class OrderService {
             OrderedBooks orderedBook = new OrderedBooks(cart.getBook().getISBN13(),cart.getQty());
             System.out.println(orderedBook.getISBN13());
             orderedBook.addOrderedBooks(order);
-
         }
 
         // order.aPayment(order.getPayment());
         order.addToPayment(order.getPayment());
         order.setOrderTotalPrice(shoppingCart.getGrandTotal());
+        order.setOrderDate(LocalDateTime.now().withNano(0));
 
         order.setCartItemList(cartItemList);
         //

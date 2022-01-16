@@ -1,13 +1,10 @@
 package se.iths.projektarbetekomplexjava.service;
 
 import org.springframework.stereotype.Service;
-import se.iths.projektarbetekomplexjava.entity.Publisher;
 import se.iths.projektarbetekomplexjava.entity.Stock;
 import se.iths.projektarbetekomplexjava.exception.NotFoundException;
 import se.iths.projektarbetekomplexjava.repository.BookRepository;
 import se.iths.projektarbetekomplexjava.repository.StockRepository;
-
-import javax.persistence.EntityNotFoundException;
 
 @Service
 public class StockService {
@@ -37,10 +34,8 @@ public class StockService {
         return stockRepository.findAll();
     }
 
-
     public void removeStock(Long id) {
         Stock foundStock = findStockById(id);
         stockRepository.deleteById(foundStock.getId());
     }
-
 }

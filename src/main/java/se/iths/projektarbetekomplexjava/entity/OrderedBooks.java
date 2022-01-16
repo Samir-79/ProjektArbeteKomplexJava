@@ -1,8 +1,5 @@
 package se.iths.projektarbetekomplexjava.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.springframework.scheduling.annotation.EnableAsync;
-
 import javax.persistence.*;
 
 @Entity
@@ -29,6 +26,7 @@ public class OrderedBooks {
         setOrders(order);
         order.getOrderedBooks().add(this);
     }
+
     public Long getId() {
         return id;
     }

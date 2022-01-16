@@ -3,6 +3,7 @@ package se.iths.projektarbetekomplexjava.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.*;
 
 @Entity
@@ -12,7 +13,7 @@ public class Book {
     private Long id;
     private String ISBN13;
     private String title;
-    private String publishingDate;
+    private LocalDate publishingDate;
     private Long weight;
     private int pages;
     private String language;
@@ -32,7 +33,7 @@ public class Book {
     @JsonIgnore
     private List<BookToCart> bookToCart;
 
-    public Book(String ISBN13, String title, String publishingDate, Long weight, int pages, String language, String category, Long price) {
+    public Book(String ISBN13, String title, LocalDate publishingDate, Long weight, int pages, String language, String category, Long price) {
         this.ISBN13 = ISBN13;
         this.title = title;
         this.publishingDate = publishingDate;
@@ -86,11 +87,11 @@ public class Book {
         this.title = title;
     }
 
-    public String getPublishingDate() {
+    public LocalDate getPublishingDate() {
         return publishingDate;
     }
 
-    public void setPublishingDate(String publishingDate) {
+    public void setPublishingDate(LocalDate publishingDate) {
         this.publishingDate = publishingDate;
     }
 

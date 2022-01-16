@@ -3,6 +3,7 @@ package se.iths.projektarbetekomplexjava.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +13,7 @@ public class Orders {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String orderDate;
+    private LocalDateTime orderDate;
     private String shippingMethod;
     private String shippingAddress;
     private Double orderTotalPrice;
@@ -29,7 +30,7 @@ public class Orders {
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Payment payment;
 
-    public Orders(String orderDate, String shippingMethod, String shippingAddress, Double orderTotalPrice) {
+    public Orders(LocalDateTime orderDate, String shippingMethod, String shippingAddress, Double orderTotalPrice) {
         this.orderDate = orderDate;
         this.shippingMethod = shippingMethod;
         this.shippingAddress = shippingAddress;
@@ -58,11 +59,11 @@ public class Orders {
         this.id = id;
     }
 
-    public String getOrderDate() {
+    public LocalDateTime getOrderDate() {
         return orderDate;
     }
 
-    public void setOrderDate(String orderDate) {
+    public void setOrderDate(LocalDateTime orderDate) {
         this.orderDate = orderDate;
     }
 

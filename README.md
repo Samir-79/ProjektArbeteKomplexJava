@@ -1,11 +1,10 @@
-Installation requirement
-------------------------------------------------------------
-Java JDK 11+
-Docker
-Maven
+Installation requirement:
+Java JDK 11+ (Recommend Java 17)
+Docker latest
+Maven latest
 RabbitMQ
-MySQl
-Valfrit IDE som stödjer Java 
+MySQl 
+Any IDE that support Java (Recommend Intellij)
 ------------------------------------------------------------
 RabbitMQ Management login
 username: guest
@@ -221,7 +220,7 @@ Username
 Password
 -------------------------------
 OrdersController:
-25. POST:localhost:8080/bokhandel/api/v1/createorder/userid/{userid}
+25. POST:localhost:8080/bokhandel/api/v1/orders/createorder/userid/{userid}
 {
 "orderDate" :"29/12/21",
 "shippingMethod":"Dhl",
@@ -237,7 +236,7 @@ OrdersController:
 }
 }
 ------------------------------------
-26. PUT:localhost:8080/bokhandel/api/v1/createorder/updateorder
+26. PUT:localhost:8080/bokhandel/api/v1/orders/createorder/updateorder
 PreAuthorize(ADMIN)
 Basic Auth:
 Username
@@ -259,14 +258,14 @@ Password
 }
 }
 -------------------------------
-27. DELETE:localhost:8080/bokhandel/api/v1/createorder/deleteorder/{id}
+27. DELETE:localhost:8080/bokhandel/api/v1/orders/createorder/deleteorder/{id}
 PreAuthorize(ADMIN)
 Basic Auth:
 Username
 Password
 -------------------------------
-28. GET:localhost:8080/bokhandel/api/v1/createorder/getorder/{id}
-29. GET:localhost:8080/bokhandel/api/v1/createorder/getallorders
+28. GET:localhost:8080/bokhandel/api/v1/orders/createorder/getorder/{id}
+29. GET:localhost:8080/bokhandel/api/v1/orders/createorder/getallorders
 PreAuthorize(ADMIN)
 Basic Auth:
 Username

@@ -3,6 +3,7 @@ package se.iths.projektarbetekomplexjava.service;
 import org.springframework.stereotype.Service;
 import se.iths.projektarbetekomplexjava.entity.Author;
 import se.iths.projektarbetekomplexjava.entity.Book;
+import se.iths.projektarbetekomplexjava.exception.BadRequestException;
 import se.iths.projektarbetekomplexjava.exception.NotFoundException;
 import se.iths.projektarbetekomplexjava.repository.AuthorRepository;
 import se.iths.projektarbetekomplexjava.repository.BookRepository;
@@ -29,16 +30,15 @@ public class BookService {
     }
 
     public Book addBook(Book book) {
-        //Book foundBook = bookRepository.findByISBN13(book.getISBN13());
-        //if (foundBook.getISBN13().isEmpty()) {System.out.println("Book already exists in database!");}
-        //Author author =new Author(book.getAuthors().stream().findFirst().get().getFirstName(), book.getAuthors().stream().findFirst().get().getLastName());
-        // book.addAuthor(new Author(book.getAuthors().stream().findFirst().get().getFirstName(), book.getAuthors().stream().findFirst().get().getLastName()));
+        Book foundBook = bookRepository.findByISBN13(book.getISBN13());
+
+        if (!(foundBook == null)) {
+            throw new BadRequestException("Book already exists in database!");
+        }
+
         book.addAuthor(book.getAuthors().stream().findFirst().get());
-        //AuthorRespository.save(book.getAuthors().stream().findFirst().get());
         book.addPublisher(book.getPublisher());
         book.addToStock(book.getStock());
-
-
         return bookRepository.save(book);
     }
 
@@ -70,7 +70,6 @@ public class BookService {
     }
 
     public Optional<Book> findByBookId(Long id) {
-
         return bookRepository.findById(id);
     }
 

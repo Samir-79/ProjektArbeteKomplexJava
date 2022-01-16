@@ -14,7 +14,7 @@ import se.iths.projektarbetekomplexjava.service.CartItemService;
 import se.iths.projektarbetekomplexjava.service.CustomerService;
 import se.iths.projektarbetekomplexjava.service.OrderService;
 import se.iths.projektarbetekomplexjava.service.ShoppingCartService;
-import se.iths.projektarbetekomplexjava.service.EmailVerification;
+import se.iths.projektarbetekomplexjava.email.EmailVerification;
 import java.util.List;
 import java.util.Optional;
 

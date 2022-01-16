@@ -2,6 +2,7 @@ package se.iths.projektarbetekomplexjava.service;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import se.iths.projektarbetekomplexjava.email.EmailVerification;
 import se.iths.projektarbetekomplexjava.exception.NotAuthorizedException;
 import se.iths.projektarbetekomplexjava.exception.NotFoundException;
 import se.iths.projektarbetekomplexjava.security.EmailValidator;
