@@ -2,6 +2,7 @@ package se.iths.projektarbetekomplexjava.service;
 
 import org.springframework.stereotype.Service;
 import se.iths.projektarbetekomplexjava.entity.*;
+import se.iths.projektarbetekomplexjava.exception.BadRequestException;
 import se.iths.projektarbetekomplexjava.exception.NotFoundException;
 import se.iths.projektarbetekomplexjava.repository.BookToCartRepository;
 import se.iths.projektarbetekomplexjava.repository.CartItemRepository;
@@ -35,7 +36,7 @@ public class CartItemService {
         return cartItem;
     }
 
-    public CartItem removeBookFromCart(CartItem cartItem){
+    public CartItem removeBookFromCart(CartItem cartItem) {
         cartItem.setSubtotal((double) (cartItem.getBook().getPrice() * cartItem.getQty()));
         cartItemRepository.save(cartItem);
         return cartItem;
@@ -46,7 +47,12 @@ public class CartItemService {
 
         for (CartItem cartItem : cartItemList) {
             if (book.getId() == cartItem.getBook().getId()) {
+                if (cartItem.getQty()+qty > 150) {
+                    throw new BadRequestException("Number of copies should not exceed 150!");
+                }
+
                 cartItem.setQty(cartItem.getQty() + qty);
+
                 cartItem.setSubtotal(cartItem.getSubtotal() + (book.getPrice() * qty));
                 cartItem.setBookIsbn(cartItem.getBookIsbn());
                 cartItem.setBookTitle(cartItem.getBookTitle());
@@ -59,7 +65,11 @@ public class CartItemService {
 
         cartItem.setShoppingCart(customer.getShoppingCart());
         cartItem.setBook(book);
+        if (qty > 150) {
+            throw new BadRequestException("Number of copies should not exceed 150!");
+        }
         cartItem.setQty(qty);
+
         cartItem.setBookIsbn(book.getISBN13());
         cartItem.setBookTitle(book.getTitle());
         cartItem.setSubtotal((double) (book.getPrice() * qty));
@@ -75,7 +85,7 @@ public class CartItemService {
     }
 
     public CartItem findById(Long id) {
-        return cartItemRepository.findById(id).orElseThrow(()-> new NotFoundException("Cart with id: "+id+" not found"));
+        return cartItemRepository.findById(id).orElseThrow(() -> new NotFoundException("Cart with id: " + id + " not found"));
     }
 
     public CartItem save(CartItem cartItem) {
@@ -83,11 +93,11 @@ public class CartItemService {
     }
 
     public void removeCartItem(CartItem cartItem) {
-        ShoppingCart shoppingCart= shoppingCartRepository
+        ShoppingCart shoppingCart = shoppingCartRepository
                 .findById(cartItem.getShoppingCart().getId())
                 .orElseThrow(EntityNotFoundException::new);
 
-        shoppingCart.setTotalNumberOfBooks(shoppingCart.getTotalNumberOfBooks()-cartItem.getQty());
+        shoppingCart.setTotalNumberOfBooks(shoppingCart.getTotalNumberOfBooks() - cartItem.getQty());
         shoppingCart.setGrandTotal(shoppingCart.getGrandTotal() - cartItem.getSubtotal());
         bookToCartRepository.deleteByCartItem(cartItem);
         cartItemRepository.delete(cartItem);

@@ -45,11 +45,6 @@ public class Orders {
         //payment.setOrder(this);
     }
 
-    public  void addToOrderedBooks(OrderedBooks orderedBook){
-        System.out.println(orderedBook.getISBN13());
-        //orderedBooks.add(orderedBook);
-        orderedBook.setOrders(this);
-    }
 
     public Long getId() {
         return id;

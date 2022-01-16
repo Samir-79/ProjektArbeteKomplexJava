@@ -68,6 +68,9 @@ public class ShoppingCartController {
     @PutMapping("/updateCartItem/{cartid}/quantity/{qty}")
     public ResponseEntity<CartItem> updateCartItem(@PathVariable Long cartid, @PathVariable int qty) {
         CartItem cartItem = cartItemService.findById(cartid);
+        if(cartItem.getQty()+qty > 150){
+            throw new BadRequestException("Number of copies should not exceed 150!");
+        }
         cartItem.setQty(cartItem.getQty() + qty);
         cartItemService.updateCartItem(cartItem);
         shoppingCartService.updateShoppingCart(cartItem.getShoppingCart());

@@ -43,7 +43,13 @@ Basic Auth:
 Username
 Password
 ---------------------
+BookController:
 7. POST:localhost:8080/bokhandel/api/v1/book/addbook
+   PreAuthorize(ADMIN)
+   Basic Auth:
+   Username
+   Password
+
 {
 "isbn13":"11111111111111111",
 "title":"Jakten på julen",
@@ -236,14 +242,13 @@ OrdersController:
 }
 }
 ------------------------------------
-26. PUT:localhost:8080/bokhandel/api/v1/orders/createorder/updateorder
+26. PUT:localhost:8080/bokhandel/api/v1/orders/updateorder
 PreAuthorize(ADMIN)
 Basic Auth:
 Username
 Password
 {
 "id":10,
-"orderDate" :"13/01/2022",
 "shippingMethod":"Postnord",
 "shippingAddress":"styrbjörnsvägen 14",
 "payment":
@@ -258,14 +263,14 @@ Password
 }
 }
 -------------------------------
-27. DELETE:localhost:8080/bokhandel/api/v1/orders/createorder/deleteorder/{id}
+27. DELETE:localhost:8080/bokhandel/api/v1/orders/deleteorder/{id}
 PreAuthorize(ADMIN)
 Basic Auth:
 Username
 Password
 -------------------------------
-28. GET:localhost:8080/bokhandel/api/v1/orders/createorder/getorder/{id}
-29. GET:localhost:8080/bokhandel/api/v1/orders/createorder/getallorders
+28. GET:localhost:8080/bokhandel/api/v1/orders/getorder/{id}
+29. GET:localhost:8080/bokhandel/api/v1/orders/getallorders
 PreAuthorize(ADMIN)
 Basic Auth:
 Username
@@ -305,7 +310,7 @@ ShoppingCartController:
 ----------------------------------
 37. DELETE:localhost:8080/bokhandel/api/v1/shoppingcart/removecartItem/{id}
 --------------------------------
-StockController:
+StockController:All requests must be preauthorized ADMIN
 38. PUT:localhost:8080/bokhandel/api/v1/stock/updatestock
 {
 "id": 4,
