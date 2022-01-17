@@ -34,20 +34,20 @@ public class OrderService {
             throw new NotFoundException("No books in shopping cart with id: " + shoppingCart.getId());
         }
         Stock stock;
-
         for (CartItem cart : cartItemList) {
             cart.setOrder(order);
             stock = cart.getBook().getStock();
             stock.setQuantity(stock.getQuantity() - cart.getQty());
             OrderedBooks orderedBook = new OrderedBooks(cart.getBook().getISBN13(),cart.getQty());
-            System.out.println(orderedBook.getISBN13());
             orderedBook.addOrderedBooks(order);
+
         }
+
         order.addToPayment(order.getPayment());
         order.setOrderTotalPrice(shoppingCart.getGrandTotal());
         order.setOrderDate(LocalDateTime.now().withNano(0));
+        order.setShoppingCart(shoppingCart);
 
-        order.setCartItemList(cartItemList);
 
         try {
             return orderRepository.save(order);

@@ -23,6 +23,17 @@ public class ShoppingCart {
     @OneToOne(fetch = FetchType.EAGER, targetEntity = Customer.class)
     private Customer customer;
 
+    @OneToMany(mappedBy ="shoppingCart",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    private List<Orders> orders;
+
+    public ShoppingCart(Double grandTotal, int totalNumberOfBooks) {
+        GrandTotal = grandTotal;
+        this.totalNumberOfBooks = totalNumberOfBooks;
+    }
+
+    public ShoppingCart() {
+    }
+
     public Long getId() {
         return id;
     }
@@ -61,5 +72,13 @@ public class ShoppingCart {
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
+    }
+
+    public List<Orders> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Orders> orders) {
+        this.orders = orders;
     }
 }

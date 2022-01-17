@@ -2,7 +2,6 @@ package se.iths.projektarbetekomplexjava.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.*;
@@ -34,6 +33,7 @@ public class Book {
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<BookToCart> bookToCart;
+
 
     public Book(String ISBN13, String title, LocalDate publishingDate, Long weight, int pages, String language, String category, Long price) {
         this.ISBN13 = ISBN13;
@@ -168,6 +168,7 @@ public class Book {
     public void setBookToCart(List<BookToCart> bookToCart) {
         this.bookToCart = bookToCart;
     }
+
 
     @Override
     public String toString() {

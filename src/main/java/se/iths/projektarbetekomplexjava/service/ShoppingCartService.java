@@ -64,6 +64,7 @@ public class ShoppingCartService {
         shoppingCart.setGrandTotal(0.0);
         shoppingCart.setTotalNumberOfBooks(0);
 
+
         shoppingCartRepository.save(shoppingCart);
     }
 }

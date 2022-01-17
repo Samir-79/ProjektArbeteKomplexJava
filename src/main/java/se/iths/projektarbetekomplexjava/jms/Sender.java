@@ -2,7 +2,6 @@ package se.iths.projektarbetekomplexjava.jms;
 
 import com.rabbitmq.client.*;
 import se.iths.projektarbetekomplexjava.entity.Role;
-
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;

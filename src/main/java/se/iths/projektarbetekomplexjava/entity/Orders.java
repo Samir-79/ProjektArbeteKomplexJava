@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+
 @Entity
 public class Orders {
 
@@ -29,6 +30,13 @@ public class Orders {
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Payment payment;
+
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @JsonIgnore
+    @ManyToOne
+    private ShoppingCart shoppingCart;
+
+
 
     public Orders(LocalDateTime orderDate, String shippingMethod, String shippingAddress, Double orderTotalPrice) {
         this.orderDate = orderDate;
@@ -108,4 +116,14 @@ public class Orders {
     public void setOrderedBooks(List<OrderedBooks> orderedBooks) {
         this.orderedBooks = orderedBooks;
     }
+
+    public ShoppingCart getShoppingCart() {
+        return shoppingCart;
+    }
+
+    public void setShoppingCart(ShoppingCart shoppingCart) {
+        this.shoppingCart = shoppingCart;
+    }
+
+
 }

@@ -12,7 +12,6 @@ import se.iths.projektarbetekomplexjava.repository.AuthorRepository;
 import se.iths.projektarbetekomplexjava.repository.BookRepository;
 import se.iths.projektarbetekomplexjava.repository.PublisherRepository;
 import se.iths.projektarbetekomplexjava.repository.ShoppingCartRepository;
-
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;

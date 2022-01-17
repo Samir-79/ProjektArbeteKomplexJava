@@ -226,7 +226,6 @@ Password
 OrdersController:
 26. POST:localhost:8080/bokhandel/api/v1/orders/createorder/userid/{userid}
 {
-"orderDate" :"29/12/21",
 "shippingMethod":"Dhl",
 "shippingAddress":"styrbjörnsvägen 14",
 "payment":

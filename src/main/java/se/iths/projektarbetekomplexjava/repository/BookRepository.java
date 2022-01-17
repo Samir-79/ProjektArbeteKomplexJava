@@ -4,7 +4,6 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 import se.iths.projektarbetekomplexjava.entity.Author;
 import se.iths.projektarbetekomplexjava.entity.Book;
-
 import java.util.List;
 
 @Repository
