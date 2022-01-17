@@ -1,6 +1,7 @@
 package se.iths.projektarbetekomplexjava.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -20,10 +21,11 @@ public class Book {
     private String category;
     private Long price;
 
-    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "books")
+    @ManyToMany(mappedBy = "books")
     private Set<Author> authors = new HashSet<>();
 
-    @ManyToOne(cascade = CascadeType.ALL)
+
+    @ManyToOne
     Publisher publisher;
 
     @ManyToOne(cascade = CascadeType.ALL)
@@ -49,7 +51,7 @@ public class Book {
 
 
     public void addAuthor(Author author) {
-        //authors.add(author);
+        authors.add(author);
         author.getBooks().add(this);
     }
 

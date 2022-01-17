@@ -1,6 +1,7 @@
 package se.iths.projektarbetekomplexjava.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -13,9 +14,10 @@ public class Author {
     private Long id;
     private String firstName;
     private String lastName;
-    
+
+
     @JsonIgnore
-    @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @ManyToMany
     private Set<Book> books = new HashSet<>();
 
     public Author(String firstName, String lastName) {

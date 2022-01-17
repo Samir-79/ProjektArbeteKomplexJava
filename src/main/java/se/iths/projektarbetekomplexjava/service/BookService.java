@@ -3,6 +3,7 @@ package se.iths.projektarbetekomplexjava.service;
 import org.springframework.stereotype.Service;
 import se.iths.projektarbetekomplexjava.entity.Author;
 import se.iths.projektarbetekomplexjava.entity.Book;
+import se.iths.projektarbetekomplexjava.entity.Publisher;
 import se.iths.projektarbetekomplexjava.exception.BadRequestException;
 import se.iths.projektarbetekomplexjava.exception.NotFoundException;
 import se.iths.projektarbetekomplexjava.repository.AuthorRepository;
@@ -37,20 +38,27 @@ public class BookService {
         if (!(foundBook == null)) {
             throw new BadRequestException("Book already exists in database!");
         }
-//        List<Author> repAuthors = (List<Author>) authorRepository.findAll();
-//        Set<Author> authors = book.getAuthors();
-//        for (Author author:authors){
-//            for ( Author author1:repAuthors) {
-//                if(author.getFirstName().equals(author1.getFirstName()) && author.getLastName().equals(author1.getLastName())){
-//                  author=author1;
-//                }
-//
-//            }
-//            //book.addAuthor(book.getAuthors().stream().findFirst().get());
-//        }
 
-        book.addAuthor(book.getAuthors().stream().findFirst().get());
-        book.addPublisher(book.getPublisher());
+
+        Publisher foundPublisher = publisherRepository.findByName(book.getPublisher().getName());
+        if(foundPublisher ==null){
+            Publisher publisher = book.getPublisher();
+            publisherRepository.save(publisher);
+            publisher.getBooks().add(book);
+        }
+        if(foundPublisher!=null){
+            foundPublisher.getBooks().add(book);
+        }
+        Author foundAuthor = authorRepository.findByFirstNameAndLastName(book.getAuthors().stream().findFirst().get().getFirstName(), book.getAuthors().stream().findFirst().orElseThrow().getLastName());
+        if(foundAuthor==null){
+            Author author =book.getAuthors().stream().findFirst().get() ;
+            authorRepository.save(author);
+            author.getBooks().add(book);
+
+        }
+        if(foundAuthor!=null){
+            foundAuthor.getBooks().add(book);
+        }
         book.addToStock(book.getStock());
         return bookRepository.save(book);
     }
