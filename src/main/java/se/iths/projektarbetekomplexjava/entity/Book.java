@@ -23,7 +23,6 @@ public class Book {
     @ManyToMany(mappedBy = "books")
     private Set<Author> authors = new HashSet<>();
 
-
     @ManyToOne
     Publisher publisher;
 
@@ -33,7 +32,6 @@ public class Book {
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<BookToCart> bookToCart;
-
 
     public Book(String ISBN13, String title, LocalDate publishingDate, Long weight, int pages, String language, String category, Long price) {
         this.ISBN13 = ISBN13;
@@ -48,7 +46,6 @@ public class Book {
 
     public Book() {
     }
-
 
     public void addAuthor(Author author) {
         authors.add(author);
@@ -168,7 +165,6 @@ public class Book {
     public void setBookToCart(List<BookToCart> bookToCart) {
         this.bookToCart = bookToCart;
     }
-
 
     @Override
     public String toString() {

@@ -8,7 +8,6 @@ import se.iths.projektarbetekomplexjava.repository.StockRepository;
 import java.time.LocalDateTime;
 import java.util.List;
 
-
 @Service
 public class OrderService {
 
@@ -40,7 +39,6 @@ public class OrderService {
             stock.setQuantity(stock.getQuantity() - cart.getQty());
             OrderedBooks orderedBook = new OrderedBooks(cart.getBook().getISBN13(),cart.getQty());
             orderedBook.addOrderedBooks(order);
-
         }
 
         order.addToPayment(order.getPayment());

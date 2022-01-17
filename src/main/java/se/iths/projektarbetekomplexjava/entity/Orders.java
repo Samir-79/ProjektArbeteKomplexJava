@@ -36,8 +36,6 @@ public class Orders {
     @ManyToOne
     private ShoppingCart shoppingCart;
 
-
-
     public Orders(LocalDateTime orderDate, String shippingMethod, String shippingAddress, Double orderTotalPrice) {
         this.orderDate = orderDate;
         this.shippingMethod = shippingMethod;
@@ -51,7 +49,6 @@ public class Orders {
     public void addToPayment(Payment payment) {
         setPayment(payment);
     }
-
 
     public Long getId() {
         return id;
@@ -124,6 +121,4 @@ public class Orders {
     public void setShoppingCart(ShoppingCart shoppingCart) {
         this.shoppingCart = shoppingCart;
     }
-
-
 }

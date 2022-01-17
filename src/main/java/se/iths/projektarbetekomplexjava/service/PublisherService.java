@@ -42,5 +42,4 @@ public class PublisherService {
     public Iterable<Publisher> findAllPublishers() {
         return publisherRepository.findAll();
     }
-
 }

@@ -13,7 +13,6 @@ public class Author {
     private String firstName;
     private String lastName;
 
-
     @JsonIgnore
     @ManyToMany
     private Set<Book> books = new HashSet<>();
