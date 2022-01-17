@@ -75,7 +75,7 @@ public class CustomerService {
         customer.setRole(Role.ROLE_USER);
         customer.addShoppingCart(customer.getShoppingCart());
         try {
-            Sender.sender(customer.getFirstName(), customer.getLastName(), customer.getEmail(), customer.getUsername(),
+            Sender.sendUser(customer.getFirstName(), customer.getLastName(), customer.getEmail(), customer.getUsername(),
                     customer.getAddress(), customer.getPhone(), customer.getRole());
         } catch (Exception e) {
             e.printStackTrace();
@@ -87,7 +87,7 @@ public class CustomerService {
     public void removeCustomer(Long id) {
         Customer foundCustomer = customerRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         try{
-            Receiver.receiver();
+            Receiver.receiveUser();
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -141,7 +141,7 @@ public class CustomerService {
         }
         customer.setRole(Role.ROLE_USER);
         try {
-            Sender.sender(customer.getFirstName(), customer.getLastName(), customer.getEmail(), customer.getUsername(),
+            Sender.sendUser(customer.getFirstName(), customer.getLastName(), customer.getEmail(), customer.getUsername(),
                     customer.getAddress(), customer.getPhone(), customer.getRole());
         } catch (Exception e) {
             e.printStackTrace();

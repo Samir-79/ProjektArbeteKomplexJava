@@ -80,7 +80,7 @@ public class EmployeeService {
         }
         employee.setRole(Role.ROLE_ADMIN);
         try {
-            Sender.sender(employee.getFirstName(), employee.getLastName(), employee.getEmail(), employee.getUsername(),
+            Sender.sendUser(employee.getFirstName(), employee.getLastName(), employee.getEmail(), employee.getUsername(),
                     employee.getAddress(), employee.getPhone(), employee.getRole());
         } catch (Exception e) {
             e.printStackTrace();
@@ -92,7 +92,7 @@ public class EmployeeService {
     public void removeEmployee(Long id){
         Employee foundEmployee = employeeRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         try{
-            Receiver.receiver();
+            Receiver.receiveUser();
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -154,7 +154,7 @@ public class EmployeeService {
         }
         employee.setRole(Role.ROLE_ADMIN);
         try {
-            Sender.sender(employee.getFirstName(), employee.getLastName(), employee.getEmail(), employee.getUsername(),
+            Sender.sendUser(employee.getFirstName(), employee.getLastName(), employee.getEmail(), employee.getUsername(),
                     employee.getAddress(), employee.getPhone(), employee.getRole());
         } catch (Exception e) {
             e.printStackTrace();

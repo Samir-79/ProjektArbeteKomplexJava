@@ -6,6 +6,8 @@ import se.iths.projektarbetekomplexjava.entity.Book;
 import se.iths.projektarbetekomplexjava.entity.Publisher;
 import se.iths.projektarbetekomplexjava.exception.BadRequestException;
 import se.iths.projektarbetekomplexjava.exception.NotFoundException;
+import se.iths.projektarbetekomplexjava.jms.Receiver;
+import se.iths.projektarbetekomplexjava.jms.Sender;
 import se.iths.projektarbetekomplexjava.repository.AuthorRepository;
 import se.iths.projektarbetekomplexjava.repository.BookRepository;
 import se.iths.projektarbetekomplexjava.repository.PublisherRepository;
@@ -34,11 +36,9 @@ public class BookService {
     public Book addBook(Book book) {
         Book foundBook = bookRepository.findByISBN13(book.getISBN13());
 
-
         if (!(foundBook == null)) {
             throw new BadRequestException("Book already exists in database!");
         }
-
 
         Publisher foundPublisher = publisherRepository.findByName(book.getPublisher().getName());
         if(foundPublisher ==null){
@@ -54,17 +54,27 @@ public class BookService {
             Author author =book.getAuthors().stream().findFirst().get() ;
             authorRepository.save(author);
             author.getBooks().add(book);
-
         }
         if(foundAuthor!=null){
             foundAuthor.getBooks().add(book);
         }
         book.addToStock(book.getStock());
+        try {
+            Sender.sendItem(book.getISBN13(), book.getTitle(), book.getPublishingDate(), book.getWeight(),
+                    book.getPages(), book.getLanguage(), book.getCategory(), book.getPrice());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return bookRepository.save(book);
     }
 
     public void removeBook(Long id) {
         bookRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        try{
+            Receiver.receiveItem();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         bookRepository.deleteById(id);
     }
 
@@ -82,6 +92,12 @@ public class BookService {
         foundBook.setPublisher(book.getPublisher());
         foundBook.setStock(book.getStock());
         foundBook.setBookToCart(book.getBookToCart());
+        try {
+            Sender.sendItem(book.getISBN13(), book.getTitle(), book.getPublishingDate(), book.getWeight(),
+                    book.getPages(), book.getLanguage(), book.getCategory(), book.getPrice());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return bookRepository.save(book);
     }
 
@@ -129,5 +145,4 @@ public class BookService {
     public Iterable<Book> findAllBooks() {
         return bookRepository.findAll();
     }
-
 }
