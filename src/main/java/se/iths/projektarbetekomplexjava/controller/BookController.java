@@ -21,7 +21,7 @@ public class BookController {
         this.bookService = bookService;
     }
 
-    @PutMapping("/addbook")
+    @PostMapping("/addbook")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Book> addBook(@RequestBody Book book) {
         Book addedBook = bookService.addBook(book);

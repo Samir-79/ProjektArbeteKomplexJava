@@ -20,11 +20,6 @@ AuthorController:
 2. GET:localhost:8080/bokhandel/api/v1/author/getauthorbyfirstname/{firstName}
 3. GET:localhost:8080/bokhandel/api/v1/author/getauthorbylastname/{lastName}
 4. GET:localhost:8080/bokhandel/api/v1/author/getauthorbyfullname/{firstName}/{lastName}
---------------------
-PreAuthorize(ADMIN)
-Basic Auth:
-Username
-Password
 ---------------------
 5. PUT:localhost:8080/bokhandel/api/v1/author/updateauthor
 {
@@ -129,8 +124,11 @@ Password
 }
 }
 ---------------------
+15.GET:localhost:8080/bokhandel/api/vi/book/getbooksbyauthor/{firstName}/{surName}
+
+----------------------
 CustomerController:
-15. POST:localhost:8080/bokhandel/api/v1/customer/signup
+16.POST:localhost:8080/bokhandel/api/v1/customer/signup
 {
 "firstName": "Philip",
 "lastName": "Thomas",
@@ -145,7 +143,7 @@ CustomerController:
 }
 }
 --------------------------
-16. PUT:localhost:8080/bokhandel/api/v1/customer/update/{id}
+17.PUT:localhost:8080/bokhandel/api/v1/customer/update/{id}
 {
 "id":1,
 "firstName":"biniam",
@@ -161,14 +159,14 @@ CustomerController:
 }
 }
 -------------------------------
-17. DELETE:localhost:8080/bokhandel/api/v1/customer/deleteCustomer/{id}
+18.DELETE:localhost:8080/bokhandel/api/v1/customer/deleteCustomer/{id}
 PreAuthorize(ADMIN)
 Basic Auth:
 Username
 Password
 -------------------------------
 EmployeeController:
-18. POST:localhost:8080/bokhandel/api/v1/employee/signup
+19.POST:localhost:8080/bokhandel/api/v1/employee/signup
 {
 "firstName": "Biniam",
 "lastName": "Andersson",
@@ -179,7 +177,7 @@ EmployeeController:
 "password": "Geeks@portal2012a"
 }
 --------------------------------------
-19. PUT:localhost:8080/bokhandel/api/v1/employee/update
+20.PUT:localhost:8080/bokhandel/api/v1/employee/update
 PreAuthorize(ADMIN)
 Basic Auth:
 Username
@@ -195,38 +193,38 @@ Password
 "password":"password_90"
 }
 -------------------------------
-20. DELETE:localhost:8080/bokhandel/api/v1/employee/deleteEmployee/{id}
+21. DELETE:localhost:8080/bokhandel/api/v1/employee/deleteEmployee/{id}
 PreAuthorize(ADMIN)
 Basic Auth:
 Username
 Password
 -------------------------------
-21. GET:localhost:8080/bokhandel/api/v1/employee/getListOfCustomer
+22. GET:localhost:8080/bokhandel/api/v1/employee/getListOfCustomer
 PreAuthorize(ADMIN)
 Basic Auth:
 Username
 Password
 -------------------------------
-22. GET:localhost:8080/bokhandel/api/v1/employee/getListOfEmployee
+23. GET:localhost:8080/bokhandel/api/v1/employee/getListOfEmployee
 PreAuthorize(ADMIN)
 Basic Auth:
 Username
 Password
 -------------------------------
-23. GET:localhost:8080/bokhandel/api/v1/employee/searchEmployee/{id}
+24.GET:localhost:8080/bokhandel/api/v1/employee/searchEmployee/{id}
 PreAuthorize(ADMIN)
 Basic Auth:
 Username
 Password
 -------------------------------
-24. GET:localhost:8080/bokhandel/api/v1/employee/searchCustomer/{id}
+25. GET:localhost:8080/bokhandel/api/v1/employee/searchCustomer/{id}
 PreAuthorize(ADMIN)
 Basic Auth:
 Username
 Password
 -------------------------------
 OrdersController:
-25. POST:localhost:8080/bokhandel/api/v1/orders/createorder/userid/{userid}
+26. POST:localhost:8080/bokhandel/api/v1/orders/createorder/userid/{userid}
 {
 "orderDate" :"29/12/21",
 "shippingMethod":"Dhl",
@@ -242,7 +240,7 @@ OrdersController:
 }
 }
 ------------------------------------
-26. PUT:localhost:8080/bokhandel/api/v1/orders/updateorder
+27. PUT:localhost:8080/bokhandel/api/v1/orders/updateorder
 PreAuthorize(ADMIN)
 Basic Auth:
 Username
@@ -263,21 +261,21 @@ Password
 }
 }
 -------------------------------
-27. DELETE:localhost:8080/bokhandel/api/v1/orders/deleteorder/{id}
+28. DELETE:localhost:8080/bokhandel/api/v1/orders/deleteorder/{id}
 PreAuthorize(ADMIN)
 Basic Auth:
 Username
 Password
 -------------------------------
-28. GET:localhost:8080/bokhandel/api/v1/orders/getorder/{id}
-29. GET:localhost:8080/bokhandel/api/v1/orders/getallorders
+29. GET:localhost:8080/bokhandel/api/v1/orders/getorder/{id}
+30. GET:localhost:8080/bokhandel/api/v1/orders/getallorders
 PreAuthorize(ADMIN)
 Basic Auth:
 Username
 Password
 -------------------------------
 PublisherController:
-30. PUT:localhost:8080/bokhandel/api/v1/publisher/updatepublisher
+31. PUT:localhost:8080/bokhandel/api/v1/publisher/updatepublisher
 PreAuthorize(ADMIN)
 Basic Auth:
 Username
@@ -287,39 +285,39 @@ Password
 "name": "AlfabetaDelta"
 }
 -------------------------------
-31. GET:localhost:8080/bokhandel/api/v1/publisher/getlistofpublishers
+32. GET:localhost:8080/bokhandel/api/v1/publisher/getlistofpublishers
 PreAuthorize(ADMIN)
 Basic Auth:
 Username
 Password
 -------------------------------
-32. GET:localhost:8080/bokhandel/api/v1/publisher/getpublisherbyid/{id}
+33. GET:localhost:8080/bokhandel/api/v1/publisher/getpublisherbyid/{id}
 PreAuthorize(ADMIN)
 Basic Auth:
 Username
 Password
 -------------------------------
-33. GET:localhost:8080/bokhandel/api/v1/publisher/getpublisherbyname/{name}
+34. GET:localhost:8080/bokhandel/api/v1/publisher/getpublisherbyname/{name}
 -------------------------------
 ShoppingCartController:
-34. PUT:localhost:8080/bokhandel/api/v1/shoppingcart/addbooks/bookid/{bookid}/username/{username}/{qty}
+35. PUT:localhost:8080/bokhandel/api/v1/shoppingcart/addbooks/bookid/{bookid}/username/{username}/{qty}
 ---------------------------------
-35. PUT:localhost:8080/bokhandel/api/v1/shoppingcart/updateCartItem/{cartid}/quantity/{qty}
+36. PUT:localhost:8080/bokhandel/api/v1/shoppingcart/updateCartItem/{cartid}/quantity/{qty}
 ---------------------------------
-36. PUT:localhost:8080/bokhandel/api/v1/shoppingcart/removeBookFromCart/{cartid}/quantity/{qty}
+37. PUT:localhost:8080/bokhandel/api/v1/shoppingcart/removeBookFromCart/{cartid}/quantity/{qty}
 ----------------------------------
-37. DELETE:localhost:8080/bokhandel/api/v1/shoppingcart/removecartItem/{id}
+38. DELETE:localhost:8080/bokhandel/api/v1/shoppingcart/removecartItem/{id}
 --------------------------------
 StockController:All requests must be preauthorized ADMIN
-38. PUT:localhost:8080/bokhandel/api/v1/stock/updatestock
+39. PUT:localhost:8080/bokhandel/api/v1/stock/updatestock
 {
 "id": 4,
 "quantity": 250,
 "inStock": true
 }
-39. GET:localhost:8080/bokhandel/api/v1/stock/getstockbyid/{id}
-40. GET:localhost:8080/bokhandel/api/v1/stock/getAllStocks
-41. DELETE:localhost:8080/bokhandel/api/v1/stock/removeStock/{id}
+40. GET:localhost:8080/bokhandel/api/v1/stock/getstockbyid/{id}
+41. GET:localhost:8080/bokhandel/api/v1/stock/getAllStocks
+42. DELETE:localhost:8080/bokhandel/api/v1/stock/removeStock/{id}
 PreAuthorize(ADMIN)
 Basic Auth:
 Username
@@ -328,7 +326,9 @@ Password
 How to use API request:
 1. Create Customer with API call nr 15. Register with your own email address to get signup confirmation email and order confirmation.
 2. Create Employee with API call nr 18.
-3. Add one or several books to the database with API call nr 7.
+3. Add one or several books to the database with API call nr 7. 
+  3a. If you want to add a book by an already existing author or publisher, you need to include author's and publisher's id in the JSON-file
+      to avoid double entries in Author's and Publisher's tables.
 4. Add desired copies of book to a customers cartItem with API call nr 34.
 5. Increase amount of copies in a customers cartItem with API call nr 35.
 6. Decrease amount of copies in a customers cartItem with API call nr 36.
