@@ -10,9 +10,9 @@ RabbitMQ Management login
 username: guest
 password: guest
 ------------------------------------------------------------
-Java Email Sender
-username: projektbokhandel@gmail.com
-password: odcdtxwlaxgmiime
+Java Email Sender/go to src->main->resources->application.properties
+spring.username: projektbokhandel@gmail.com
+spring.password: odcdtxwlaxgmiime
 ------------------------------------------------------------
 Endpoints/JSON: All API requests must be authenticated with basic auth, some requests are reserved for certain roles
 AuthorController:
@@ -299,7 +299,7 @@ Password
 34. GET:localhost:8080/bokhandel/api/v1/publisher/getpublisherbyname/{name}
 -------------------------------
 ShoppingCartController:
-35. PUT:localhost:8080/bokhandel/api/v1/shoppingcart/addbooks/bookid/{bookid}/username/{username}/{qty}
+35. POST:localhost:8080/bokhandel/api/v1/shoppingcart/addbooks/bookid/{bookid}/username/{username}/{qty}
 ---------------------------------
 36. PUT:localhost:8080/bokhandel/api/v1/shoppingcart/updateCartItem/{cartid}/quantity/{qty}
 ---------------------------------
@@ -323,14 +323,14 @@ Username
 Password
 -------------------------------
 How to use API request:
-1. Create Customer with API call nr 15. Register with your own email address to get signup confirmation email and order confirmation.
-2. Create Employee with API call nr 18.
-3. Add one or several books to the database with API call nr 7. 
-  3a. If you want to add a book by an already existing author or publisher, you need to include author's and publisher's id in the JSON-file
-      to avoid double entries in Author's and Publisher's tables.
-4. Add desired copies of book to a customers cartItem with API call nr 34.
-5. Increase amount of copies in a customers cartItem with API call nr 35.
-6. Decrease amount of copies in a customers cartItem with API call nr 36.
-7. Remove book from the cartItem with API call nr 37.
-8. Create order for all books in the shoppingCart with API call nr 25.
+1. Create Customer with API call nr 16. Register with your own email address to get signup confirmation email and order confirmation.
+2. Create Employee with API call nr 19.
+3. Add one or several books to the database with API call nr 7.
+   3a. If you want to add a book by an already existing author or publisher, you need to include author's and publisher's id in the JSON-file
+   to avoid double entries in Author's and Publisher's tables.
+4. Add desired copies of book to a customers cartItem with API call nr 35.
+5. Increase amount of copies in a customers cartItem with API call nr 36.
+6. Decrease amount of copies in a customers cartItem with API call nr 37.
+7. Remove book from the cartItem with API call nr 38.
+8. Create order for all books in the shoppingCart with API call nr 26.
 9. Done.

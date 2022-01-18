@@ -35,7 +35,7 @@ public class ShoppingCartController {
         this.bookService = bookService;
     }
 
-    @PutMapping("/addbooks/bookid/{bookid}/username/{username}/{qty}")
+    @PostMapping("/addbooks/bookid/{bookid}/username/{username}/{qty}")
     public Object addBooksToCart(@PathVariable int qty, @PathVariable String username, @PathVariable Long bookid) {
         Customer customer = customerRepository.findByUsername(username);
         if (customer == null) {
