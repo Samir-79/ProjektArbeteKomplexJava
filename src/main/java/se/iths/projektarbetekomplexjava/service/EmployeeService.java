@@ -56,10 +56,7 @@ public class EmployeeService {
             throw new BadRequestException("Email: " + employee.getEmail() + " is not valid");
         }
         for (Employee employees:employeeList){
-            if(passwordEncoder.bCryptPasswordEncoder().matches(employee.getPassword(), employees.getPassword())){
-                throw new BadRequestException("Password: " + employee.getPassword() + " is already taken.");
-            }
-            else if(employee.getUsername().equals(employees.getUsername())){
+           if(employee.getUsername().equals(employees.getUsername())){
                 throw new BadRequestException("Username: " + employee.getUsername() + " is already taken.");
             }
             else if(employee.getEmail().equals(employees.getEmail())){
@@ -129,12 +126,7 @@ public class EmployeeService {
         }
 
         for (Employee employees:employeeList ) {
-            if (passwordEncoder.bCryptPasswordEncoder().matches(employee.getPassword(), employees.getPassword())) {
-                if (!(passwordEncoder.bCryptPasswordEncoder().matches(employee.getPassword(), foundEmployee.getPassword()))) {
-                    throw new BadRequestException("Password: " + employee.getPassword() + " is already taken.");
-                }
-            }
-            else if (employees.getUsername().equals(employee.getUsername())) {
+        if (employees.getUsername().equals(employee.getUsername())) {
                 if(!(employees.getUsername().equals(foundEmployee.getUsername())))
                 throw new BadRequestException("Username: " + employee.getUsername() + " is already taken.");
             }

@@ -50,10 +50,7 @@ public class CustomerService {
             throw new BadRequestException("Email: " + customer.getEmail() + " is not valid");
         }
         for (Customer customers:customerList){
-            if(passwordEncoder.bCryptPasswordEncoder().matches(customer.getPassword(), customers.getPassword())){
-                throw new BadRequestException("Password: " + customer.getPassword() + " is already taken.");
-            }
-            else if(customer.getUsername().equals(customers.getUsername())){
+            if(customer.getUsername().equals(customers.getUsername())){
                 throw new BadRequestException("Username: " + customer.getUsername() + " is already taken.");
             }
             else if(customer.getEmail().equals(customers.getEmail())){
@@ -116,12 +113,7 @@ public class CustomerService {
         }
 
         for (Customer customers:customerList ) {
-            if (passwordEncoder.bCryptPasswordEncoder().matches(customer.getPassword(), customers.getPassword())) {
-                if (!(passwordEncoder.bCryptPasswordEncoder().matches(customer.getPassword(), foundCustomer.getPassword()))) {
-                    throw new BadRequestException("Password: " + customer.getPassword() + " is already taken.");
-                }
-            }
-            else if (customers.getUsername().equals(customer.getUsername())) {
+         if (customers.getUsername().equals(customer.getUsername())) {
                 if(!(customers.getUsername().equals(foundCustomer.getUsername())))
                     throw new BadRequestException("Username: " + customer.getUsername() + " is already taken.");
             }
