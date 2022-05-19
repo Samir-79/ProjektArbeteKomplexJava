@@ -40,7 +40,7 @@ public class CustomerService {
     }
 
     public Customer addCustomer(Customer customer) {
-        boolean isValidEmail = emailValidator.test(customer.getEmail());
+        /*boolean isValidEmail = emailValidator.test(customer.getEmail());
         List<Customer> customerList = getByEmail(customer.getEmail());
         if (customer.getFirstName().isEmpty() || customer.getLastName().isEmpty() || customer.getAddress().isEmpty()
                 || customer.getPhone().isEmpty() || customer.getUsername().isEmpty() || customer.getEmail().isEmpty() || customer.getPassword().isEmpty()){
@@ -77,7 +77,7 @@ public class CustomerService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        emailVerification.sendConfirmationEmail(customer.getEmail());
+        emailVerification.sendConfirmationEmail(customer.getEmail());*/
         return customerRepository.save(customer);
     }
 
