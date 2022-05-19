@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 import se.iths.projektarbetekomplexjava.entity.Employee;
 import se.iths.projektarbetekomplexjava.repository.EmployeeRepository;
 
+import javax.transaction.Transactional;
+
 @Service
 public class EmployeeDetailService implements UserDetailsService {
 
@@ -17,6 +19,7 @@ public class EmployeeDetailService implements UserDetailsService {
     }
 
     @Override
+    @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Employee employee = employeeRepository.findByUsername(username);
         if (employee == null){

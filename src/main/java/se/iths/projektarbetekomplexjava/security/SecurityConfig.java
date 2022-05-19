@@ -18,7 +18,9 @@ import org.springframework.security.web.authentication.logout.SecurityContextLog
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+    @Autowired
     private final CustomerDetailService userDetailsService;
+    @Autowired
     private final EmployeeDetailService employeeDetailService;
 
 
@@ -29,6 +31,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new AuthTokenFilter();
     }
 
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
 
 
     public SecurityConfig(CustomerDetailService userDetailsService, EmployeeDetailService employeeDetailService) {
@@ -61,15 +68,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
-        //AuthTokenFilter authTokenFilter = new AuthTokenFilter();
         httpSecurity.cors().and().csrf().disable()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
-                .antMatchers("/","/home","/bokhandel/api/v1/**").permitAll()
                 .antMatchers("/", "/home", "/bokhandel/api/v1/**/signup").permitAll()
+                .antMatchers("/", "/home", "/bokhandel/api/v1/**").permitAll()
                 .anyRequest().authenticated();
-        //httpSecurity.addFilter(authTokenFilter);
         httpSecurity.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 
 
@@ -100,8 +105,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .permitAll();
     }
     
-    @Bean
-    public AuthenticationManager authenticationManager() throws Exception {
-        return super.authenticationManagerBean();
-    }
+
 }

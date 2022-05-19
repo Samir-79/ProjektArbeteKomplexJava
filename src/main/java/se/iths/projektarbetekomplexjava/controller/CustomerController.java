@@ -7,9 +7,11 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import se.iths.projektarbetekomplexjava.dto.CustomerDTO;
+import se.iths.projektarbetekomplexjava.dto.LoginDTO;
 import se.iths.projektarbetekomplexjava.entity.Customer;
 import se.iths.projektarbetekomplexjava.entity.Role;
 import se.iths.projektarbetekomplexjava.exception.NotFoundException;
@@ -28,6 +30,7 @@ import java.util.stream.Collectors;
 public class CustomerController {
 
 
+    @Autowired
     JwtUtils jwtUtils;
     @Autowired
     AuthenticationManager authenticationManager;
@@ -49,18 +52,17 @@ public class CustomerController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> authenticateUser(@Valid @RequestBody Customer loginRequest) {
+    public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginDTO loginRequest) {
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+                new UsernamePasswordAuthenticationToken(loginRequest.getUserName(), loginRequest.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtUtils.generateJwtToken(authentication);
 
         CustomerPrincipal customerDetails = (CustomerPrincipal) authentication.getPrincipal();
         List<String> roles = customerDetails.getAuthorities().stream()
-                .map(item -> item.getAuthority())
+                .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
         return ResponseEntity.ok(new CustomerDTO(jwt,
-                customerDetails.getAuthorities(),
                 customerDetails.getUsername(),
                 roles));
     }

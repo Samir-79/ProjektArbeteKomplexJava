@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 import se.iths.projektarbetekomplexjava.entity.Customer;
 import se.iths.projektarbetekomplexjava.repository.CustomerRepository;
 
+import javax.transaction.Transactional;
+
 @Service
 public class CustomerDetailService implements UserDetailsService {
 
@@ -18,6 +20,7 @@ public class CustomerDetailService implements UserDetailsService {
     }
 
     @Override
+    @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Customer customer = customerRepository.findByUsername(username);
         if (customer == null){
