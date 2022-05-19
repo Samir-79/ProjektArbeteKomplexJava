@@ -18,13 +18,13 @@ public class Customer {
     private String password;
 
     @Enumerated(EnumType.STRING)
-    private Role role;
+    private ERole role;
 
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private ShoppingCart shoppingCart;
 
-    public Customer(String firstName, String lastName, String address, String phone, String username, String email, String password, Role role) {
+    public Customer(String firstName, String lastName, String address, String phone, String username, String email, String password, ERole role) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
@@ -115,11 +115,11 @@ public class Customer {
         this.shoppingCart = shoppingCart;
     }
 
-    public Role getRole() {
+    public ERole getRole() {
         return role;
     }
 
-    public void setRole(Role role) {
+    public void setRole(ERole role) {
         this.role = role;
     }
 }

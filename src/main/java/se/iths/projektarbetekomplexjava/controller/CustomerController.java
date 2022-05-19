@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import se.iths.projektarbetekomplexjava.dto.CustomerDTO;
 import se.iths.projektarbetekomplexjava.dto.LoginDTO;
 import se.iths.projektarbetekomplexjava.entity.Customer;
-import se.iths.projektarbetekomplexjava.entity.Role;
 import se.iths.projektarbetekomplexjava.exception.NotFoundException;
 import se.iths.projektarbetekomplexjava.security.CustomerPrincipal;
 import se.iths.projektarbetekomplexjava.security.JwtUtils;

@@ -17,9 +17,9 @@ public class Employee {
     private String password;
 
     @Enumerated(EnumType.STRING)
-    private Role role;
+    private ERole role;
 
-    public Employee(String firstName, String lastName, String address, String phone, String username, String email, String password, Role role) {
+    public Employee(String firstName, String lastName, String address, String phone, String username, String email, String password, ERole role) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
@@ -97,11 +97,11 @@ public class Employee {
         this.password = password;
     }
 
-    public Role getRole() {
+    public ERole getRole() {
         return role;
     }
 
-    public void setRole(Role role) {
+    public void setRole(ERole role) {
         this.role = role;
     }
 }

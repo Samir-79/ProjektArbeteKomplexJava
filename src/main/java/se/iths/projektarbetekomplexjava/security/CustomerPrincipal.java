@@ -4,7 +4,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import se.iths.projektarbetekomplexjava.entity.Customer;
-import se.iths.projektarbetekomplexjava.entity.Role;
+import se.iths.projektarbetekomplexjava.entity.ERole;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -18,7 +18,7 @@ public class CustomerPrincipal implements UserDetails {
 
     @Override
     public  Collection<? extends  GrantedAuthority> getAuthorities() {
-        Role roles = customer.getRole();
+        ERole roles = customer.getRole();
         System.out.println(roles.toString());
         Collection<GrantedAuthority> grantedAuthorities = new ArrayList<>();
         grantedAuthorities.add(new SimpleGrantedAuthority(roles.toString().toUpperCase()));

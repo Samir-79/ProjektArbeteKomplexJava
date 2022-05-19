@@ -1,7 +1,7 @@
 package se.iths.projektarbetekomplexjava.jms;
 
 import com.rabbitmq.client.*;
-import se.iths.projektarbetekomplexjava.entity.Role;
+import se.iths.projektarbetekomplexjava.entity.ERole;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
@@ -10,7 +10,7 @@ import java.util.concurrent.TimeoutException;
 
 public class Sender {
 
-    public static void sendUser(String firstName, String lastName, String email, String username, String address, String phone, Role role) throws IOException, TimeoutException {
+    public static void sendUser(String firstName, String lastName, String email, String username, String address, String phone, ERole role) throws IOException, TimeoutException {
 
         ConnectionFactory factory = new ConnectionFactory();
         factory.setPort(5672);

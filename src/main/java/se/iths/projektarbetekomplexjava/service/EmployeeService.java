@@ -8,7 +8,7 @@ import se.iths.projektarbetekomplexjava.exception.NotFoundException;
 import se.iths.projektarbetekomplexjava.security.EmailValidator;
 import se.iths.projektarbetekomplexjava.entity.Customer;
 import se.iths.projektarbetekomplexjava.entity.Employee;
-import se.iths.projektarbetekomplexjava.entity.Role;
+import se.iths.projektarbetekomplexjava.entity.ERole;
 import se.iths.projektarbetekomplexjava.exception.BadRequestException;
 import se.iths.projektarbetekomplexjava.jms.Receiver;
 import se.iths.projektarbetekomplexjava.jms.Sender;
@@ -75,7 +75,7 @@ public class EmployeeService {
                     It contains at least one special character which includes !@#$%&*()-+=^.
                     It does’t contain any white space.""");
         }
-        employee.setRole(Role.ROLE_ADMIN);
+        employee.setRole(ERole.ROLE_ADMIN);
         try {
             Sender.sendUser(employee.getFirstName(), employee.getLastName(), employee.getEmail(), employee.getUsername(),
                     employee.getAddress(), employee.getPhone(), employee.getRole());
@@ -144,7 +144,7 @@ public class EmployeeService {
                     It contains at least one special character which includes !@#$%&*()-+=^.
                     It does’t contain any white space.""");
         }
-        employee.setRole(Role.ROLE_ADMIN);
+        employee.setRole(ERole.ROLE_ADMIN);
         try {
             Sender.sendUser(employee.getFirstName(), employee.getLastName(), employee.getEmail(), employee.getUsername(),
                     employee.getAddress(), employee.getPhone(), employee.getRole());
