@@ -1,32 +1,32 @@
 package se.iths.projektarbetekomplexjava.security;
 
+
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import se.iths.projektarbetekomplexjava.entity.Customer;
-import se.iths.projektarbetekomplexjava.repository.CustomerRepository;
-/*
+import se.iths.projektarbetekomplexjava.entity.AppUser;
+import se.iths.projektarbetekomplexjava.repository.UserRepository;
 
 import javax.transaction.Transactional;
 
 @Service
-public class CustomerDetailService implements UserDetailsService {
+public class UserDetailService implements  UserDetailsService {
 
-    private final CustomerRepository customerRepository;
+    private final UserRepository userRepository;
 
-    public CustomerDetailService(CustomerRepository customerRepository) {
+    public UserDetailService(UserRepository userRepository) {
         super();
-        this.customerRepository = customerRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Customer customer = customerRepository.findByUsername(username);
-        if (customer == null){
+        AppUser appUser = userRepository.findByUserName(username);
+        if (appUser== null){
             throw new UsernameNotFoundException("Can't find user with username: " + "username");
         }
-        return new CustomerPrincipal(customer);
+        return new UserPrincipal(appUser);
     }
-}*/
+}

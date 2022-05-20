@@ -1,40 +1,43 @@
-/*
 package se.iths.projektarbetekomplexjava.security;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import se.iths.projektarbetekomplexjava.entity.Customer;
+import se.iths.projektarbetekomplexjava.entity.AppUser;
 import se.iths.projektarbetekomplexjava.entity.ERole;
+import se.iths.projektarbetekomplexjava.entity.Role;
+
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
-public class CustomerPrincipal implements UserDetails {
+public class UserPrincipal implements UserDetails {
 
-    private Customer customer;
+    private AppUser appUser;
 
-    public CustomerPrincipal(Customer customer) {
-        this.customer = customer;
+    public UserPrincipal(AppUser appUser) {
+        this.appUser = appUser;
     }
 
     @Override
-    public  Collection<? extends  GrantedAuthority> getAuthorities() {
-        ERole roles = customer.getRole();
-        System.out.println(roles.toString());
-        Collection<GrantedAuthority> grantedAuthorities = new ArrayList<>();
-        grantedAuthorities.add(new SimpleGrantedAuthority(roles.toString().toUpperCase()));
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+
+        List<GrantedAuthority> grantedAuthorities = appUser.getRoles().stream()
+                .map(role -> new SimpleGrantedAuthority(role.getName().name()))
+                .collect(Collectors.toList());
         return grantedAuthorities;
 
     }
 
     @Override
     public String getPassword() {
-        return this.customer.getPassword();
+        return this.appUser.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return this.customer.getUsername();
+        return this.appUser.getUserName();
     }
 
     @Override
@@ -56,4 +59,5 @@ public class CustomerPrincipal implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-}*/
+
+}

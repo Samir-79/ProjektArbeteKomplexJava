@@ -131,10 +131,10 @@ public class CustomerService {
                     It contains at least one special character which includes !@#$%&*()-+=^.
                     It does’t contain any white space.""");
         }
-        customer.setRole(ERole.ROLE_USER);
+        //customer.setRole(ERole.ROLE_USER);
         try {
             Sender.sendUser(customer.getFirstName(), customer.getLastName(), customer.getEmail(), customer.getUsername(),
-                    customer.getAddress(), customer.getPhone(), customer.getRole());
+                    customer.getAddress(), customer.getPhone());
         } catch (Exception e) {
             e.printStackTrace();
         }

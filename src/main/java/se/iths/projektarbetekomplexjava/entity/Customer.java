@@ -17,14 +17,14 @@ public class Customer {
     private String email;
     private String password;
 
-    @Enumerated(EnumType.STRING)
-    private ERole role;
+    //@Enumerated(EnumType.STRING)
+    //private ERole role;
 
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private ShoppingCart shoppingCart;
 
-    public Customer(String firstName, String lastName, String address, String phone, String username, String email, String password, ERole role) {
+    public Customer(String firstName, String lastName, String address, String phone, String username, String email, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
@@ -32,7 +32,7 @@ public class Customer {
         this.username = username;
         this.email = email;
         this.password = password;
-        this.role = role;
+
     }
 
     public Customer() {
@@ -115,11 +115,11 @@ public class Customer {
         this.shoppingCart = shoppingCart;
     }
 
-    public ERole getRole() {
-        return role;
-    }
-
-    public void setRole(ERole role) {
-        this.role = role;
-    }
+//    public ERole getRole() {
+//        return role;
+//    }
+//
+//    public void setRole(ERole role) {
+//        this.role = role;
+//    }
 }

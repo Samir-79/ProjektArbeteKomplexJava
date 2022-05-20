@@ -1,3 +1,4 @@
+/*
 package se.iths.projektarbetekomplexjava.security;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -54,4 +55,4 @@ public class EmployeePrincipal implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-}
+}*/

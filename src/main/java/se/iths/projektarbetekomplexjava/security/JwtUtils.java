@@ -19,21 +19,21 @@ public class JwtUtils {
     @Value("86400000")
     private int jwtExpirationMs;
     public String generateJwtToken(Authentication authentication) {
-        CustomerPrincipal customerPrincipal = (CustomerPrincipal) authentication.getPrincipal();
+        UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
         return Jwts.builder()
                 .setHeaderParam("typ","JWT")
-                .setSubject((customerPrincipal.getUsername()))
+                .setSubject((userPrincipal.getUsername()))
                 .setIssuedAt(new Date())
                 .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
-                .claim("roles", customerPrincipal.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
+                .claim("roles", userPrincipal.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
                 .compact();
     }
     public String generateRefreshToken(Authentication authentication) {
-        CustomerPrincipal customerPrincipal = (CustomerPrincipal) authentication.getPrincipal();
+        UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
         return Jwts.builder()
                 .setHeaderParam("typ","JWT")
-                .setSubject((customerPrincipal.getUsername()))
+                .setSubject((userPrincipal.getUsername()))
                 .setIssuedAt(new Date())
                 .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)

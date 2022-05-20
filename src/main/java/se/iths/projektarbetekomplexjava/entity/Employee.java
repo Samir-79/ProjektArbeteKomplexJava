@@ -16,10 +16,10 @@ public class Employee {
     private String email;
     private String password;
 
-    @Enumerated(EnumType.STRING)
-    private ERole role;
+//    @Enumerated(EnumType.STRING)
+//    private ERole role;
 
-    public Employee(String firstName, String lastName, String address, String phone, String username, String email, String password, ERole role) {
+    public Employee(String firstName, String lastName, String address, String phone, String username, String email, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
@@ -27,7 +27,7 @@ public class Employee {
         this.username = username;
         this.email = email;
         this.password = password;
-        this.role = role;
+
     }
 
     public Employee() {
@@ -97,11 +97,11 @@ public class Employee {
         this.password = password;
     }
 
-    public ERole getRole() {
-        return role;
-    }
-
-    public void setRole(ERole role) {
-        this.role = role;
-    }
+//    public ERole getRole() {
+//        return role;
+//    }
+//
+//    public void setRole(ERole role) {
+//        this.role = role;
+//    }
 }

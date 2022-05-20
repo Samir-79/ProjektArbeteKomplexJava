@@ -45,8 +45,9 @@ public class EmployeeService {
         this.emailVerification = emailVerification;
     }
 
+
     public Employee addEmployee(Employee employee){
-        boolean isValidEmail = emailValidator.test(employee.getEmail());
+        /*boolean isValidEmail = emailValidator.test(employee.getEmail());
         List<Employee> employeeList = getByEmail(employee.getEmail());
         if (employee.getFirstName().isEmpty() || employee.getLastName().isEmpty() || employee.getAddress().isEmpty()
                 || employee.getPhone().isEmpty() || employee.getUsername().isEmpty() || employee.getEmail().isEmpty() || employee.getPassword().isEmpty()){
@@ -78,11 +79,11 @@ public class EmployeeService {
         employee.setRole(ERole.ROLE_ADMIN);
         try {
             Sender.sendUser(employee.getFirstName(), employee.getLastName(), employee.getEmail(), employee.getUsername(),
-                    employee.getAddress(), employee.getPhone(), employee.getRole());
+                    employee.getAddress(), employee.getPhone());
         } catch (Exception e) {
             e.printStackTrace();
         }
-        emailVerification.sendConfirmationEmail(employee.getEmail());
+        emailVerification.sendConfirmationEmail(employee.getEmail());*/
         return employeeRepository.save(employee);
     }
 
@@ -144,10 +145,10 @@ public class EmployeeService {
                     It contains at least one special character which includes !@#$%&*()-+=^.
                     It does’t contain any white space.""");
         }
-        employee.setRole(ERole.ROLE_ADMIN);
+        //employee.setRole(ERole.ROLE_ADMIN);
         try {
             Sender.sendUser(employee.getFirstName(), employee.getLastName(), employee.getEmail(), employee.getUsername(),
-                    employee.getAddress(), employee.getPhone(), employee.getRole());
+                    employee.getAddress(), employee.getPhone());
         } catch (Exception e) {
             e.printStackTrace();
         }

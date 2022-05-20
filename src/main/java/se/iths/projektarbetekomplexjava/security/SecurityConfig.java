@@ -19,13 +19,12 @@ import org.springframework.security.web.authentication.logout.SecurityContextLog
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private final CustomerDetailService userDetailsService;
-    @Autowired
-    private final EmployeeDetailService employeeDetailService;
+    private final UserDetailService userDetailService;
 
 
     @Autowired
     private AuthEntryPointJwt unauthorizedHandler;
+
     @Bean
     public AuthTokenFilter authenticationJwtTokenFilter() {
         return new AuthTokenFilter();
@@ -38,31 +37,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
 
-    public SecurityConfig(CustomerDetailService userDetailsService, EmployeeDetailService employeeDetailService) {
-        this.userDetailsService = userDetailsService;
-        this.employeeDetailService = employeeDetailService;
+    public SecurityConfig(UserDetailService userDetailsService) {
+        this.userDetailService = userDetailsService;
+
     }
 
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setUserDetailsService(userDetailsService);
+        provider.setUserDetailsService(userDetailService);
         provider.setPasswordEncoder(new BCryptPasswordEncoder());
         return provider;
     }
 
-    @Bean
-    public DaoAuthenticationProvider authenticationProvider1() {
-        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setUserDetailsService(employeeDetailService);
-        provider.setPasswordEncoder(new BCryptPasswordEncoder());
-        return provider;
-    }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(authenticationProvider());
-        auth.authenticationProvider(authenticationProvider1());
+
 
     }
 
@@ -76,11 +68,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/", "/home", "/bokhandel/api/v1/**").permitAll()
                 .anyRequest().authenticated();
         httpSecurity.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
-
-
-
-
-
 
 
         //        httpSecurity
@@ -104,6 +91,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .clearAuthentication(true)
 //                .permitAll();
     }
-    
+
 
 }

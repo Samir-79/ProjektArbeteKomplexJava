@@ -5,6 +5,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import se.iths.projektarbetekomplexjava.entity.Employee;
+/*
 import se.iths.projektarbetekomplexjava.repository.EmployeeRepository;
 
 import javax.transaction.Transactional;
@@ -27,4 +28,4 @@ public class EmployeeDetailService implements UserDetailsService {
         }
         return new EmployeePrincipal(employee);
     }
-}
+}*/
