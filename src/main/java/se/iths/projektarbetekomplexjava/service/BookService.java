@@ -40,12 +40,13 @@ public class BookService {
         }
 
         Publisher foundPublisher = publisherRepository.findByName(book.getPublisher().getName());
+
         if(foundPublisher ==null){
             Publisher publisher = book.getPublisher();
             publisherRepository.save(publisher);
             publisher.getBooks().add(book);
         }
-        if(foundPublisher!=null){
+        if(foundPublisher!=null ){
             foundPublisher.getBooks().add(book);
         }
         Author foundAuthor = authorRepository.findByFirstNameAndLastName(book.getAuthors().stream().findFirst().get().getFirstName(), book.getAuthors().stream().findFirst().orElseThrow().getLastName());
@@ -57,6 +58,7 @@ public class BookService {
         if(foundAuthor!=null){
             foundAuthor.getBooks().add(book);
         }
+
         book.addToStock(book.getStock());
         try {
             Sender.sendItem(book.getISBN13(), book.getTitle(), book.getPublishingDate(), book.getWeight(),
@@ -64,6 +66,7 @@ public class BookService {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         return bookRepository.save(book);
     }
 

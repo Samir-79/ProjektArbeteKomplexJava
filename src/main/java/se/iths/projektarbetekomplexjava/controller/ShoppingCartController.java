@@ -2,6 +2,7 @@ package se.iths.projektarbetekomplexjava.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
@@ -36,6 +37,7 @@ public class ShoppingCartController {
     }
 
     @PostMapping("/addbooks/bookid/{bookid}/username/{username}/{qty}")
+    @PreAuthorize("hasRole('USER')")
     public Object addBooksToCart(@PathVariable int qty, @PathVariable String username, @PathVariable Long bookid) {
         Customer customer = customerRepository.findByUsername(username);
         if (customer == null) {

@@ -64,8 +64,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
-                .antMatchers("/", "/home", "/bokhandel/api/v1/**/signup").permitAll()
-                .antMatchers("/", "/home", "/bokhandel/api/v1/**").permitAll()
+                .antMatchers("/", "/home", "/bokhandel/api/v1/user/**").permitAll()
                 .anyRequest().authenticated();
         httpSecurity.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 

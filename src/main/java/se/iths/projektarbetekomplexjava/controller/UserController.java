@@ -1,5 +1,9 @@
 package se.iths.projektarbetekomplexjava.controller;
 
+import io.jsonwebtoken.JwtParser;
+import io.jsonwebtoken.Jwts;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import se.iths.projektarbetekomplexjava.dto.RefreshTokenDTO;
 import se.iths.projektarbetekomplexjava.dto.UserDTO;
 import se.iths.projektarbetekomplexjava.dto.LoginDTO;
 import se.iths.projektarbetekomplexjava.email.EmailVerification;
@@ -27,22 +32,31 @@ import se.iths.projektarbetekomplexjava.security.*;
 import se.iths.projektarbetekomplexjava.service.CustomerService;
 import se.iths.projektarbetekomplexjava.service.EmployeeService;
 import se.iths.projektarbetekomplexjava.service.UserService;
-
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.io.IOException;
+import java.util.*;
 import java.util.stream.Collectors;
+
 
 @RestController
 @RequestMapping("bokhandel/api/v1/user/")
 public class UserController {
 
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
     @Autowired
     JwtUtils jwtUtils;
+      @Autowired
+      AuthTokenFilter authTokenFilter;
+
     @Autowired
     AuthenticationManager authenticationManager;
     private final UserService service;
+
+
     private final CustomerService customerService;
     private final CustomerRepository customerRepository;
     private final EmployeeRepository employeeRepository;
@@ -54,7 +68,10 @@ public class UserController {
     private final RoleRepository roleRepository;
     private final UserRepository userRepository;
 
-    public UserController(UserService service, CustomerService customerService, CustomerRepository customerRepository, EmployeeRepository employeeRepository, EmployeeService employeeService, BCryptPasswordEncoder bCryptPasswordEncoder, PasswordEncoder passwordEncoder, EmailValidator emailValidator, EmailVerification emailVerification, RoleRepository roleRepository, UserRepository userRepository) {
+
+    public UserController(JwtUtils jwtUtils, AuthenticationManager authenticationManager, UserService service, CustomerService customerService, CustomerRepository customerRepository, EmployeeRepository employeeRepository, EmployeeService employeeService, BCryptPasswordEncoder bCryptPasswordEncoder, PasswordEncoder passwordEncoder, EmailValidator emailValidator, EmailVerification emailVerification, RoleRepository roleRepository, UserRepository userRepository, AuthTokenFilter authTokenFilter) {
+        this.jwtUtils = jwtUtils;
+        this.authenticationManager = authenticationManager;
         this.service = service;
         this.customerService = customerService;
         this.customerRepository = customerRepository;
@@ -66,6 +83,7 @@ public class UserController {
         this.emailVerification = emailVerification;
         this.roleRepository = roleRepository;
         this.userRepository = userRepository;
+        this.authTokenFilter = authTokenFilter;
     }
 
     @PostMapping("/login")
@@ -75,19 +93,59 @@ public class UserController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtUtils.generateJwtToken(authentication);
 
+
         UserPrincipal userDetails = (UserPrincipal) authentication.getPrincipal();
         List<String> roles = userDetails.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
-        return ResponseEntity.ok(new UserDTO(jwt,
-                userDetails.getUsername(),
-                roles));
+         String refreshJWT = jwtUtils.generateRefreshToken(authentication);
+
+          AppUser user =  userRepository.findByUserName(loginRequest.getUserName());
+        if (user != null) {
+            //userRepository.save(user);
+         return ResponseEntity.ok(new UserDTO(jwt,refreshJWT,
+                    userDetails.getUsername(),
+                    roles));
+        }
+        return ResponseEntity.ok("User cannot be authenticated!");
     }
 
 
+@PostMapping("/refreshtoken")
+public ResponseEntity<?> refreshToken(HttpServletRequest request) {
+try {
+    String jwt = authTokenFilter.parseJwt(request);
+    if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
+        String username = jwtUtils.getUserNameFromJwtToken(jwt);
+        String token = jwtUtils.generateTokenFromUsername(username);
+        return ResponseEntity.ok(new RefreshTokenDTO(token, jwt));
+    }
+}
+    catch(Exception e){
+
+        logger.error("Refresh token is not valid", e);
+
+    }
+
+    return ResponseEntity.ok("Refresh token is not available!");
+}
+/*public ResponseEntity<?> refreshtoken(@Valid @RequestBody String refreshToken) {
+
+    String username= Jwts.parser().setSigningKey(jwtUtils.getJwtSecret()).parseClaimsJws(refreshToken).getBody().getSubject();
+    //if (refreshToken != null && jwtUtils.validateJwtToken(refreshToken)) {
+        //String username = jwtUtils.getUserNameFromJwtToken(refreshToken);
+         if(username!=null) {
+             String token = jwtUtils.generateTokenFromUsername(username);
+             return ResponseEntity.ok(new RefreshTokenDTO(token, refreshToken));
+         }
+
+    return ResponseEntity.ok("Refresh token is not available!");*/
 
 
-    @PostMapping("signup/customer")
+
+
+
+@PostMapping("signup/customer")
     public ResponseEntity<?> registerCustomer(@RequestBody Customer customer) {
 
         boolean isValidEmail = emailValidator.test(customer.getEmail());
