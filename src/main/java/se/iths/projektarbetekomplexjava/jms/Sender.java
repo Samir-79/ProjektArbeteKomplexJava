@@ -1,7 +1,9 @@
 package se.iths.projektarbetekomplexjava.jms;
 
 import com.rabbitmq.client.*;
+import se.iths.projektarbetekomplexjava.entity.ERole;
 import se.iths.projektarbetekomplexjava.entity.Role;
+
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
@@ -10,7 +12,7 @@ import java.util.concurrent.TimeoutException;
 
 public class Sender {
 
-    public static void sendUser(String firstName, String lastName, String email, String username, String address, String phone, Role role) throws IOException, TimeoutException {
+    public static void sendUser(String firstName, String lastName, String email, String username, String address, String phone) throws IOException, TimeoutException {
 
         ConnectionFactory factory = new ConnectionFactory();
         factory.setPort(5672);
@@ -22,7 +24,7 @@ public class Sender {
             String QUEUE_NAME = "userData";
             channel.queueDeclare(QUEUE_NAME, false, false, false,  null);
             String message = firstName + ", " + lastName + ", "  + address + ", " + phone
-                    + ", " + username + ", "  + email + ", " +  role + ", "  + LocalDateTime.now();
+                    + ", " + username + ", "  + email + ", "  + LocalDateTime.now();
             System.out.println("======> Transmitting this message:  " + message);
 
             channel.basicPublish("", QUEUE_NAME,null, message.getBytes(StandardCharsets.UTF_8));

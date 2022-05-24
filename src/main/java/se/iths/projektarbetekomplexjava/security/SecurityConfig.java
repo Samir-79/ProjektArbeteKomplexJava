@@ -1,69 +1,53 @@
 package se.iths.projektarbetekomplexjava.security;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import se.iths.projektarbetekomplexjava.filter.CustomAuthenticationFilter;
+import se.iths.projektarbetekomplexjava.filter.CustomAuthorizationFilter;
 
-@Configuration
+import static org.springframework.http.HttpMethod.GET;
+import static org.springframework.http.HttpMethod.POST;
+import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
+
+@Configurable @EnableWebSecurity @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-
-    private final CustomerDetailService userDetailsService;
-    private final EmployeeDetailService employeeDetailService;
-
-    public SecurityConfig(CustomerDetailService userDetailsService, EmployeeDetailService employeeDetailService) {
-        this.userDetailsService = userDetailsService;
-        this.employeeDetailService = employeeDetailService;
-    }
-
-    @Bean
-    public DaoAuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setUserDetailsService(userDetailsService);
-        provider.setPasswordEncoder(new BCryptPasswordEncoder());
-        return provider;
-    }
-
-    @Bean
-    public DaoAuthenticationProvider authenticationProvider1() {
-        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setUserDetailsService(employeeDetailService);
-        provider.setPasswordEncoder(new BCryptPasswordEncoder());
-        return provider;
-    }
+    private final UserDetailsService userDetailsService;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.authenticationProvider(authenticationProvider());
-        auth.authenticationProvider(authenticationProvider1());
-
+        auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
     }
 
     @Override
-    protected void configure(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity
-                .csrf().disable()
-                .httpBasic()
-                .and()
-                .authorizeRequests()
-                .antMatchers("/bokhandel/api/v1/book/addbook").hasRole("ADMIN")
-                .antMatchers("/", "/home", "/bokhandel/api/v1/**/signup").permitAll()
-                .antMatchers("/application").hasRole("USER")
-                .antMatchers("/admin").hasRole("ADMIN")
-                .antMatchers("/h2-console/**").permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .formLogin()
-                .loginPage("/login").permitAll()
-                .and()
-                .logout()
-                .addLogoutHandler(new SecurityContextLogoutHandler())
-                .invalidateHttpSession(true)
-                .clearAuthentication(true)
-                .permitAll();
+    protected void configure(HttpSecurity http) throws Exception {
+        CustomAuthenticationFilter customAuthenticationFilter= new CustomAuthenticationFilter(authenticationManagerBean());
+        customAuthenticationFilter.setFilterProcessesUrl("/bokhandel/api/v1/user/login");
+        http.csrf().disable();
+        http.sessionManagement().sessionCreationPolicy(STATELESS);
+        http.authorizeRequests().antMatchers("/bokhandel/api/v1/user/signup/**").permitAll();
+        http.authorizeRequests().antMatchers("/bokhandel/api/v1/user/login/**").permitAll();
+        http.authorizeRequests().antMatchers("/bokhandel/api/v1/user/token/refresh").permitAll();
+        //http.authorizeRequests().antMatchers(GET,"/api/user/**").hasAnyAuthority("ROLE_USER");
+        http.authorizeRequests().antMatchers(POST,"bokhandel/api/v1/book/addbook").hasAnyAuthority("ADMIN");
+        http.authorizeRequests().anyRequest().authenticated();
+        http.addFilter(customAuthenticationFilter);
+        //this comes before all filters.
+        http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
+    }
+
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception{
+        return super.authenticationManagerBean();
     }
 }

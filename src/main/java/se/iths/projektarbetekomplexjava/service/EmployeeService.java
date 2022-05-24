@@ -3,15 +3,14 @@ package se.iths.projektarbetekomplexjava.service;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import se.iths.projektarbetekomplexjava.email.EmailVerification;
+import se.iths.projektarbetekomplexjava.exception.BadRequestException;
 import se.iths.projektarbetekomplexjava.exception.NotAuthorizedException;
 import se.iths.projektarbetekomplexjava.exception.NotFoundException;
+import se.iths.projektarbetekomplexjava.jms.Sender;
 import se.iths.projektarbetekomplexjava.security.EmailValidator;
 import se.iths.projektarbetekomplexjava.entity.Customer;
 import se.iths.projektarbetekomplexjava.entity.Employee;
-import se.iths.projektarbetekomplexjava.entity.Role;
-import se.iths.projektarbetekomplexjava.exception.BadRequestException;
 import se.iths.projektarbetekomplexjava.jms.Receiver;
-import se.iths.projektarbetekomplexjava.jms.Sender;
 import se.iths.projektarbetekomplexjava.repository.CustomerRepository;
 import se.iths.projektarbetekomplexjava.repository.EmployeeRepository;
 import se.iths.projektarbetekomplexjava.security.PasswordEncoder;
@@ -43,47 +42,6 @@ public class EmployeeService {
         this.passwordEncoder = passwordEncoder;
         this.emailValidator = emailValidator;
         this.emailVerification = emailVerification;
-    }
-
-    public Employee addEmployee(Employee employee){
-        boolean isValidEmail = emailValidator.test(employee.getEmail());
-        List<Employee> employeeList = getByEmail(employee.getEmail());
-        if (employee.getFirstName().isEmpty() || employee.getLastName().isEmpty() || employee.getAddress().isEmpty()
-                || employee.getPhone().isEmpty() || employee.getUsername().isEmpty() || employee.getEmail().isEmpty() || employee.getPassword().isEmpty()){
-            throw new BadRequestException("Insufficient data, please fill the required registration data.");
-        }
-        else if (!isValidEmail){
-            throw new BadRequestException("Email: " + employee.getEmail() + " is not valid");
-        }
-        for (Employee employees:employeeList){
-           if(employee.getUsername().equals(employees.getUsername())){
-                throw new BadRequestException("Username: " + employee.getUsername() + " is already taken.");
-            }
-            else if(employee.getEmail().equals(employees.getEmail())){
-                throw new BadRequestException("Email: " + employee.getEmail() + " is already taken.");
-            }
-        }
-        if(PasswordValidator.isValidPassword(employee.getPassword())){
-            employee.setPassword(bCryptPasswordEncoder.encode(employee.getPassword()));
-        }
-        else {
-            throw new BadRequestException("""
-                    Password must fulfill the password requirement: It contains at least 8 characters and at most 20 characters.
-                    It contains at least one digit.
-                    It contains at least one upper case alphabet.
-                    It contains at least one lower case alphabet.
-                    It contains at least one special character which includes !@#$%&*()-+=^.
-                    It does’t contain any white space.""");
-        }
-        employee.setRole(Role.ROLE_ADMIN);
-        try {
-            Sender.sendUser(employee.getFirstName(), employee.getLastName(), employee.getEmail(), employee.getUsername(),
-                    employee.getAddress(), employee.getPhone(), employee.getRole());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        emailVerification.sendConfirmationEmail(employee.getEmail());
-        return employeeRepository.save(employee);
     }
 
     public void removeEmployee(Long id){
@@ -144,13 +102,17 @@ public class EmployeeService {
                     It contains at least one special character which includes !@#$%&*()-+=^.
                     It does’t contain any white space.""");
         }
-        employee.setRole(Role.ROLE_ADMIN);
+
         try {
             Sender.sendUser(employee.getFirstName(), employee.getLastName(), employee.getEmail(), employee.getUsername(),
-                    employee.getAddress(), employee.getPhone(), employee.getRole());
+                    employee.getAddress(), employee.getPhone());
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return employeeRepository.save(employee);
+    }
+    public Employee addEmployee(Employee employee){
+
         return employeeRepository.save(employee);
     }
 }

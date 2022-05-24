@@ -25,11 +25,6 @@ public class EmployeeController {
         this.employeeService = employeeService;
     }
 
-    @PostMapping("/signup")
-    public ResponseEntity<Employee> addEmployee(@RequestBody Employee employee){
-        Employee addedEmployee = employeeService.addEmployee(employee);
-        return new ResponseEntity<>(addedEmployee, HttpStatus.CREATED);
-    }
 
     @PutMapping("/update")
     @PreAuthorize("hasRole('ADMIN')")

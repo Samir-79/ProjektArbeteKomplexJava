@@ -11,19 +11,13 @@ import se.iths.projektarbetekomplexjava.service.CustomerService;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("bokhandel/api/v1/customer/")
+@RequestMapping("bokhandel/api/v1/customer")
 public class CustomerController {
 
     private final CustomerService service;
 
     public CustomerController(CustomerService service) {
         this.service = service;
-    }
-
-    @PostMapping("/signup")
-    public ResponseEntity<Customer> addCustomer(@RequestBody Customer customer){
-            Customer addedCustomer = service.addCustomer(customer);
-            return new ResponseEntity<>(addedCustomer, HttpStatus.CREATED);
     }
 
     @PutMapping("/update/{id}")

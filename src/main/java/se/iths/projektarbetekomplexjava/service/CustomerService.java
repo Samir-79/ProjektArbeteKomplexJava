@@ -27,6 +27,7 @@ public class CustomerService {
     private final EmailValidator emailValidator;
     private final EmailVerification emailVerification;
 
+
     public CustomerService(CustomerRepository customerRepository,
                            BCryptPasswordEncoder bCryptPasswordEncoder,
                            PasswordEncoder passwordEncoder,
@@ -39,45 +40,8 @@ public class CustomerService {
         this.emailVerification = emailVerification;
     }
 
-    public Customer addCustomer(Customer customer) {
-        boolean isValidEmail = emailValidator.test(customer.getEmail());
-        List<Customer> customerList = getByEmail(customer.getEmail());
-        if (customer.getFirstName().isEmpty() || customer.getLastName().isEmpty() || customer.getAddress().isEmpty()
-                || customer.getPhone().isEmpty() || customer.getUsername().isEmpty() || customer.getEmail().isEmpty() || customer.getPassword().isEmpty()){
-            throw new BadRequestException("Insufficient data, please fill the required registration data.");
-        }
-        else if (!isValidEmail){
-            throw new BadRequestException("Email: " + customer.getEmail() + " is not valid");
-        }
-        for (Customer customers:customerList){
-            if(customer.getUsername().equals(customers.getUsername())){
-                throw new BadRequestException("Username: " + customer.getUsername() + " is already taken.");
-            }
-            else if(customer.getEmail().equals(customers.getEmail())){
-                throw new BadRequestException("Email: " + customer.getEmail() + " is already taken.");
-            }
-        }
-        if(PasswordValidator.isValidPassword(customer.getPassword())){
-            customer.setPassword(bCryptPasswordEncoder.encode(customer.getPassword()));
-        }
-        else {
-            throw new BadRequestException("""
-                    Password must fulfill the password requirement: It contains at least 8 characters and at most 20 characters.
-                    It contains at least one digit.
-                    It contains at least one upper case alphabet.
-                    It contains at least one lower case alphabet.
-                    It contains at least one special character which includes !@#$%&*()-+=^.
-                    It does’t contain any white space.""");
-        }
-        customer.setRole(Role.ROLE_USER);
-        customer.addShoppingCart(customer.getShoppingCart());
-        try {
-            Sender.sendUser(customer.getFirstName(), customer.getLastName(), customer.getEmail(), customer.getUsername(),
-                    customer.getAddress(), customer.getPhone(), customer.getRole());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        emailVerification.sendConfirmationEmail(customer.getEmail());
+   public Customer addCustomer(Customer customer) {
+
         return customerRepository.save(customer);
     }
 
@@ -131,10 +95,10 @@ public class CustomerService {
                     It contains at least one special character which includes !@#$%&*()-+=^.
                     It does’t contain any white space.""");
         }
-        customer.setRole(Role.ROLE_USER);
+
         try {
             Sender.sendUser(customer.getFirstName(), customer.getLastName(), customer.getEmail(), customer.getUsername(),
-                    customer.getAddress(), customer.getPhone(), customer.getRole());
+                    customer.getAddress(), customer.getPhone());
         } catch (Exception e) {
             e.printStackTrace();
         }
