@@ -13,6 +13,8 @@ import se.iths.projektarbetekomplexjava.service.BookService;
 import se.iths.projektarbetekomplexjava.service.CartItemService;
 import se.iths.projektarbetekomplexjava.service.ShoppingCartService;
 
+import javax.websocket.server.PathParam;
+
 @RestController
 @RequestMapping("bokhandel/api/v1/shoppingcart/")
 public class ShoppingCartController {
@@ -35,8 +37,8 @@ public class ShoppingCartController {
         this.bookService = bookService;
     }
 
-    @PostMapping("addbooks/bookid/{bookid}/username/{username}/{qty}")
-    public Object addBooksToCart(@PathVariable int qty, @PathVariable String username, @PathVariable Long bookid) {
+    @PostMapping("addbooks")
+    public Object addBooksToCart(@PathParam("qty")  int qty, @PathParam("username") String username, @PathParam("bookid") Long bookid) {
         Customer customer = customerRepository.findByUsername(username);
         if (customer == null) {
             throw new NotFoundException("Customer not found");
