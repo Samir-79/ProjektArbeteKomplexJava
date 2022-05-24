@@ -35,7 +35,7 @@ public class ShoppingCartController {
         this.bookService = bookService;
     }
 
-    @PostMapping("/addbooks/bookid/{bookid}/username/{username}/{qty}")
+    @PostMapping("addbooks/bookid/{bookid}/username/{username}/{qty}")
     public Object addBooksToCart(@PathVariable int qty, @PathVariable String username, @PathVariable Long bookid) {
         Customer customer = customerRepository.findByUsername(username);
         if (customer == null) {
@@ -65,7 +65,7 @@ public class ShoppingCartController {
         return "you have to be logged in to add book to cart";
     }
 
-    @PutMapping("/updateCartItem/{cartid}/quantity/{qty}")
+    @PutMapping("updateCartItem/{cartid}/quantity/{qty}")
     public ResponseEntity<CartItem> updateCartItem(@PathVariable Long cartid, @PathVariable int qty) {
         CartItem cartItem = cartItemService.findById(cartid);
         if(cartItem.getQty()+qty > 150){

@@ -203,9 +203,11 @@ public class UserController {
                         .withSubject(user.getUserName())
                         .withExpiresAt(new Date(System.currentTimeMillis()+10*60*1000))
                         .withIssuer(request.getRequestURL().toString())
-                        .withClaim("roles",user.getRoles().stream()
-                                .map(Role::getName).collect(Collectors.toList()))
+//                        .withClaim("roles",user.getRoles().stream()
+//                                .map(Role::getName).collect(Collectors.toList()))
+                        .withClaim("roles", user.getRoles().stream().map(r -> r.getName().toString()).collect(Collectors.toList()))
                         .sign(algorithm);
+
                 Map<String, String> tokens = new HashMap<>();
                 tokens.put("access_token",access_token);
                 tokens.put("refresh_token",refresh_token);

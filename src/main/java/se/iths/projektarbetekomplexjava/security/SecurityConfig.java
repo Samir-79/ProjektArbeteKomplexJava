@@ -38,6 +38,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers("/bokhandel/api/v1/user/login/**").permitAll();
         http.authorizeRequests().antMatchers("/bokhandel/api/v1/user/token/refresh").permitAll();
         //http.authorizeRequests().antMatchers(GET,"/api/user/**").hasAnyAuthority("ROLE_USER");
+        http.authorizeRequests().antMatchers("bokhandel/api/v1/shoppingcart/**").hasAnyAuthority("USER");
         http.authorizeRequests().antMatchers(POST,"bokhandel/api/v1/book/addbook").hasAnyAuthority("ADMIN");
         http.authorizeRequests().anyRequest().authenticated();
         http.addFilter(customAuthenticationFilter);
