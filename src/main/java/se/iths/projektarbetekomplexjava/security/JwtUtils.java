@@ -25,6 +25,7 @@ public class JwtUtils {
     @Value("86400000")
     private int refreshJwtExpirationMs;
     public String generateJwtToken(Authentication authentication) {
+
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
         return Jwts.builder()
                 .setHeaderParam("typ","JWT")

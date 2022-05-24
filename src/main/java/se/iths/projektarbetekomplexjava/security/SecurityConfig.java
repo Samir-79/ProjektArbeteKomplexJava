@@ -65,6 +65,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
                 .antMatchers("/", "/home", "/bokhandel/api/v1/user/**").permitAll()
+                .antMatchers("/", "/home", "/bokhandel/api/v1/book/addbook").hasRole("ADMIN")
+                .antMatchers("/", "/home", "/bokhandel/api/v1/shoppingcart/**").hasRole("USER")
                 .anyRequest().authenticated();
         httpSecurity.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 

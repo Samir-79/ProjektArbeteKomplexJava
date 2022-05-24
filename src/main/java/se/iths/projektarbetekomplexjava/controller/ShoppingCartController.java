@@ -37,7 +37,6 @@ public class ShoppingCartController {
     }
 
     @PostMapping("/addbooks/bookid/{bookid}/username/{username}/{qty}")
-    @PreAuthorize("hasRole('USER')")
     public Object addBooksToCart(@PathVariable int qty, @PathVariable String username, @PathVariable Long bookid) {
         Customer customer = customerRepository.findByUsername(username);
         if (customer == null) {
@@ -64,7 +63,7 @@ public class ShoppingCartController {
             shoppingCartService.updateShoppingCart(shoppingCart);
             return new ResponseEntity<>(cartItem, HttpStatus.OK);
         }
-        return "you have to be logged in to add book to cart";
+        return "you have to be logged in  to add book to cart";
     }
 
     @PutMapping("/updateCartItem/{cartid}/quantity/{qty}")
