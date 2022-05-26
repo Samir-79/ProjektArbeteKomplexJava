@@ -35,6 +35,7 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
+@CrossOrigin(origins =  "*", maxAge = 3600)
 @RestController
 @RequestMapping("bokhandel/api/v1/user/")
 public class UserController {

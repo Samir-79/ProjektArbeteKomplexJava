@@ -51,6 +51,7 @@ public class ShoppingCartController {
         } else {
             uname = principal.toString();
         }
+       System.out.println(uname);
         if (customer.getUsername().equals(uname)) {
             ShoppingCart shoppingCart = customer.getShoppingCart();
             Book book;
