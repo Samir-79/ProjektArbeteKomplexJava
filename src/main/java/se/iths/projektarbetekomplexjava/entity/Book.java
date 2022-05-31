@@ -23,7 +23,7 @@ public class Book {
     @ManyToMany(mappedBy = "books")
     private Set<Author> authors = new HashSet<>();
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     Publisher publisher;
 
     @ManyToOne(cascade = CascadeType.ALL)
@@ -33,7 +33,8 @@ public class Book {
     @JsonIgnore
     private List<BookToCart> bookToCart;
 
-    public Book(String ISBN13, String title, LocalDate publishingDate, Long weight, int pages, String language, String category, Long price) {
+    public Book( String ISBN13, String title, LocalDate publishingDate, Long weight, int pages, String language, String category, Long price) {
+
         this.ISBN13 = ISBN13;
         this.title = title;
         this.publishingDate = publishingDate;
@@ -42,6 +43,7 @@ public class Book {
         this.language = language;
         this.category = category;
         this.price = price;
+
     }
 
     public Book() {
