@@ -92,7 +92,6 @@ public class ProjektArbeteKomplexJavaApplication {
             book8.addPublisher(publisher5);
             book8.addToStock(stock8);
 
-
             bookRepository.saveAll(Arrays.asList(book1, book2, book3, book4, book5, book6, book7, book8));
 
             authorRepository.saveAll(Arrays.asList(author1, author2, author3, author4, author5, author6, author7, author8));
