@@ -47,13 +47,13 @@ public class CartItemService {
 
         for (CartItem cartItem : cartItemList) {
             if (book.getId() == cartItem.getBook().getId()) {
-                if (cartItem.getQty()+qty > 150) {
-                    throw new BadRequestException("Number of copies should not exceed 150!");
+                if (qty > 10) {
+                    throw new BadRequestException("Number of copies should not exceed 10!");
                 }
 
-                cartItem.setQty(cartItem.getQty() + qty);
+                cartItem.setQty( qty);
 
-                cartItem.setSubtotal(cartItem.getSubtotal() + (book.getPrice() * qty));
+                cartItem.setSubtotal(book.getPrice() * qty);
                 cartItem.setBookIsbn(cartItem.getBookIsbn());
                 cartItem.setBookTitle(cartItem.getBookTitle());
                 cartItemRepository.save(cartItem);
@@ -65,8 +65,8 @@ public class CartItemService {
 
         cartItem.setShoppingCart(customer.getShoppingCart());
         cartItem.setBook(book);
-        if (qty > 150) {
-            throw new BadRequestException("Number of copies should not exceed 150!");
+        if (qty > 10) {
+            throw new BadRequestException("Number of copies should not exceed 10!");
         }
         cartItem.setQty(qty);
 

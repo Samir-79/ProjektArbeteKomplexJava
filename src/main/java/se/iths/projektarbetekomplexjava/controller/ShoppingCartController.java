@@ -38,7 +38,7 @@ public class ShoppingCartController {
     }
 
     @PostMapping("addbooks")
-    public Object addBooksToCart(@PathParam("qty")  int qty, @PathParam("username") String username, @PathParam("bookid") Long bookid) {
+    public Object addBooksToCart(@RequestParam("qty")  int qty, @RequestParam("username") String username, @RequestParam("bookid") Long bookid) {
         Customer customer = customerRepository.findByUsername(username);
         if (customer == null) {
             throw new NotFoundException("Customer not found");

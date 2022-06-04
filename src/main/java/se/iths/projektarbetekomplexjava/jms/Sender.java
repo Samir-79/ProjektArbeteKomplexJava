@@ -31,7 +31,7 @@ public class Sender {
         }
     }
 
-    public static void sendItem(String ISBN13, String title, LocalDate publishingDate, Long weight, int pages, String language, String category, Long price) throws IOException, TimeoutException {
+    public static void sendItem(String ISBN13, String title, LocalDate publishingDate, Long weight, int pages, String language, String category, Double price) throws IOException, TimeoutException {
 
         ConnectionFactory factory = new ConnectionFactory();
         factory.setPort(5672);

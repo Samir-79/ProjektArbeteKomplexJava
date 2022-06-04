@@ -18,7 +18,7 @@ public class Book {
     private int pages;
     private String language;
     private String category;
-    private Long price;
+    private Double price;
 
     @ManyToMany(mappedBy = "books")
     private Set<Author> authors = new HashSet<>();
@@ -33,7 +33,7 @@ public class Book {
     @JsonIgnore
     private List<BookToCart> bookToCart;
 
-    public Book( String ISBN13, String title, LocalDate publishingDate, Long weight, int pages, String language, String category, Long price) {
+    public Book( String ISBN13, String title, LocalDate publishingDate, Long weight, int pages, String language, String category, Double price) {
 
         this.ISBN13 = ISBN13;
         this.title = title;
@@ -128,11 +128,11 @@ public class Book {
         this.language = language;
     }
 
-    public Long getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(Long price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 

@@ -29,7 +29,6 @@ import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @Slf4j
-//@CrossOrigin(origins = {"http://localhost:3000"})
 public class CustomAuthorizationFilter extends OncePerRequestFilter {
     //make all the filter for incoming request using the token
     @Override

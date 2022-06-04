@@ -31,14 +31,14 @@ public class ProjektArbeteKomplexJavaApplication {
         return (args) -> {
 
 
-            Book book1 = new Book("9789178871148", "Depphjärnan : Varför mår vi så dåligt när vi har det så bra?", LocalDate.parse("2021-10-28"), 629L, 224, "Svenska", "Hälso&Livsstil", 250L);
-            Book book2 = new Book("9789178872718", "Middag i en gryta", LocalDate.parse("2021-11-03"), 734L, 160, "Svenska", "Kokböcker", 251L);
-            Book book3 = new Book("9789127164031", "Nattkorpen", LocalDate.parse("2021-01-15"), 318L, 183, "Svenska", "Barnböcker", 252L);
-            Book book4 = new Book("9789100181406 ", "Tim:Biografin om Avicii", LocalDate.parse("2021-11-16"), 606L, 330, "Svenska", "Biografier", 253L);
-            Book book5 = new Book("9789100187989", "Löpa varg", LocalDate.parse("2021-08-24"), 366L, 150, "Svenska", "Albert Bonniers Förlag", 254L);
-            Book book6 = new Book("9789100197186", "Paradiset", LocalDate.parse("2021-12-11"), 383L, 276, "Svenska", "Skönlitteratur", 255L);
-            Book book7 = new Book("9781565841635", "Paradise", LocalDate.parse("1995-05-18"), null, 246, "Engelska", "Skönlitteratur", 256L);
-            Book book8 = new Book("9781292273730", "Java How to Program, Late Objects,Global Edition", LocalDate.parse("2019-09-11"), null, 1248, "Engelska", "Programmering", 257L);
+            Book book1 = new Book("9789178871148", "Depphjärnan : Varför mår vi så dåligt när vi har det så bra?", LocalDate.parse("2021-10-28"), 629L, 224, "Svenska", "Hälso&Livsstil", 250.0  );
+            Book book2 = new Book("9789178872718", "Middag i en gryta", LocalDate.parse("2021-11-03"), 734L, 160, "Svenska", "Kokböcker", 251.0);
+            Book book3 = new Book("9789127164031", "Nattkorpen", LocalDate.parse("2021-01-15"), 318L, 183, "Svenska", "Barnböcker", 252.0);
+            Book book4 = new Book("9789100181406 ", "Tim:Biografin om Avicii", LocalDate.parse("2021-11-16"), 606L, 330, "Svenska", "Biografier", 253.0);
+            Book book5 = new Book("9789100187989", "Löpa varg", LocalDate.parse("2021-08-24"), 366L, 150, "Svenska", "Albert Bonniers Förlag", 254.0);
+            Book book6 = new Book("9789100197186", "Paradiset", LocalDate.parse("2021-12-11"), 383L, 276, "Svenska", "Skönlitteratur", 255.0);
+            Book book7 = new Book("9781565841635", "Paradise", LocalDate.parse("1995-05-18"), null, 246, "Engelska", "Skönlitteratur", 256.0);
+            Book book8 = new Book("9781292273730", "Java How to Program, Late Objects,Global Edition", LocalDate.parse("2019-09-11"), null, 1248, "Engelska", "Programmering", 257.0);
 
             Author author1 = new Author("Anders", "Hansen");
             Author author2 = new Author("Tareq", "Taylor");

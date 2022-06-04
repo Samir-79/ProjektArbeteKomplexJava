@@ -60,7 +60,7 @@ public class BookService {
         book.addToStock(book.getStock());
         try {
             Sender.sendItem(book.getISBN13(), book.getTitle(), book.getPublishingDate(), book.getWeight(),
-                    book.getPages(), book.getLanguage(), book.getCategory(), book.getPrice());
+                    book.getPages(), book.getLanguage(), book.getCategory(),book.getPrice());
         } catch (Exception e) {
             e.printStackTrace();
         }
