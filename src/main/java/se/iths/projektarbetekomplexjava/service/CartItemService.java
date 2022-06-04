@@ -10,6 +10,7 @@ import se.iths.projektarbetekomplexjava.repository.ShoppingCartRepository;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CartItemService {
@@ -42,8 +43,8 @@ public class CartItemService {
         return cartItem;
     }
 
-    public CartItem addBookToCart(Book book, Customer customer, int qty) {
-        List<CartItem> cartItemList = findByShoppingCart(customer.getShoppingCart());
+    public CartItem addBookToCart(Book book, Optional<Customer> customer, int qty) {
+        List<CartItem> cartItemList = findByShoppingCart(customer.get().getShoppingCart());
 
         for (CartItem cartItem : cartItemList) {
             if (book.getId() == cartItem.getBook().getId()) {
@@ -63,7 +64,7 @@ public class CartItemService {
 
         CartItem cartItem = new CartItem();
 
-        cartItem.setShoppingCart(customer.getShoppingCart());
+        cartItem.setShoppingCart(customer.get().getShoppingCart());
         cartItem.setBook(book);
         if (qty > 10) {
             throw new BadRequestException("Number of copies should not exceed 10!");

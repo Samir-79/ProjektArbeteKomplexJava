@@ -63,6 +63,10 @@ public class CustomerService {
         return customerRepository.findById(id);
     }
 
+    public Optional<Customer> findByUsername(String username){
+        return customerRepository.findByUsername(username);
+    }
+
     public Customer updateCustomer(Customer customer) {
         Customer foundCustomer = customerRepository.findById(customer.getId()).orElseThrow(() -> new NotFoundException("employee not found"));
         List<Customer> customerList= (List<Customer>) customerRepository.findAll();

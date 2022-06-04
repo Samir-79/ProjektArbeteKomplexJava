@@ -47,11 +47,11 @@ public class OrdersController {
         this.emailVerification = emailVerification;
     }
 
-    @PostMapping("/createorder/userid/{userid}")
-    public ResponseEntity <Optional<Orders>> createOrder(@RequestBody Orders orders, @PathVariable Long userid) {
-        Optional<Customer> customer = customerService.findUserById(userid);
+    @PostMapping("/createorder/username")
+    public ResponseEntity <Optional<Orders>> createOrder(@RequestBody Orders orders, @RequestParam("username")  String username) {
+        Optional<Customer> customer = customerService.findByUsername(username);
         if (customer.isEmpty()){
-            throw new NotFoundException("No data available of user ID: " + userid);
+            throw new NotFoundException("No data available of username: " + username);
         }
         ShoppingCart foundShoppingCart = customer.get().getShoppingCart();
 

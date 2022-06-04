@@ -14,6 +14,7 @@ import se.iths.projektarbetekomplexjava.service.CartItemService;
 import se.iths.projektarbetekomplexjava.service.ShoppingCartService;
 
 import javax.websocket.server.PathParam;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("bokhandel/api/v1/shoppingcart/")
@@ -39,8 +40,8 @@ public class ShoppingCartController {
 
     @PostMapping("addbooks")
     public Object addBooksToCart(@RequestParam("qty")  int qty, @RequestParam("username") String username, @RequestParam("bookid") Long bookid) {
-        Customer customer = customerRepository.findByUsername(username);
-        if (customer == null) {
+        Optional<Customer> customer = customerRepository.findByUsername(username);
+        if (customer.isEmpty()) {
             throw new NotFoundException("Customer not found");
         }
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -52,8 +53,8 @@ public class ShoppingCartController {
             uname = principal.toString();
         }
        System.out.println(uname);
-        if (customer.getUsername().equals(uname)) {
-            ShoppingCart shoppingCart = customer.getShoppingCart();
+        if (customer.get().getUsername().equals(uname)) {
+            ShoppingCart shoppingCart = customer.get().getShoppingCart();
             Book book;
             book = bookService.findByBookId(bookid).orElseThrow(() -> new NotFoundException("book with Id: " + bookid + " not found"));
 
