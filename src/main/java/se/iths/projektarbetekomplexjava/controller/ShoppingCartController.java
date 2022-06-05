@@ -25,21 +25,24 @@ public class ShoppingCartController {
     public final ShoppingCartRepository shoppingCartRepository;
     public final CartItemService cartItemService;
     private final BookService bookService;
+    private final CartItemRepository cartItemRepository;
 
     public ShoppingCartController(ShoppingCartService shoppingCartService,
                                   CustomerRepository customerRepository,
                                   ShoppingCartRepository shoppingCartRepository,
-                                  CartItemService cartItemService, BookService bookService
+                                  CartItemService cartItemService, BookService bookService,
+                                  CartItemRepository cartItemRepository
     ) {
         this.shoppingCartService = shoppingCartService;
         this.customerRepository = customerRepository;
         this.shoppingCartRepository = shoppingCartRepository;
         this.cartItemService = cartItemService;
         this.bookService = bookService;
+        this.cartItemRepository = cartItemRepository;
     }
 
     @PostMapping("addbooks")
-    public Object addBooksToCart(@RequestParam("qty")  int qty, @RequestParam("username") String username, @RequestParam("bookid") Long bookid) {
+    public Object addBooksToCart(@RequestParam("qty") int qty, @RequestParam("username") String username, @RequestParam("bookid") Long bookid) {
         Optional<Customer> customer = customerRepository.findByUsername(username);
         if (customer.isEmpty()) {
             throw new NotFoundException("Customer not found");
@@ -52,7 +55,7 @@ public class ShoppingCartController {
         } else {
             uname = principal.toString();
         }
-       System.out.println(uname);
+        System.out.println(uname);
         if (customer.get().getUsername().equals(uname)) {
             ShoppingCart shoppingCart = customer.get().getShoppingCart();
             Book book;
@@ -72,7 +75,7 @@ public class ShoppingCartController {
     @PutMapping("updateCartItem/{cartid}/quantity/{qty}")
     public ResponseEntity<CartItem> updateCartItem(@PathVariable Long cartid, @PathVariable int qty) {
         CartItem cartItem = cartItemService.findById(cartid);
-        if(cartItem.getQty()+qty > 150){
+        if (cartItem.getQty() + qty > 150) {
             throw new BadRequestException("Number of copies should not exceed 150!");
         }
         cartItem.setQty(cartItem.getQty() + qty);
@@ -87,12 +90,10 @@ public class ShoppingCartController {
 
         if (cartItem.getQty() < qty) {
             return "you do not have : " + qty + " books in your cart";
-        }
-        else if (cartItem.getQty() == qty) {
+        } else if (cartItem.getQty() == qty) {
             try {
                 return "this will remove all the copies of this book from the cart";
-            }
-            finally {
+            } finally {
                 cartItemService.removeCartItem(cartItemService.findById(cartid));
             }
         }
@@ -104,9 +105,23 @@ public class ShoppingCartController {
         return new ResponseEntity<>(cartItem, HttpStatus.OK);
     }
 
-    @DeleteMapping("/removecartItem/{id}")
-    public ResponseEntity<Void> removeBookFromCart(@PathVariable Long id) {
-        cartItemService.removeCartItem(cartItemService.findById(id));
+    @DeleteMapping("/removecartItem")
+    public ResponseEntity<Void> removeBookFromCart(@RequestParam Long cartItemId) {
+        cartItemService.removeCartItem(cartItemService.findById(cartItemId));
         return new ResponseEntity<>(HttpStatus.RESET_CONTENT);
     }
 }
+
+//    @DeleteMapping("/removecartItem")
+//    public ResponseEntity<Void> removeBookFromCart(@RequestParam String username, @PathVariable Long bookid) {
+//        Optional<Customer> customer = customerRepository.findByUsername(username);
+//        ShoppingCart findShoppingCart = shoppingCartRepository.findShoppingCartByCustomer_ShoppingCart(
+//                customer.get().getId());
+//        System.out.println(findShoppingCart.getId());
+//        CartItem findCartItem = cartItemRepository.findByShoppingCartAndBookToCart(findShoppingCart, bookid);
+//
+//        cartItemService.removeCartItem(cartItemService.findById(findCartItem.getId()));
+//
+//        return new ResponseEntity<>(HttpStatus.RESET_CONTENT);
+//    }
+//}
