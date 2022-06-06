@@ -14,6 +14,7 @@ import se.iths.projektarbetekomplexjava.service.CartItemService;
 import se.iths.projektarbetekomplexjava.service.ShoppingCartService;
 
 import javax.websocket.server.PathParam;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -109,6 +110,12 @@ public class ShoppingCartController {
     public ResponseEntity<Void> removeBookFromCart(@RequestParam Long cartItemId) {
         cartItemService.removeCartItem(cartItemService.findById(cartItemId));
         return new ResponseEntity<>(HttpStatus.RESET_CONTENT);
+    }
+
+    @GetMapping("/getCartItemList")
+    public ResponseEntity<Iterable<CartItem>> getCartItemList(@RequestParam Long shoppingCartId){
+        List<CartItem> cartItemList = cartItemService.getCartItemList(shoppingCartId);
+        return new ResponseEntity<>(cartItemList, HttpStatus.OK);
     }
 }
 

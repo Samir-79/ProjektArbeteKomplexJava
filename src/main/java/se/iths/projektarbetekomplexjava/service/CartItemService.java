@@ -28,7 +28,7 @@ public class CartItemService {
     }
 
     public List<CartItem> findByShoppingCart(ShoppingCart shoppingCart) {
-        return cartItemRepository.findByShoppingCart(shoppingCart);
+        return cartItemRepository.findByShoppingCart(Optional.ofNullable(shoppingCart));
     }
 
     public CartItem updateCartItem(CartItem cartItem) {
@@ -102,5 +102,10 @@ public class CartItemService {
         shoppingCart.setGrandTotal(shoppingCart.getGrandTotal() - cartItem.getSubtotal());
         bookToCartRepository.deleteByCartItem(cartItem);
         cartItemRepository.delete(cartItem);
+    }
+
+    public List<CartItem> getCartItemList(Long shoppingCartId) {
+        Optional<ShoppingCart> shoppingCart = shoppingCartRepository.findById(shoppingCartId);
+        return cartItemRepository.findByShoppingCart(shoppingCart);
     }
 }
