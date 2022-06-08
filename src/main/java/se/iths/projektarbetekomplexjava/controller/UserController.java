@@ -35,7 +35,7 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
-@CrossOrigin(origins =  "*", maxAge = 3600)
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("bokhandel/api/v1/user/")
 public class UserController {
@@ -55,7 +55,7 @@ public class UserController {
     private final UserRepository userRepository;
 
 
-    public UserController( UserService service, CustomerService customerService, CustomerRepository customerRepository, EmployeeRepository employeeRepository, EmployeeService employeeService, BCryptPasswordEncoder bCryptPasswordEncoder, PasswordEncoder passwordEncoder, EmailValidator emailValidator, EmailVerification emailVerification, RoleRepository roleRepository, UserRepository userRepository) {
+    public UserController(UserService service, CustomerService customerService, CustomerRepository customerRepository, EmployeeRepository employeeRepository, EmployeeService employeeService, BCryptPasswordEncoder bCryptPasswordEncoder, PasswordEncoder passwordEncoder, EmailValidator emailValidator, EmailVerification emailVerification, RoleRepository roleRepository, UserRepository userRepository) {
         this.service = service;
         this.customerService = customerService;
         this.customerRepository = customerRepository;
@@ -168,7 +168,6 @@ public class UserController {
         userRepository.save(appUser);
 
 
-
         Employee addedEmployee = employeeService.addEmployee(employee);
 
         try {
@@ -180,29 +179,31 @@ public class UserController {
         emailVerification.sendConfirmationEmail(employee.getEmail());
 
 
+
+
         return new ResponseEntity<>(addedEmployee, HttpStatus.CREATED);
     }
 
     @GetMapping("token/refresh")
     public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String authorizationHeader = request.getHeader(AUTHORIZATION);
-        if(authorizationHeader != null && authorizationHeader.startsWith("Bearer ")){
-            try{
+        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+            try {
                 //delete the bearer from header
-                String refresh_token=authorizationHeader.substring("Bearer ".length());
+                String refresh_token = authorizationHeader.substring("Bearer ".length());
                 //should be the same with the algorithm that add to the token during creation,
                 Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
                 //verify the token using the algorithm
-                JWTVerifier verifier= JWT.require(algorithm).build();
+                JWTVerifier verifier = JWT.require(algorithm).build();
                 //verify the token is valid
-                DecodedJWT decodedJWT=verifier.verify(refresh_token);
+                DecodedJWT decodedJWT = verifier.verify(refresh_token);
                 //get the username from the subject
-                String username=decodedJWT.getSubject();
+                String username = decodedJWT.getSubject();
                 //get the user from DB using the username we get from the token
-                AppUser user =service.getUser(username);
+                AppUser user = service.getUser(username);
                 String access_token = JWT.create()
                         .withSubject(user.getUserName())
-                        .withExpiresAt(new Date(System.currentTimeMillis()+10*60*1000))
+                        .withExpiresAt(new Date(System.currentTimeMillis() + 10 * 60 * 1000))
                         .withIssuer(request.getRequestURL().toString())
 //                        .withClaim("roles",user.getRoles().stream()
 //                                .map(Role::getName).collect(Collectors.toList()))
@@ -210,33 +211,65 @@ public class UserController {
                         .sign(algorithm);
 
                 Map<String, String> tokens = new HashMap<>();
-                tokens.put("access_token",access_token);
-                tokens.put("refresh_token",refresh_token);
+                tokens.put("access_token", access_token);
+                tokens.put("refresh_token", refresh_token);
                 //return Json tokens
                 response.setContentType(APPLICATION_JSON_VALUE);
-            new ObjectMapper().writeValue(response.getOutputStream(),tokens);
+                new ObjectMapper().writeValue(response.getOutputStream(), tokens);
 
-            }catch (Exception exception){
-                response.setHeader("error",exception.getMessage());
+            } catch (Exception exception) {
+                response.setHeader("error", exception.getMessage());
                 response.setStatus(FORBIDDEN.value());
                 //we can do the first or second choice
                 //response.sendError(FORBIDDEN.value());
                 Map<String, String> error = new HashMap<>();
-                error.put("error_message",exception.getMessage());
+                error.put("error_message", exception.getMessage());
                 //return Json tokens
                 response.setContentType(MimeTypeUtils.APPLICATION_JSON_VALUE);
-                new ObjectMapper().writeValue(response.getOutputStream(),error);
+                new ObjectMapper().writeValue(response.getOutputStream(), error);
 
 
             }
-        }
-        else {
+        } else {
             throw new RuntimeException("Refresh Token is missing");
         }
     }
 
+    @GetMapping("getUserNameFromToken")
+    public String getUserName(HttpServletRequest request, HttpServletResponse response ) throws IOException {
+        String authorizationHeader = request.getHeader(AUTHORIZATION);
+        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+            try {
+                //delete the bearer from header
+                String access_token = authorizationHeader.substring("Bearer ".length());
+                //should be the same with the algorithm that add to the token during creation,
+                Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
+                //verify the token using the algorithm
+                JWTVerifier verifier = JWT.require(algorithm).build();
+                //verify the token is valid
+                DecodedJWT decodedJWT = verifier.verify(access_token);
+                //get the username from the subject
+                String username = decodedJWT.getSubject();
+                //get the user from DB using the username we get from the token
+                //uAppUser user = service.getUser(username);
+                return username;
+            } catch (Exception exception) {
+                response.setHeader("error", exception.getMessage());
+                response.setStatus(FORBIDDEN.value());
+                //we can do the first or second choice
+                //response.sendError(FORBIDDEN.value());
+                Map<String, String> error = new HashMap<>();
+                error.put("error_message", exception.getMessage());
+                //return Json tokens
+                response.setContentType(MimeTypeUtils.APPLICATION_JSON_VALUE);
+                new ObjectMapper().writeValue(response.getOutputStream(), error);
 
 
-
+            }
+        } else {
+            throw new RuntimeException("JWT Token is missing");
+        }
+        return "No username found";
+    }
 }
 

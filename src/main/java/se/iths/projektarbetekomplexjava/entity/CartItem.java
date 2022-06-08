@@ -2,6 +2,10 @@ package se.iths.projektarbetekomplexjava.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.web.servlet.tags.form.SelectTag;
+
 import javax.persistence.*;
 
 @Entity
@@ -28,6 +32,8 @@ public class CartItem {
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @ManyToOne(cascade = CascadeType.PERSIST)
     private ShoppingCart shoppingCart;
+
+
 
     public Long getId() {
         return id;

@@ -10,10 +10,7 @@ import se.iths.projektarbetekomplexjava.entity.ShoppingCart;
 import se.iths.projektarbetekomplexjava.exception.NotFoundException;
 import se.iths.projektarbetekomplexjava.repository.CustomerRepository;
 import se.iths.projektarbetekomplexjava.repository.ShoppingCartRepository;
-import se.iths.projektarbetekomplexjava.service.CartItemService;
-import se.iths.projektarbetekomplexjava.service.CustomerService;
-import se.iths.projektarbetekomplexjava.service.OrderService;
-import se.iths.projektarbetekomplexjava.service.ShoppingCartService;
+import se.iths.projektarbetekomplexjava.service.*;
 import se.iths.projektarbetekomplexjava.email.EmailVerification;
 import java.util.List;
 import java.util.Optional;
@@ -30,14 +27,15 @@ public class OrdersController {
     private final CustomerService customerService;
     private final OrderService orderService;
     private final EmailVerification emailVerification;
+    private final UserService userService;
 
 
     public OrdersController(ShoppingCartService shoppingCartService,
                             CustomerRepository customerRepository,
                             ShoppingCartRepository shoppingCartRepository,
                             CartItemService cartItemService, CustomerService customerService,
-                            OrderService orderService, EmailVerification emailVerification
-    ) {
+                            OrderService orderService, EmailVerification emailVerification,
+                            UserService userService) {
         this.shoppingCartService = shoppingCartService;
         this.customerRepository = customerRepository;
         this.shoppingCartRepository = shoppingCartRepository;
@@ -45,10 +43,12 @@ public class OrdersController {
         this.customerService = customerService;
         this.orderService = orderService;
         this.emailVerification = emailVerification;
+        this.userService = userService;
     }
 
-    @PostMapping("/createorder/username")
-    public ResponseEntity <Optional<Orders>> createOrder(@RequestBody Orders orders, @RequestParam("username")  String username) {
+    @PostMapping("/createorder")
+    public ResponseEntity <Optional<Orders>> createOrder(@RequestBody Orders orders,@RequestHeader(value="Authorization") String authorization) {
+        String username=userService.getUserName(authorization);
         Optional<Customer> customer = customerService.findByUsername(username);
         if (customer.isEmpty()){
             throw new NotFoundException("No data available of username: " + username);

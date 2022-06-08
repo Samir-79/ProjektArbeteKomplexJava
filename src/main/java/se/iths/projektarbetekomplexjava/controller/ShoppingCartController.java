@@ -12,8 +12,9 @@ import se.iths.projektarbetekomplexjava.repository.*;
 import se.iths.projektarbetekomplexjava.service.BookService;
 import se.iths.projektarbetekomplexjava.service.CartItemService;
 import se.iths.projektarbetekomplexjava.service.ShoppingCartService;
+import se.iths.projektarbetekomplexjava.service.UserService;
 
-import javax.websocket.server.PathParam;
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,23 +28,26 @@ public class ShoppingCartController {
     public final CartItemService cartItemService;
     private final BookService bookService;
     private final CartItemRepository cartItemRepository;
+    private final UserService userService;
 
     public ShoppingCartController(ShoppingCartService shoppingCartService,
                                   CustomerRepository customerRepository,
                                   ShoppingCartRepository shoppingCartRepository,
                                   CartItemService cartItemService, BookService bookService,
-                                  CartItemRepository cartItemRepository
-    ) {
+                                  CartItemRepository cartItemRepository,
+                                  UserService userService) {
         this.shoppingCartService = shoppingCartService;
         this.customerRepository = customerRepository;
         this.shoppingCartRepository = shoppingCartRepository;
         this.cartItemService = cartItemService;
         this.bookService = bookService;
         this.cartItemRepository = cartItemRepository;
+        this.userService = userService;
     }
 
     @PostMapping("addbooks")
-    public Object addBooksToCart(@RequestParam("qty") int qty, @RequestParam("username") String username, @RequestParam("bookid") Long bookid) {
+    public Object addBooksToCart(@RequestHeader(value="Authorization") String authorization, @RequestParam("qty") int qty,  @RequestParam("bookid") Long bookid) {
+        String username=userService.getUserName(authorization);
         Optional<Customer> customer = customerRepository.findByUsername(username);
         if (customer.isEmpty()) {
             throw new NotFoundException("Customer not found");
@@ -111,24 +115,33 @@ public class ShoppingCartController {
         cartItemService.removeCartItem(cartItemService.findById(cartItemId));
         return new ResponseEntity<>(HttpStatus.RESET_CONTENT);
     }
+    @DeleteMapping("/removecartItem1")
+    public ResponseEntity<CartItem> removeCartItem1(@RequestHeader(value="Authorization") String authorization, @RequestParam Long bookid) {
+        String username=userService.getUserName(authorization);
+        CartItem foundCartItem =  cartItemRepository.findCartItemByUserNameAndBookId(username,bookid);
+        cartItemService.removeCartItem(cartItemService.findById(foundCartItem.getId()));
+        return new ResponseEntity<>(HttpStatus.RESET_CONTENT);
+    }
 
     @GetMapping("/getCartItemList")
     public ResponseEntity<Iterable<CartItem>> getCartItemList(@RequestParam Long shoppingCartId){
         List<CartItem> cartItemList = cartItemService.getCartItemList(shoppingCartId);
         return new ResponseEntity<>(cartItemList, HttpStatus.OK);
     }
-}
 
-//    @DeleteMapping("/removecartItem")
-//    public ResponseEntity<Void> removeBookFromCart(@RequestParam String username, @PathVariable Long bookid) {
-//        Optional<Customer> customer = customerRepository.findByUsername(username);
-//        ShoppingCart findShoppingCart = shoppingCartRepository.findShoppingCartByCustomer_ShoppingCart(
-//                customer.get().getId());
-//        System.out.println(findShoppingCart.getId());
-//        CartItem findCartItem = cartItemRepository.findByShoppingCartAndBookToCart(findShoppingCart, bookid);
-//
-//        cartItemService.removeCartItem(cartItemService.findById(findCartItem.getId()));
-//
-//        return new ResponseEntity<>(HttpStatus.RESET_CONTENT);
-//    }
-//}
+    @GetMapping("/getCartItemList1")
+    public ResponseEntity<Iterable<CartItem>> getCartItemList(@RequestHeader(value="Authorization") String authorization
+    ){
+        String username=userService.getUserName(authorization);
+        ShoppingCart foundShoppingCart = shoppingCartRepository.findShoppingCartByUserName(username);
+        System.out.println(foundShoppingCart.getId());
+        List<CartItem> cartItemList = cartItemService.getCartItemList(foundShoppingCart.getId());
+        return new ResponseEntity<>(cartItemList, HttpStatus.OK);
+    }
+
+    @GetMapping("/getCartItem")
+    public ResponseEntity<CartItem> getCartItem(@RequestParam String username, @RequestParam Long bookid) {
+      CartItem foundCartItem =  cartItemRepository.findCartItemByUserNameAndBookId(username,bookid);
+        return new ResponseEntity<>(foundCartItem,HttpStatus.OK);
+    }
+}

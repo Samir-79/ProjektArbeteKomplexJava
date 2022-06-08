@@ -58,13 +58,13 @@ public class ProjektArbeteKomplexJavaApplication {
             Publisher publisher5 = new Publisher("Pearson Education Limited");
 
             Stock stock1 = new Stock(100, true);
-            Stock stock2 = new Stock(0, false);
-            Stock stock3 = new Stock(500, true);
-            Stock stock4 = new Stock(200, true);
-            Stock stock5 = new Stock(300, true);
-            Stock stock6 = new Stock(50, true);
-            Stock stock7 = new Stock(0, false);
-            Stock stock8 = new Stock(10, true);
+            Stock stock2 = new Stock(100, false);
+            Stock stock3 = new Stock(100, true);
+            Stock stock4 = new Stock(100, true);
+            Stock stock5 = new Stock(100, true);
+            Stock stock6 = new Stock(100, true);
+            Stock stock7 = new Stock(100, false);
+            Stock stock8 = new Stock(100, true);
 
             book1.addAuthor(author1);
             book1.addPublisher(publisher1);

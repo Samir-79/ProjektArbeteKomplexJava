@@ -1,11 +1,16 @@
 package se.iths.projektarbetekomplexjava.service;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import se.iths.projektarbetekomplexjava.entity.*;
 import se.iths.projektarbetekomplexjava.exception.BadRequestException;
 import se.iths.projektarbetekomplexjava.exception.NotFoundException;
 import se.iths.projektarbetekomplexjava.repository.BookToCartRepository;
 import se.iths.projektarbetekomplexjava.repository.CartItemRepository;
+import se.iths.projektarbetekomplexjava.repository.CustomerRepository;
 import se.iths.projektarbetekomplexjava.repository.ShoppingCartRepository;
 
 import javax.persistence.EntityNotFoundException;
@@ -108,4 +113,9 @@ public class CartItemService {
         Optional<ShoppingCart> shoppingCart = shoppingCartRepository.findById(shoppingCartId);
         return cartItemRepository.findByShoppingCart(shoppingCart);
     }
+
+
+
+
+
 }
